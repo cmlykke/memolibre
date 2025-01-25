@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "recolibre": {
+    "memolibre": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/recolibre",
+            "outputPath": "dist/memolibre",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "recolibre:build:production"
+              "buildTarget": "memolibre:build:production"
             },
             "development": {
-              "buildTarget": "recolibre:build:development"
+              "buildTarget": "memolibre:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,5 +92,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "e27b3019-9725-40ce-aea6-7883cd3cfddb"
   }
 }
