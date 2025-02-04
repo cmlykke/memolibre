@@ -19,19 +19,21 @@ export class AppComponent {
   }
 
   // Toggle menu open/close on button click
-  toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
-  }
+  // toggleMenu(): void {
+  //  this.menuOpen = !this.menuOpen;
+  //}
 
   // Called when the mouse enters the dropdown or button
   onMouseEnter(): void {
-    this.hovering = true;
+    this.menuOpen = true;
+    //this.hovering = true;
   }
 
   // Called when the mouse leaves the dropdown or button
   onMouseLeave(): void {
-    this.hovering = false;
-    this.closeMenuWithDelay();
+    this.menuOpen = false;
+    //this.hovering = false;
+    //this.closeMenuWithDelay();
   }
 
   // Close the menu only if hovering is false after a small delay
