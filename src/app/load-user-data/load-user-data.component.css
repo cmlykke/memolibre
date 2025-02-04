@@ -1,0 +1,48 @@
+/* Drag and drop zone styles */
+.drag-drop-zone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border 0.3s, background-color 0.3s;
+}
+
+.drag-drop-zone:hover {
+  border-color: #333;
+  background-color: #f0f0f0;
+}
+
+.drag-drop-zone:active {
+  border-color: #007bff;
+  background-color: #e6f7ff;
+}
+
+/* File selection button styles */
+.file-select-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.file-select-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.file-select-button:hover {
+  background-color: #0056b3;
+}
+
+.file-select-button:active {
+  background-color: #004085;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
+}
+
+/* Hidden input to be triggered programmatically */
+.hidden-input {
+  display: none;
+}
