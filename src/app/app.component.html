@@ -2,7 +2,13 @@
 <main class="main">
   <div>
     <nav>
-      <ul>
+      <!-- Burger Menu Button -->
+      <button (click)="toggleMenu()" class="burger-menu" aria-label="Toggle menu">
+        Menu
+      </button>
+
+      <!-- Menu Options -->
+      <ul [class.open]="menuOpen" class="menu">
         <li><a routerLink="/create-deck">Create Deck</a></li>
         <li><a routerLink="/load-user-data">Load User Data</a></li>
       </ul>

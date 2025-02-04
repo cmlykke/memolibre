@@ -9,5 +9,18 @@ import { RouterLink, RouterOutlet} from '@angular/router';
 })
 export class AppComponent {
   title = 'memolibre';
+
+  // Variable to keep track of menu's visibility state
+  menuOpen = false;
+
+  // Toggle menu visibility
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
 }
+
+
+
+
 
