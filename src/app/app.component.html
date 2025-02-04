@@ -1,23 +1,30 @@
-
 <main class="main">
   <div>
     <nav>
       <!-- Burger Menu Button -->
-      <button (click)="toggleMenu()" class="burger-menu" aria-label="Toggle menu">
+      <button
+        (click)="toggleMenu()"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        class="burger-menu"
+        aria-label="Toggle menu"
+      >
         Menu
       </button>
 
-      <!-- Menu Options -->
-      <ul [class.open]="menuOpen" class="menu">
+      <!-- Dropdown Menu -->
+      <ul
+        [class.open]="menuOpen"
+        class="menu"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+      >
         <li><a routerLink="/create-deck">Create Deck</a></li>
         <li><a routerLink="/load-user-data">Load User Data</a></li>
       </ul>
     </nav>
-
   </div>
-  <div class="content">
-
-  </div>
+  <div class="content"></div>
 
   <!-- Display route content -->
   <router-outlet></router-outlet>

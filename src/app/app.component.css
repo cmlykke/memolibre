@@ -44,6 +44,10 @@
   color: #000; /* Sets the text color */
   cursor: pointer; /* Adds a pointer cursor for better UX */
   border-radius: 4px; /* Optional: Adds rounded corners */
+  position: absolute;
+  top: 10px; /* Adjust as needed to fine-tune the vertical position */
+  right: 10px; /* Adjust as needed to fine-tune the horizontal position */
+
 }
 
 
