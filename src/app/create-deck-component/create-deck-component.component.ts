@@ -17,6 +17,8 @@ export class CreateDeckComponent {
   resultMessage: string = ''
   deckName: string | null = null; // Variable to store the current deck name
   newDeckName: string | null = null; // Holds the input value for updating the deck name
+  newDeckContent: string = ''; // Holds multi-line content for the new deck
+
 
   constructor(private globalStateService: GlobalStateService) {
     // Subscribe to the global state to retrieve the current deck name
@@ -47,4 +49,25 @@ export class CreateDeckComponent {
       this.resultMessage = result.value;
     }
   }
+
+  createDeck(): void {
+    if (!this.newDeckContent.trim()) {
+      this.resultMessage = 'Please enter deck content.';
+      return;
+    }
+    //console.log(`Creating deck: ${this.newDeckName}`);
+    //console.log(`Deck content: ${this.newDeckContent}`);
+    // Add the logic to create the deck using the newDeckContent
+    const result = this.globalStateService.createNewDeck(this.newDeckContent.trim());
+    if (!result.ok) {
+      // Handle error response
+      this.resultMessage = result.error;
+    } else {
+      // Set success message
+      this.resultMessage = result.value;
+    }
+
+  }
+
+
 }

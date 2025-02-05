@@ -60,4 +60,7 @@ export class GlobalStateService {
   }
 
 
+  createNewDeck(newDeckContent: string): Result<string, string> {
+    return { ok: false, error: "createNewDeck not implemented" };
+  }
 }

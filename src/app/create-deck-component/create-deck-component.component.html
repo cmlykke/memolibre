@@ -1,7 +1,7 @@
 <p>create-deck-component works!</p>
 
-<p *ngIf="deckName">Current Deck Name: {{ deckName }}</p>
-<p *ngIf="!deckName">No deck selected yet.</p>
+<p *ngIf="resultMessage">Message: {{ resultMessage }}</p>
+<p *ngIf="!resultMessage">No message yet.</p>
 
 
 <!-- Text field to input new deck name -->
@@ -10,8 +10,26 @@
 <!-- Button to update the deck name -->
 <button (click)="updateDeckName()">Update Deck Name</button>
 
-<!-- Display result message -->
-<p *ngIf="resultMessage" [ngClass]="{'error': resultMessage.startsWith('Error:'), 'success': !resultMessage.startsWith('Error:')}">
+<!-- Display result message
+ <p *ngIf="resultMessage" [ngClass]="{'error': resultMessage.startsWith('Error:'), 'success': !resultMessage.startsWith('Error:')}">
   {{ resultMessage }}
 </p>
+ -->
+
+
+<!-- CreateDeck Button -->
+<div class="create-deck-container">
+  <button class="create-deck-button" (click)="createDeck()">Create Deck</button>
+</div>
+
+<!-- Text field to input deck name -->
+<div class="text-field-container">
+  <textarea
+    class="create-deck-input"
+    [(ngModel)]="newDeckContent"
+    placeholder="Enter deck content"
+    rows="4"
+  ></textarea>
+
+</div>
 
