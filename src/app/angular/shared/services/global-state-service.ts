@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FlashCardDeck } from '../../../businesslogic/models/flashcarddeck'; // Update the path as per your application structure
 import {FlashCardDeckUpdate} from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-update';
+import {FlashCardDeckCreate} from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-create';
 import {Result} from '../../utils/types';
 
 @Injectable({
@@ -64,12 +65,8 @@ export class GlobalStateService {
     if (!newDeckContent.trim()) {
       return { ok: false, error: "Please enter deck content." };
     }
-
     try {
-      //const newDeck: string = FlashCardDeckUpdate.createNewDeck(newDeckContent);
-
-      const newDeck = FlashCardDeckUpdate.createNewDeck(newDeckContent);
-      //const test = FlashCardDeckUpdate.createNewDeck(newDeckContent);
+      const newDeck = FlashCardDeckCreate.createNewDeck(newDeckContent);
       // Update the global state with the modified deck
       this.setFlashCardDeck(newDeck);
 
