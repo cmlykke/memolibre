@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
+import { GlobalStateService } from '../angular/shared/services/global-state-service'; // Update the path as needed
 
 @Component({
   selector: 'app-load-user-data',
@@ -11,6 +12,7 @@ import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
 })
 export class LoadUserDataComponent {
   fileName: string | null = null; // Variable to store the name of the file
+  constructor(private globalStateService: GlobalStateService) {}
 
   // Handles the drop event
   onFileDrop(event: DragEvent): void {
@@ -51,6 +53,9 @@ export class LoadUserDataComponent {
         if (this.isValidFlashCardDeck(parsedData)) {
           this.fileName = `File Loaded: ${file.name}`; // Indicate success
           console.log('Parsed FlashCardDeck:', parsedData); // Log the parsed object if needed
+
+          // Save the parsed FlashCardDeck to global state
+          this.globalStateService.setFlashCardDeck(parsedData);
         } else {
           this.fileName = `Error: File is not of type FlashCardDeck`;
         }
@@ -67,6 +72,7 @@ export class LoadUserDataComponent {
 
     reader.readAsText(file); // Read the file as text
   }
+
 
 // Helper method to validate if the parsed object matches FlashCardDeck structure
   private isValidFlashCardDeck(data: any): data is FlashCardDeck {
