@@ -67,7 +67,6 @@ export class LoadUserDataComponent {
 
     reader.onerror = () => {
       this.fileName = `Error: Failed to read file ${file.name}`;
-      console.error('Error reading the file.');
     };
 
     reader.readAsText(file); // Read the file as text
@@ -84,5 +83,37 @@ export class LoadUserDataComponent {
       Array.isArray(data.cards)
     );
   }
+
+  downloadFlashCardDeck(): void {
+    // Retrieve the current FlashCardDeck from GlobalStateService
+    const flashCardDeck = this.globalStateService.getFlashCardDeck();
+
+    if (!flashCardDeck) {
+      console.error('No FlashCardDeck available to download.');
+      return;
+    }
+
+    // Convert the FlashCardDeck object to a JSON string
+    const json = JSON.stringify(flashCardDeck, null, 2); // Pretty-printed JSON string
+
+    // Create a Blob object from the JSON string
+    const blob = new Blob([json], { type: 'application/json' });
+
+    // Create a temporary anchor (<a>) element for download
+    const anchor = document.createElement('a');
+    anchor.href = URL.createObjectURL(blob);
+    anchor.download = `${flashCardDeck.deckName || 'FlashCardDeck'}.json`; // Use deckName or a default name as the filename
+
+    // Trigger the download
+    anchor.click();
+
+    // Clean up the URL object
+    URL.revokeObjectURL(anchor.href);
+
+    // Set success message
+    this.fileName = `Download successful: ${flashCardDeck.deckName || 'FlashCardDeck'}.json`;
+
+  }
+
 
 }
