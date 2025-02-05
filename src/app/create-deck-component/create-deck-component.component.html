@@ -10,3 +10,8 @@
 <!-- Button to update the deck name -->
 <button (click)="updateDeckName()">Update Deck Name</button>
 
+<!-- Display result message -->
+<p *ngIf="resultMessage" [ngClass]="{'error': resultMessage.startsWith('Error:'), 'success': !resultMessage.startsWith('Error:')}">
+  {{ resultMessage }}
+</p>
+
