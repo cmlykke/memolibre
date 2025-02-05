@@ -29,7 +29,7 @@ export class GlobalStateService {
     this.flashCardDeckSubject.next(null);
   }
 
-  updateFlashCardName(updatedDeckName: string): Result<string, string> {
+  updateFlashCardNameState(updatedDeckName: string): Result<string, string> {
     // Check for an invalid deck name (null, empty, or undefined)
     if (!updatedDeckName) {
       return { ok: false, error: "Error: No new deckName exists." };
@@ -45,7 +45,7 @@ export class GlobalStateService {
 
     // Perform the business logic to update the deck's name
     try {
-      const updatedDeck = FlashCardDeckUpdate.editDeckName(updatedDeckName, currentDeck);
+      const updatedDeck: FlashCardDeck= FlashCardDeckUpdate.editDeckName(updatedDeckName, currentDeck);
 
       // Update the global state with the modified deck
       this.setFlashCardDeck(updatedDeck);
@@ -60,7 +60,25 @@ export class GlobalStateService {
   }
 
 
-  createNewDeck(newDeckContent: string): Result<string, string> {
-    return { ok: false, error: "createNewDeck not implemented" };
+  createNewDeckState(newDeckContent: string): Result<string, string> {
+    if (!newDeckContent.trim()) {
+      return { ok: false, error: "Please enter deck content." };
+    }
+
+    try {
+      //const newDeck: string = FlashCardDeckUpdate.createNewDeck(newDeckContent);
+
+      const newDeck = FlashCardDeckUpdate.createNewDeck(newDeckContent);
+      //const test = FlashCardDeckUpdate.createNewDeck(newDeckContent);
+      // Update the global state with the modified deck
+      this.setFlashCardDeck(newDeck);
+
+      // Indicate success
+      return { ok: true, value: "createNewDeck successful" };
+    } catch (error) {
+      // Catch any unexpected runtime errors from FlashCardDeckUpdate
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred.";
+      return { ok: false, error: `Error: ${errorMessage}` };
+    }
   }
 }

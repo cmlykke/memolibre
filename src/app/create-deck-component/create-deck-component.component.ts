@@ -39,7 +39,7 @@ export class CreateDeckComponent {
       return;
     }
 
-    const result = this.globalStateService.updateFlashCardName(this.newDeckName);
+    const result = this.globalStateService.updateFlashCardNameState(this.newDeckName);
 
     if (!result.ok) {
       // Handle error response
@@ -58,7 +58,7 @@ export class CreateDeckComponent {
     //console.log(`Creating deck: ${this.newDeckName}`);
     //console.log(`Deck content: ${this.newDeckContent}`);
     // Add the logic to create the deck using the newDeckContent
-    const result = this.globalStateService.createNewDeck(this.newDeckContent.trim());
+    const result = this.globalStateService.createNewDeckState(this.newDeckContent.trim());
     if (!result.ok) {
       // Handle error response
       this.resultMessage = result.error;
