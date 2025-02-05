@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule
+import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
 
 @Component({
   selector: 'app-load-user-data',
@@ -18,7 +19,7 @@ export class LoadUserDataComponent {
 
     if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
-      this.fileName = file.name; // Store the name of the file
+      this.handleFile(file); // Use unified function
     }
   }
 
@@ -26,7 +27,6 @@ export class LoadUserDataComponent {
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
-
   }
 
   // Method to handle file selection using the button
@@ -34,8 +34,49 @@ export class LoadUserDataComponent {
     const input = event.target as HTMLInputElement;
     const file = input?.files?.[0];
     if (file) {
-      this.fileName = file.name; // Update the fileName
+      this.handleFile(file); // Use unified function
     }
+  }
+
+
+  handleFile(file: File): void {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      try {
+        const fileContent = reader.result as string; // Get the file content as a string
+        const parsedData: FlashCardDeck = JSON.parse(fileContent); // Attempt to parse the JSON
+
+        // Validate if parsed data matches expected structure
+        if (this.isValidFlashCardDeck(parsedData)) {
+          this.fileName = `File Loaded: ${file.name}`; // Indicate success
+          console.log('Parsed FlashCardDeck:', parsedData); // Log the parsed object if needed
+        } else {
+          this.fileName = `Error: File is not of type FlashCardDeck`;
+        }
+      } catch (error) {
+        console.error('Error reading or parsing the file:', error);
+        this.fileName = `Error: Could not parse the file as JSON.`;
+      }
+    };
+
+    reader.onerror = () => {
+      this.fileName = `Error: Failed to read file ${file.name}`;
+      console.error('Error reading the file.');
+    };
+
+    reader.readAsText(file); // Read the file as text
+  }
+
+// Helper method to validate if the parsed object matches FlashCardDeck structure
+  private isValidFlashCardDeck(data: any): data is FlashCardDeck {
+    return (
+      typeof data.deckName === 'string' &&
+      typeof data.deckInfo === 'string' &&
+      typeof data.settings === 'object' &&
+      typeof data.tags === 'object' &&
+      Array.isArray(data.cards)
+    );
   }
 
 }
