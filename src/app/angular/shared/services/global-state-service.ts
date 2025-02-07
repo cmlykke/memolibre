@@ -66,12 +66,13 @@ export class GlobalStateService {
       return { ok: false, error: "Please enter deck content." };
     }
     try {
-      const newDeck = FlashCardDeckCreate.createNewDeck(newDeckContent);
+      const newDeck: [FlashCardDeck | null, Result<string, string>] =
+        FlashCardDeckCreate.createNewDeck(newDeckContent);
       // Update the global state with the modified deck
-      this.setFlashCardDeck(newDeck);
-
-      // Indicate success
-      return { ok: true, value: "createNewDeck successful" };
+      if (!(newDeck[0] === null)) {
+        this.setFlashCardDeck(newDeck[0]);
+      }
+      return newDeck[1];
     } catch (error) {
       // Catch any unexpected runtime errors from FlashCardDeckUpdate
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred.";
