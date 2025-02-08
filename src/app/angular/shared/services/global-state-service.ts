@@ -13,7 +13,8 @@ export class GlobalStateService {
   private flashCardDeckSubject = new BehaviorSubject<FlashCardDeck | null>(null);
   public flashCardDeck$ = this.flashCardDeckSubject.asObservable(); // Observable for subscriptions
 
-
+  public protoDeckSubject = new BehaviorSubject<string | null>(null);
+  public protoDeck$ = this.protoDeckSubject.asObservable();
 
   // Setter for FlashCardDeck
   setFlashCardDeck(deck: FlashCardDeck): void {
@@ -25,9 +26,22 @@ export class GlobalStateService {
     return this.flashCardDeckSubject.value;
   }
 
+  // Setter for FlashCardDeck
+  setProtoDeck(deck: string): void {
+    this.protoDeckSubject.next(deck);
+  }
+
+  // Getter for FlashCardDeck
+  getProtoDeck(): string | null {
+    return this.protoDeckSubject.value;
+  }
+
   // Clear the state (to reset or remove the global state)
   clearFlashCardDeck(): void {
     this.flashCardDeckSubject.next(null);
+  }
+  clearProtoDeck(): void {
+    this.protoDeckSubject.next(null);
   }
 
   updateFlashCardNameState(updatedDeckName: string): Result<string, string> {

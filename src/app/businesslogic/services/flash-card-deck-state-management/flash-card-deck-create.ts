@@ -19,11 +19,45 @@ export class FlashCardDeckCreate {
     var secondaryinfo = "";
     //tags.someKey = "someValue"; // Adds the key "someKey" with the value "someValue"
     var tags: Record<string, string> = {};
-    var currentHashtags: string[] = []
+    var currentTags: string[] = []
 
-    for (const eachline of lines) {
+    for (let i = 0; i < lines.length; i++) {
+      const eachline = lines[i];
+      if (cards.length == 26) {
+        const string = ""
+      }
+      const hashCount = this.countInitialHashes(eachline);
+      if (eachline.trim().length !== 0 && hashCount == 0) {
+        lineNumAfterSpace++;
+      }
+
+      if (hashCount > 0) {
+        const excessCurrentTags = (currentTags.length - hashCount)+1;
+        if (excessCurrentTags > 0) {
+          currentTags = this.removeLastXElements(currentTags, excessCurrentTags);
+        }
+        const headerWithoutHashtags = eachline.replace(/^#+/, "").trim();
+        currentTags.push(headerWithoutHashtags);
+      }
+
+      // write logic for adding frontside, backside, and primaryinfo
+      if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace == 1)) {
+        backside = eachline;
+      }
+      if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace == 2)) {
+        frontside = eachline;
+      }
+      if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace == 3)) {
+        primaryinfo = eachline;
+      }
+      if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace == 4)) {
+        secondaryinfo = eachline;
+      }
+
+
       // handle chapter headings
-      if ((eachline.trim().length === 0) &&  backside.length > 0 && frontside.length > 0) {
+      if ((eachline.trim().length === 0 || lines.length == i+1)
+        && backside.length > 0 && frontside.length > 0) {
         const flashCard: FlashCard = {
           cardNumber: cardNumber,
           cardName: "",
@@ -35,59 +69,29 @@ export class FlashCardDeckCreate {
           dateOfLastReview: "2000-12-31",
           repetitionValue: 0, // Could represent how many repetitions are required for mastery
           repetitionHistory: [0,0,0,0,0], // Tracks review sessions
-          tags: currentHashtags
+          tags: [...currentTags]
         };
         cards.push(flashCard);
-        for (const eachtag of currentHashtags) {
+        for (const eachtag of currentTags) {
           if (tags[eachtag] == undefined) {
             tags[eachtag] = eachtag;
           }
         }
         cardNumber++;
       }
-      if (eachline.trim().length === 0) {
+
+      if (eachline.trim().length === 0 || hashCount > 0) {
         lineNumAfterSpace = 0;
         backside = "";
         frontside = "";
         primaryinfo = "";
         secondaryinfo = "";
-      }else {
-        lineNumAfterSpace++;
-      }
-
-      const hashCount = this.countInitialHashes(eachline);
-      if ((hashCount > 0) && (hashCount > currentHashtags.length+1)) {
-        //chapter headings is written with hashtags.
-        //if your last chapter heading is 4 hashtags, the next heading has to be 5 or less hashtags
-        //lower amount means a more general heading (like a section), a higher amount means a more specific heading
-        //(like a chapter)
-        return [null, { ok: false, error: "Error: A chapter heading (#) has to be only one greater or less than you" +
-            "previous heading. Please check your input." }];
-      } else if ((hashCount > 0) && (hashCount <= currentHashtags.length+1)) {
-        const toSubtract: number = (currentHashtags.length + 1) - hashCount;
-        currentHashtags = this.removeLastXElements(currentHashtags, toSubtract);
-        const headerWithoutHashtags = eachline.replace(/^#+/, "").trim();
-        currentHashtags.push(headerWithoutHashtags);
-      }
-
-      // write logic for adding frontside, backside, and primaryinfo
-      if ((hashCount === 0) && (lineNumAfterSpace == 1)) {
-        backside = eachline;
-      }
-      if ((hashCount === 0) && (lineNumAfterSpace == 2)) {
-        frontside = eachline;
-      }
-      if ((hashCount === 0) && (lineNumAfterSpace == 3)) {
-        primaryinfo = eachline;
-      }
-      if ((hashCount === 0) && (lineNumAfterSpace == 4)) {
-        secondaryinfo = eachline;
       }
     }
 
     return [{
-      deckName: currentHashtags.length > 0 ? currentHashtags[0] : 'My Deck',
-      deckInfo: currentHashtags.length > 1 ? currentHashtags[1] : 'My Info',
+      deckName: currentTags.length > 0 ? currentTags[0] : 'My Deck',
+      deckInfo: currentTags.length > 1 ? currentTags[1] : 'My Info',
       settings:  { filtercardsbytag: {}, }, // Provide a default empty settings object
       tags: tags, // Provide a default empty tags object
       cards: cards // Initialize with an empty array of FlashCards

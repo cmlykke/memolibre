@@ -21,6 +21,9 @@ export class CreateDeckComponent {
 
 
   constructor(private globalStateService: GlobalStateService) {
+    this.globalStateService.protoDeck$.subscribe((protoDeck) => {
+      this.newDeckContent = protoDeck || ''; // Initialize with protoDeck value or an empty string
+    });
     // Subscribe to the global state to retrieve the current deck name
     this.globalStateService.flashCardDeck$.subscribe((deck) => {
       this.deckName = deck ? deck.deckName : null;
@@ -30,6 +33,9 @@ export class CreateDeckComponent {
     });
   }
 
+  onDeckContentChange(content: string): void {
+    this.globalStateService.setProtoDeck(content); // Update protoDeckString
+  }
   /**
    * Updates the deck name in the global state
    */
