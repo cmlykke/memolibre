@@ -15,9 +15,8 @@ export class FlashCardDeckCreate {
 
     var backside = "";
     var frontside = "";
-    var primaryinfo = "";
-    var secondaryinfo = "";
-    //tags.someKey = "someValue"; // Adds the key "someKey" with the value "someValue"
+    var secondaryinfo: string[] = [];
+    // var primaryinfo = ""; should not be used, because its about personal notes
     var tags: Record<string, string> = {};
     var currentTags: string[] = []
 
@@ -47,11 +46,8 @@ export class FlashCardDeckCreate {
       if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace == 2)) {
         frontside = eachline;
       }
-      if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace == 3)) {
-        primaryinfo = eachline;
-      }
-      if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace == 4)) {
-        secondaryinfo = eachline;
+      if ((hashCount === 0) && (eachline.trim().length != 0) && (lineNumAfterSpace > 2)) {
+        secondaryinfo.push(eachline);
       }
 
 
@@ -63,8 +59,8 @@ export class FlashCardDeckCreate {
           cardName: "",
           frontSide: frontside,
           backSide: backside,
-          primaryInfo: primaryinfo,
-          secondaryInfo: secondaryinfo,
+          primaryInfo: "",
+          secondaryInfo: [...secondaryinfo].join("\n"),
           notableCards: [], // Assuming 2 and 3 are related card numbers
           dateOfLastReview: "2000-12-31",
           repetitionValue: 0, // Could represent how many repetitions are required for mastery
@@ -84,8 +80,7 @@ export class FlashCardDeckCreate {
         lineNumAfterSpace = 0;
         backside = "";
         frontside = "";
-        primaryinfo = "";
-        secondaryinfo = "";
+        secondaryinfo = [];
       }
     }
 
