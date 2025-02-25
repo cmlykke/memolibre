@@ -5,6 +5,9 @@
   text-align: center;
   cursor: pointer;
   transition: border 0.3s, background-color 0.3s;
+  width: 50%; /* Set width to 50% of the parent container */
+  margin: 0 auto; /* Center the drag-and-drop zone */
+  position: relative; /* For positioning child elements if needed */
 }
 
 .drag-drop-zone:hover {
@@ -17,24 +20,15 @@
   background-color: #e6f7ff;
 }
 
-/* File selection button styles */
+/* File selection container */
 .file-select-container {
   margin-bottom: 20px;
   text-align: center;
 }
 
+/* Override button padding */
 .file-select-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 4px;
-}
-
-.file-select-button:hover {
-  background-color: #0056b3;
+  padding: 10px 20px 10px 40px;
 }
 
 .file-select-button:active {
@@ -42,7 +36,15 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
 }
 
-/* Hidden input to be triggered programmatically */
+/* Hidden input */
 .hidden-input {
   display: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .drag-drop-zone {
+    width: 80%; /* Wider on mobile for usability */
+    padding-left: 40px; /* Matches global button adjustment */
+  }
 }

@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import {FlashCardDeckUpdate} from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-update';
 import {FlashCardDeck} from '../businesslogic/models/flashcarddeck'; // Import CommonModule for Angular directives
 import {Result} from '../angular/utils/types';
+import { TooltipDirective } from '../tooltip.directive';
 
 @Component({
   selector: 'app-create-deck-component',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TooltipDirective],
   templateUrl: './create-deck-component.component.html',
   styleUrl: './create-deck-component.component.css',
   standalone: true,

@@ -1,10 +1,14 @@
+<!-- src/app/load-user-data/load-user-data.component.html -->
 <p>load-user-data works!</p>
 
 <!-- Button to select a JSON file -->
 <div class="file-select-container">
-  <button class="file-select-button" (click)="fileInput.click()">
-    Select JSON File
-  </button>
+  <div class="button-wrapper">
+    <button class="file-select-button" (click)="fileInput.click()">
+      Select JSON File
+      <span class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
+  </div>
   <input
     #fileInput
     type="file"
@@ -14,21 +18,31 @@
   />
 </div>
 
-
+<!-- Button to download JSON file -->
 <div class="file-select-container">
-  <button class="file-select-button" (click)="downloadFlashCardDeck()">
-    Download JSON File
-  </button>
+  <div class="button-wrapper">
+    <button class="file-select-button" (click)="downloadFlashCardDeck()">
+      Download JSON File
+      <span class="tooltip-icon" appTooltip tooltipMessage="Click to download the current FlashCardDeck as a JSON file">?</span>
+    </button>
+  </div>
 </div>
-
-
 
 <!-- Drag and drop zone -->
-<div
-  class="drag-drop-zone"
-  (dragover)="onDragOver($event)"
-  (drop)="onFileDrop($event)"
->
-  <p *ngIf="!fileName">Drag and drop a JSON file here</p>
-  <p *ngIf="fileName">Dropped file: {{ fileName }}</p>
+<div class="drag-drop-zone" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)">
+  <div class="drag-drop-wrapper">
+    <p *ngIf="!fileName">Drag and drop a JSON file here</p>
+    <p *ngIf="fileName">Dropped file: {{ fileName }}</p>
+  </div>
+  <span class="tooltip-icon" appTooltip tooltipMessage="Drag a JSON file here to load it into the app">?</span>
 </div>
+
+<!-- Drag and drop zone
+<div class="drag-drop-wrapper">
+  <div class="drag-drop-zone" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)">
+    <p *ngIf="!fileName">Drag and drop a JSON file here</p>
+    <p *ngIf="fileName">Dropped file: {{ fileName }}</p>
+  </div>
+  <span class="tooltip-icon" appTooltip tooltipMessage="Drag a JSON file here to load it">?</span>
+</div>
+-->

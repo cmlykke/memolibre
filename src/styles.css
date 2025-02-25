@@ -1,1 +1,82 @@
 /* You can add global styles to this file, and also import other style files */
+.tooltip-icon {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  background-color: #ccc;
+  color: #333;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: help;
+  z-index: 10;
+}
+
+/* Shared wrapper styles */
+.button-wrapper,
+.input-wrapper,
+.textarea-wrapper,
+.drag-drop-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Base button styles */
+button {
+  padding: 10px 16px 10px 34px; /* Room for tooltip */
+  font-size: 16px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Base input styles */
+input {
+  padding: 8px 8px 8px 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Base textarea styles */
+textarea {
+  padding: 10px 10px 10px 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .tooltip-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    top: 6px;
+    left: 6px;
+  }
+  button {
+    padding-left: 40px;
+  }
+  input {
+    padding-left: 36px;
+  }
+  textarea {
+    padding-left: 36px;
+  }
+}
+
