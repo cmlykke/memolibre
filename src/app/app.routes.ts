@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import {CreateDeckComponent} from './create-deck-component/create-deck-component.component';
 import {LoadUserDataComponent} from './load-user-data/load-user-data.component';
+import {PracticePageComponent} from './practice-page/practice-page.component';
 
 export const routes: Routes = [{
   path: '',
@@ -12,5 +13,8 @@ export const routes: Routes = [{
 }, {
   path: 'create-deck',
   component: CreateDeckComponent
+}, {
+  path: 'practice-page',
+  component: PracticePageComponent
 }
 ];
