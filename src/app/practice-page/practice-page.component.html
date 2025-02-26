@@ -1,4 +1,23 @@
 <p>practice-page works!</p>
 
-
-
+<div *ngIf="globalStateService.practiceState$ | async as state">
+  <div *ngIf="state.deck; else noDeck">
+    <ng-container *ngIf="state.currentCard as card; else noCard">
+      <app-card [card]="card" [showBackSide]="state.showBackSide"></app-card>
+      <div *ngIf="state.previousCard as prevCard">
+        <h3>Previous Card</h3>
+        <app-card [card]="prevCard" [showBackSide]="true"></app-card>
+      </div>
+    </ng-container>
+    <ng-template #noCard>
+      <p>No cards to practice. All cards have repetitionValue 0 or the deck is empty.</p>
+      <div *ngIf="state.previousCard as prevCard">
+        <h3>Previous Card</h3>
+        <app-card [card]="prevCard" [showBackSide]="true"></app-card>
+      </div>
+    </ng-template>
+  </div>
+  <ng-template #noDeck>
+    <p>No deck exists. Please load or create a deck first.</p>
+  </ng-template>
+</div>

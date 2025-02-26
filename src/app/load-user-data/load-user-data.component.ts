@@ -1,21 +1,24 @@
-// src/app/load-user-data/load-user-data.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
-import { TooltipDirective } from '../tooltip.directive'; // Import the directive
+import { TooltipDirective } from '../tooltip.directive';
 
 @Component({
   selector: 'app-load-user-data',
-  imports: [CommonModule, TooltipDirective], // Add TooltipDirective to imports
+  imports: [CommonModule, TooltipDirective],
   templateUrl: './load-user-data.component.html',
-  styleUrl: './load-user-data.component.css',
+  styleUrls: ['./load-user-data.component.css'],
   standalone: true,
 })
 export class LoadUserDataComponent {
   fileName: string | null = null;
 
-  constructor(private globalStateService: GlobalStateService) {}
+  constructor(private globalStateService: GlobalStateService) {
+    this.globalStateService.practiceState$.subscribe((state) => {
+      this.fileName = state.deck ? `File Loaded: ${state.deck.deckName}` : null;
+    });
+  }
 
   onFileDrop(event: DragEvent): void {
     event.preventDefault();
@@ -46,9 +49,9 @@ export class LoadUserDataComponent {
         const fileContent = reader.result as string;
         const parsedData: FlashCardDeck = JSON.parse(fileContent);
         if (this.isValidFlashCardDeck(parsedData)) {
-          this.fileName = `File Loaded: ${file.name}`;
           console.log('Parsed FlashCardDeck:', parsedData);
           this.globalStateService.setFlashCardDeck(parsedData);
+          // Subscription will update fileName to "File Loaded: ${deckName}"
         } else {
           this.fileName = `Error: File is not of type FlashCardDeck`;
         }

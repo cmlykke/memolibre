@@ -1,58 +1,53 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // For two-way binding
-import { GlobalStateService } from '../angular/shared/services/global-state-service';
+import { FormsModule } from '@angular/forms';
+import { GlobalStateService, PracticeSessionState } from '../angular/shared/services/global-state-service';
 import { CommonModule } from '@angular/common';
-import {FlashCardDeckUpdate} from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-update';
-import {FlashCardDeck} from '../businesslogic/models/flashcarddeck'; // Import CommonModule for Angular directives
-import {Result} from '../angular/utils/types';
+import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
+import { Result } from '../angular/utils/types';
 import { TooltipDirective } from '../tooltip.directive';
 
 @Component({
   selector: 'app-create-deck-component',
   imports: [CommonModule, FormsModule, TooltipDirective],
   templateUrl: './create-deck-component.component.html',
-  styleUrl: './create-deck-component.component.css',
+  styleUrls: ['./create-deck-component.component.css'],
   standalone: true,
 })
 export class CreateDeckComponent {
-  resultMessage: string = ''
-  deckName: string | null = null; // Variable to store the current deck name
-  newDeckName: string | null = null; // Holds the input value for updating the deck name
-  newDeckContent: string = ''; // Holds multi-line content for the new deck
-
+  resultMessage: string = '';
+  deckName: string | null = null;
+  newDeckName: string | null = null;
+  newDeckContent: string = '';
 
   constructor(private globalStateService: GlobalStateService) {
-    this.globalStateService.protoDeck$.subscribe((protoDeck) => {
-      this.newDeckContent = protoDeck || ''; // Initialize with protoDeck value or an empty string
-    });
-    // Subscribe to the global state to retrieve the current deck name
-    this.globalStateService.flashCardDeck$.subscribe((deck) => {
+    // Subscribe to practiceState$ to get the current deck
+    this.globalStateService.practiceState$.subscribe((state: PracticeSessionState) => {
+      const deck = state.deck;
       this.deckName = deck ? deck.deckName : null;
       if (deck) {
         this.newDeckName = deck.deckName; // Initialize newDeckName with current deckName
       }
     });
+
+    // Subscribe to protoDeck$ to sync newDeckContent
+    this.globalStateService.protoDeck$.subscribe((protoDeck) => {
+      this.newDeckContent = protoDeck || '';
+    });
   }
 
   onDeckContentChange(content: string): void {
-    this.globalStateService.setProtoDeck(content); // Update protoDeckString
+    this.globalStateService.setProtoDeck(content);
   }
-  /**
-   * Updates the deck name in the global state
-   */
+
   updateDeckName(): void {
     if (!this.newDeckName) {
-      this.resultMessage = "Error: No new deckName exists.";
+      this.resultMessage = 'Error: No new deckName exists.';
       return;
     }
-
     const result = this.globalStateService.updateFlashCardNameState(this.newDeckName);
-
     if (!result.ok) {
-      // Handle error response
       this.resultMessage = result.error;
     } else {
-      // Set success message
       this.resultMessage = result.value;
     }
   }
@@ -62,19 +57,11 @@ export class CreateDeckComponent {
       this.resultMessage = 'Please enter deck content.';
       return;
     }
-    //console.log(`Creating deck: ${this.newDeckName}`);
-    //console.log(`Deck content: ${this.newDeckContent}`);
-    // Add the logic to create the deck using the newDeckContent
     const result = this.globalStateService.createNewDeckState(this.newDeckContent.trim());
     if (!result.ok) {
-      // Handle error response
       this.resultMessage = result.error;
     } else {
-      // Set success message
       this.resultMessage = result.value;
     }
-
   }
-
-
 }
