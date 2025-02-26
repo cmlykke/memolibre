@@ -15,7 +15,6 @@ import { FlashCardDeckPracticeUpdate } from '../businesslogic/services/flash-car
 })
 export class PracticePageComponent {
   constructor(protected globalStateService: GlobalStateService) {}
-  private isProcessing = false;
 
   /**
    * Selects the next card based on repetitionValue, sum of repetitionHistory, and cardNumber.
@@ -60,16 +59,18 @@ export class PracticePageComponent {
     const { deck, currentCard } = currentState;
     if (!currentCard || !deck) return;
 
-    const previousCardCopy = { ...currentCard, repetitionHistory: [...currentCard.repetitionHistory] };
+    // Update the deck with the marked card and get the updated version
     const updatedDeck = FlashCardDeckPracticeUpdate.markCardAsKnown(deck, currentCard.cardNumber);
+    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!; // Get the updated card
     const nextCard = this.selectNextCard(updatedDeck);
 
     console.log('Before update - currentCard:', currentCard.cardNumber, 'showBackSide:', currentState.showBackSide);
+    console.log('Updated card:', updatedCard);
     console.log('Next card selected:', nextCard?.cardNumber);
 
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: previousCardCopy,
+      previousCard: updatedCard, // Use the updated card as previousCard
       currentCard: nextCard,
       showBackSide: false,
     });
@@ -86,13 +87,14 @@ export class PracticePageComponent {
     const { deck, currentCard } = currentState;
     if (!currentCard || !deck) return;
 
-    const previousCardCopy = { ...currentCard, repetitionHistory: [...currentCard.repetitionHistory] };
+    // Update the deck with the marked card and get the updated version
     const updatedDeck = FlashCardDeckPracticeUpdate.markCardAsForgotten(deck, currentCard.cardNumber);
+    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!; // Get the updated card
     const nextCard = this.selectNextCard(updatedDeck);
 
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: previousCardCopy,
+      previousCard: updatedCard, // Use the updated card as previousCard
       currentCard: nextCard,
       showBackSide: false,
     });
