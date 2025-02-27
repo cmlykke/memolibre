@@ -28,9 +28,10 @@
 
 /* Override button padding */
 .file-select-button {
-  padding: 10px 20px 10px 40px;
+  padding: 10px 20px; /* Standard padding, no extra left space */
 }
 
+/* Apply tooltip padding dynamically via .with-tooltip class instead */
 .file-select-button:active {
   background-color: #004085;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;

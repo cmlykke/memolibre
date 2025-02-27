@@ -1,1 +1,59 @@
-<p>practice-settings works!</p>
+<p>Practice Settings</p>
+<div *ngIf="resultMessage">{{ resultMessage }}</div>
+
+<mat-form-field appearance="fill">
+  <mat-label>Front Side Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['frontSideFontSize']" (ngModelChange)="updateFontSize('frontSideFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Back Side Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['backSideFontSize']" (ngModelChange)="updateFontSize('backSideFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Notable Cards Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['notableCardsFontSize']" (ngModelChange)="updateFontSize('notableCardsFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Tags Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['tagsFontSize']" (ngModelChange)="updateFontSize('tagsFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Primary Info Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['primaryInfoFontSize']" (ngModelChange)="updateFontSize('primaryInfoFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Secondary Info Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['secondaryInfoFontSize']" (ngModelChange)="updateFontSize('secondaryInfoFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Card Number Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['cardNumberFontSize']" (ngModelChange)="updateFontSize('cardNumberFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Card Name Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['cardNameFontSize']" (ngModelChange)="updateFontSize('cardNameFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Date of Last Review Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['dateOfLastReviewFontSize']" (ngModelChange)="updateFontSize('dateOfLastReviewFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Repetition Value Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['repetitionValueFontSize']" (ngModelChange)="updateFontSize('repetitionValueFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Repetition History Font Size</mat-label>
+  <input matInput type="number" [ngModel]="displaySettings['repetitionHistoryFontSize']" (ngModelChange)="updateFontSize('repetitionHistoryFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<button mat-raised-button color="primary" (click)="saveSettings()">Save Settings</button>

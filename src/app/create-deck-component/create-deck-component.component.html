@@ -1,33 +1,26 @@
-<!-- src/app/create-deck-component/create-deck-component.component.html -->
-<p>create-deck-component works!</p>
-
-<p *ngIf="resultMessage">Message: {{ resultMessage }}</p>
-<p *ngIf="!resultMessage">No message yet.</p>
-
 <!-- Text field to input new deck name -->
-
 <div class="input-container">
   <div class="button-wrapper">
-    <button (click)="updateDeckName()">
+    <button (click)="updateDeckName()" [class.with-tooltip]="showTooltips">
       Update Deck Name
-      <span class="tooltip-icon" appTooltip tooltipMessage="Update the deck name">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Update the deck name">?</span>
     </button>
   </div>
 </div>
 
 <div class="input-container">
   <div class="input-wrapper">
-    <input [(ngModel)]="newDeckName" placeholder="Enter new deck name" />
-    <span class="tooltip-icon" appTooltip tooltipMessage="Enter a name for your deck">?</span>
+    <input [(ngModel)]="newDeckName" placeholder="Enter new deck name" [class.input-with-tooltip]="showTooltips" />
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Enter a name for your deck">?</span>
   </div>
 </div>
 
 <!-- CreateDeck Button -->
 <div class="create-deck-container">
   <div class="button-wrapper">
-    <button class="create-deck-button" (click)="createDeck()">
+    <button class="create-deck-button" (click)="createDeck()" [class.with-tooltip]="showTooltips">
       Create Deck
-      <span class="tooltip-icon" appTooltip tooltipMessage="Click to create a new deck with the entered name and content">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to create a new deck with the entered name and content">?</span>
     </button>
   </div>
 </div>
@@ -41,41 +34,8 @@
       (input)="onDeckContentChange(newDeckContent)"
       placeholder="Enter deck content"
       rows="4"
+      [class.textarea-with-tooltip]="showTooltips"
     ></textarea>
-    <span class="tooltip-icon" appTooltip tooltipMessage="Type your flashcard deck content here (e.g., questions and answers)">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Type your flashcard deck content here (e.g., questions and answers)">?</span>
   </div>
 </div>
-
-<!-- Input for "Enter new deck name"
-<div class="input-container">
-  <div class="input-wrapper">
-    <input [(ngModel)]="newDeckName" placeholder="Enter new deck name" />
-    <span class="tooltip-icon" appTooltip tooltipMessage="Enter a name for your deck">?</span>
-  </div>
-</div>
-
-<div class="input-container">
-  <div class="button-wrapper">
-    <button (click)="updateDeckName()">
-      Update Deck Name
-      <span class="tooltip-icon" appTooltip tooltipMessage="Update the deck name">?</span>
-    </button>
-  </div>
-</div>
-
-<div class="create-deck-container">
-  <div class="button-wrapper">
-    <button class="create-deck-button" (click)="createDeck()">
-      Create Deck
-      <span class="tooltip-icon" appTooltip tooltipMessage="Create a new deck">?</span>
-    </button>
-  </div>
-</div>
-
-<div class="text-field-container">
-  <div class="textarea-wrapper">
-    <textarea class="create-deck-input" [(ngModel)]="newDeckContent" placeholder="Enter deck content"></textarea>
-    <span class="tooltip-icon" appTooltip tooltipMessage="Enter content for your deck">?</span>
-  </div>
-</div>
--->

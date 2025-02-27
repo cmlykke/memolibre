@@ -13,10 +13,12 @@ import { TooltipDirective } from '../tooltip.directive';
 })
 export class LoadUserDataComponent {
   fileName: string | null = null;
+  showTooltips: boolean = true; // Initialize to true (default)
 
   constructor(private globalStateService: GlobalStateService) {
-    this.globalStateService.practiceState$.subscribe((state) => {
-      this.fileName = state.deck ? `File Loaded: ${state.deck.deckName}` : null;
+    this.globalStateService.state$.subscribe(state => {
+      this.showTooltips = state.appSettings['showTooltips'] === 'true';
+      this.fileName = state.practiceSession.deck ? `File Loaded: ${state.practiceSession.deck.deckName}` : null;
     });
   }
 
@@ -51,7 +53,6 @@ export class LoadUserDataComponent {
         if (this.isValidFlashCardDeck(parsedData)) {
           console.log('Parsed FlashCardDeck:', parsedData);
           this.globalStateService.setFlashCardDeck(parsedData);
-          // Subscription will update fileName to "File Loaded: ${deckName}"
         } else {
           this.fileName = `Error: File is not of type FlashCardDeck`;
         }

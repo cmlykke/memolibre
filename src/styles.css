@@ -1,4 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+/* Base button styles (no tooltip) */
+button {
+  padding: 10px 16px; /* Standard padding without extra left space */
+  font-size: 16px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+/* Base input styles (no tooltip) */
+input {
+  padding: 8px; /* Standard padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Base textarea styles (no tooltip) */
+textarea {
+  padding: 10px; /* Standard padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Classes to add extra padding when tooltips are enabled */
+.with-tooltip {
+  padding-left: 34px !important; /* Extra space for ? icon */
+}
+
+.input-with-tooltip {
+  padding-left: 30px !important;
+}
+
+.textarea-with-tooltip {
+  padding-left: 30px !important;
+}
+
+/* Tooltip icon styling (unchanged) */
 .tooltip-icon {
   position: absolute;
   top: 4px;
@@ -15,48 +59,17 @@
   z-index: 10;
 }
 
-/* Shared wrapper styles */
-.button-wrapper,
-.input-wrapper,
+.button-wrapper {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+}
+
 .textarea-wrapper,
-.drag-drop-wrapper {
+.input-wrapper {
   position: relative;
-  display: inline-block;
-}
-
-/* Base button styles */
-button {
-  padding: 10px 16px 10px 34px; /* Room for tooltip */
-  font-size: 16px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  position: relative;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Base input styles */
-input {
-  padding: 8px 8px 8px 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-/* Base textarea styles */
-textarea {
-  padding: 10px 10px 10px 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
+  width: fit-content; /* Wrapper shrinks to fit the textarea/input width */
+  margin: 0 auto; /* Center the wrapper within its parent */
 }
 
 /* Mobile adjustments */
@@ -69,14 +82,13 @@ textarea {
     top: 6px;
     left: 6px;
   }
-  button {
-    padding-left: 40px;
+  .with-tooltip {
+    padding-left: 40px !important;
   }
-  input {
-    padding-left: 36px;
+  .input-with-tooltip {
+    padding-left: 36px !important;
   }
-  textarea {
-    padding-left: 36px;
+  .textarea-with-tooltip {
+    padding-left: 36px !important;
   }
 }
-

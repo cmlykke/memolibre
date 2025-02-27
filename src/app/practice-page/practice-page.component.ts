@@ -16,9 +16,6 @@ import { FlashCardDeckPracticeUpdate } from '../businesslogic/services/flash-car
 export class PracticePageComponent {
   constructor(protected globalStateService: GlobalStateService) {}
 
-  /**
-   * Selects the next card based on repetitionValue, sum of repetitionHistory, and cardNumber.
-   */
   private selectNextCard(deck: FlashCardDeck | null): FlashCard | null {
     if (!deck || deck.cards.length === 0) return null;
     const eligibleCards = deck.cards.filter(card => card.repetitionValue > 0);
@@ -37,11 +34,8 @@ export class PracticePageComponent {
     return eligibleCards[0];
   }
 
-  /**
-   * Initializes the practice session if no current card is set.
-   */
   private initializePracticeSession(): void {
-    const currentState = this.globalStateService.getPracticeState();
+    const currentState = this.globalStateService.getState().practiceSession;
     if (!currentState.currentCard) {
       const nextCard = this.selectNextCard(currentState.deck);
       this.globalStateService.updatePracticeState({
@@ -51,17 +45,13 @@ export class PracticePageComponent {
     }
   }
 
-  /**
-   * Marks the current card as known and updates the global state atomically.
-   */
   markAsKnown(): void {
-    const currentState = this.globalStateService.getPracticeState();
+    const currentState = this.globalStateService.getState().practiceSession;
     const { deck, currentCard } = currentState;
     if (!currentCard || !deck) return;
 
-    // Update the deck with the marked card and get the updated version
     const updatedDeck = FlashCardDeckPracticeUpdate.markCardAsKnown(deck, currentCard.cardNumber);
-    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!; // Get the updated card
+    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!;
     const nextCard = this.selectNextCard(updatedDeck);
 
     console.log('Before update - currentCard:', currentCard.cardNumber, 'showBackSide:', currentState.showBackSide);
@@ -70,48 +60,41 @@ export class PracticePageComponent {
 
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: updatedCard, // Use the updated card as previousCard
+      previousCard: updatedCard,
       currentCard: nextCard,
       showBackSide: false,
     });
 
-    const newState = this.globalStateService.getPracticeState();
+    const newState = this.globalStateService.getState().practiceSession;
     console.log('After update - currentCard:', newState.currentCard?.cardNumber, 'showBackSide:', newState.showBackSide);
   }
 
-  /**
-   * Marks the current card as forgotten and updates the global state atomically.
-   */
   markAsForgotten(): void {
-    const currentState = this.globalStateService.getPracticeState();
+    const currentState = this.globalStateService.getState().practiceSession;
     const { deck, currentCard } = currentState;
     if (!currentCard || !deck) return;
 
-    // Update the deck with the marked card and get the updated version
     const updatedDeck = FlashCardDeckPracticeUpdate.markCardAsForgotten(deck, currentCard.cardNumber);
-    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!; // Get the updated card
+    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!;
     const nextCard = this.selectNextCard(updatedDeck);
 
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: updatedCard, // Use the updated card as previousCard
+      previousCard: updatedCard,
       currentCard: nextCard,
       showBackSide: false,
     });
   }
 
-  /**
-   * Handles keyboard events for spacebar and left/right arrows.
-   */
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    const currentState = this.globalStateService.getPracticeState();
+    const currentState = this.globalStateService.getState().practiceSession;
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
 
     if (event.key === ' ' || event.key === 'ArrowRight') {
       if (event.key === ' ') {
-        event.preventDefault(); // Prevent scrolling
+        event.preventDefault();
       }
       if (!showBackSide) {
         this.globalStateService.updatePracticeState({ showBackSide: true });

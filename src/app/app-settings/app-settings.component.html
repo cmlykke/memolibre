@@ -1,1 +1,10 @@
-<p>app-settings works!</p>
+<p>App Settings</p>
+<div *ngIf="resultMessage">{{ resultMessage }}</div>
+
+<div>
+  <label>Show Tooltips:
+    <input type="checkbox" [checked]="settings['showTooltips'] === 'true'" (change)="updateTooltipSetting($event)">
+  </label>
+</div>
+
+<button (click)="saveSettings()">Save Settings</button>

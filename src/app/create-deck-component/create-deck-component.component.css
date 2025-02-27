@@ -1,21 +1,20 @@
-/* Container for buttons and inputs */
+
+
 .create-deck-container,
 .input-container,
 .text-field-container {
   margin-bottom: 20px;
-  text-align: center; /* Center all child elements */
+  text-align: center;
 }
 
-/* Specific textarea adjustments */
 .create-deck-input {
-  width: 60vw; /* 80% of viewport width */
-  height: 150px; /* Fixed height for consistency */
-  resize: both; /* Allow user resizing */
+  width: 60vw;
+  height: 150px;
+  resize: both;
 }
 
-/* Mobile adjustments */
 @media (max-width: 768px) {
   .create-deck-input {
-    width: 60vw; /* 90% of viewport width on mobile */
+    width: 60vw;
   }
 }

@@ -1,54 +1,60 @@
-// src/app/tooltip.directive.ts
-import { Directive, ElementRef, HostListener, Input, Renderer2, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import { GlobalStateService } from '../app/angular/shared/services/global-state-service';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[appTooltip]',
-  standalone: true
+  standalone: true,
 })
-export class TooltipDirective implements OnInit {
-  @Input() tooltipMessage: string = ''; // The message to display in the tooltip
-  private tooltipElement: HTMLElement | null = null; // The tooltip DOM element
-  private isMobile: boolean = false; // Flag to detect mobile devices
-  private timeoutId: any; // For auto-hiding the tooltip on mobile
+export class TooltipDirective implements OnInit, OnDestroy {
+  @Input() tooltipMessage: string = '';
+  private tooltipElement: HTMLElement | null = null;
+  private isMobile: boolean = false;
+  private timeoutId: any;
+  private showTooltips: boolean = true;
+  private stateSubscription!: Subscription;
+  private isMouseOverTooltip: boolean = false; // New flag to track if mouse is over tooltip
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private globalStateService: GlobalStateService
+  ) {}
 
   ngOnInit() {
-    // Detect if the device supports touch (mobile)
     this.isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    this.stateSubscription = this.globalStateService.state$.subscribe(state => {
+      this.showTooltips = state.appSettings['showTooltips'] === 'true';
+    });
   }
 
-  // Show tooltip on hover (desktop only)
+  ngOnDestroy() {
+    if (this.stateSubscription) {
+      this.stateSubscription.unsubscribe();
+    }
+    this.hideTooltip();
+  }
+
   @HostListener('mouseenter') onMouseEnter() {
-    if (!this.isMobile) {
+    if (!this.isMobile && this.showTooltips) {
       this.showTooltip();
     }
   }
 
-  // Hide tooltip when leaving hover (desktop only)
   @HostListener('mouseleave') onMouseLeave() {
     if (!this.isMobile) {
-      this.hideTooltip();
-    }
-  }
-
-  // Handle tap on mobile
-  @HostListener('click', ['$event']) onClick(event: Event) {
-    if (this.isMobile) {
-      event.stopPropagation(); // Prevent button action when tapping the icon
-      if (this.tooltipElement) {
-        this.hideTooltip(); // Hide if already visible
-      } else {
-        this.showTooltip(); // Show and auto-hide after 3 seconds
-        this.timeoutId = setTimeout(() => this.hideTooltip(), 3000);
-      }
+      // Delay hiding to allow mouse to move to tooltip
+      setTimeout(() => {
+        if (!this.isMouseOverTooltip) {
+          this.hideTooltip();
+        }
+      }, 100); // 100ms delay
     }
   }
 
   private showTooltip() {
     if (!this.tooltipMessage) return;
 
-    // Create the tooltip element
     this.tooltipElement = this.renderer.createElement('div');
     this.renderer.setStyle(this.tooltipElement, 'position', 'absolute');
     this.renderer.setStyle(this.tooltipElement, 'background', '#333');
@@ -58,27 +64,52 @@ export class TooltipDirective implements OnInit {
     this.renderer.setStyle(this.tooltipElement, 'fontSize', '12px');
     this.renderer.setStyle(this.tooltipElement, 'zIndex', '1000');
 
-    // Add the tooltip message
     const text = this.renderer.createText(this.tooltipMessage);
     this.renderer.appendChild(this.tooltipElement, text);
 
-    // Position the tooltip above the host element
     const hostPos = this.el.nativeElement.getBoundingClientRect();
-    this.renderer.setStyle(this.tooltipElement, 'top', `${hostPos.top - 40}px`);
-    this.renderer.setStyle(this.tooltipElement, 'left', `${hostPos.left}px`);
+    const wrapper = this.el.nativeElement.parentElement; // The wrapper (e.g., button or .input-wrapper)
+    const wrapperPos = wrapper.getBoundingClientRect();
 
-    // Append to the document body
-    this.renderer.appendChild(document.body, this.tooltipElement);
+    // Position relative to the wrapper's top-left corner
+    const topOffset = hostPos.top - wrapperPos.top + 5; // 5px below the ? icon
+    const leftOffset = hostPos.left - wrapperPos.left + 5; // 5px right of the ? icon
+
+    this.renderer.setStyle(this.tooltipElement, 'top', `${topOffset}px`);
+    this.renderer.setStyle(this.tooltipElement, 'left', `${leftOffset}px`);
+
+    this.renderer.appendChild(wrapper, this.tooltipElement); // Append to wrapper
+
+    // Add event listeners to the tooltip
+    this.renderer.listen(this.tooltipElement, 'mouseenter', () => {
+      this.isMouseOverTooltip = true;
+    });
+    this.renderer.listen(this.tooltipElement, 'mouseleave', () => {
+      this.isMouseOverTooltip = false;
+      this.hideTooltip();
+    });
   }
 
   private hideTooltip() {
-    if (this.tooltipElement) {
-      this.renderer.removeChild(document.body, this.tooltipElement);
+    if (this.tooltipElement && this.tooltipElement.parentElement) {
+      this.renderer.removeChild(this.tooltipElement.parentElement, this.tooltipElement);
       this.tooltipElement = null;
     }
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
       this.timeoutId = null;
+    }
+  }
+
+  @HostListener('click', ['$event']) onClick(event: Event) {
+    if (this.isMobile && this.showTooltips) {
+      event.stopPropagation();
+      if (this.tooltipElement) {
+        this.hideTooltip();
+      } else {
+        this.showTooltip();
+        this.timeoutId = setTimeout(() => this.hideTooltip(), 3000);
+      }
     }
   }
 }

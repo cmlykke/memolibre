@@ -18,19 +18,21 @@ export class CreateDeckComponent {
   deckName: string | null = null;
   newDeckName: string | null = null;
   newDeckContent: string = '';
+  showTooltips: boolean = true; // Default to true
 
   constructor(private globalStateService: GlobalStateService) {
-    // Subscribe to practiceState$ to get the current deck
+    // Subscribe to state$ to get the showTooltips setting
+    this.globalStateService.state$.subscribe(state => {
+      this.showTooltips = state.appSettings['showTooltips'] === 'true';
+    });
     this.globalStateService.practiceState$.subscribe((state: PracticeSessionState) => {
       const deck = state.deck;
       this.deckName = deck ? deck.deckName : null;
       if (deck) {
-        this.newDeckName = deck.deckName; // Initialize newDeckName with current deckName
+        this.newDeckName = deck.deckName;
       }
     });
-
-    // Subscribe to protoDeck$ to sync newDeckContent
-    this.globalStateService.protoDeck$.subscribe((protoDeck) => {
+    this.globalStateService.protoDeck$.subscribe((protoDeck: string | null) => {
       this.newDeckContent = protoDeck || '';
     });
   }
@@ -45,11 +47,7 @@ export class CreateDeckComponent {
       return;
     }
     const result = this.globalStateService.updateFlashCardNameState(this.newDeckName);
-    if (!result.ok) {
-      this.resultMessage = result.error;
-    } else {
-      this.resultMessage = result.value;
-    }
+    this.resultMessage = result.ok ? result.value : result.error;
   }
 
   createDeck(): void {
@@ -58,10 +56,6 @@ export class CreateDeckComponent {
       return;
     }
     const result = this.globalStateService.createNewDeckState(this.newDeckContent.trim());
-    if (!result.ok) {
-      this.resultMessage = result.error;
-    } else {
-      this.resultMessage = result.value;
-    }
+    this.resultMessage = result.ok ? result.value : result.error;
   }
 }

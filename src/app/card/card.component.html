@@ -1,20 +1,18 @@
-
 <div *ngIf="card">
-  <div *ngIf="!showBackSide">
-    <p>{{ card!.frontSide }}</p>
-  </div>
-  <div *ngIf="showBackSide">
-    <p><strong>Front Side:</strong> {{ card!.frontSide }}</p>
-    <p><strong>Back Side:</strong> {{ card!.backSide }}</p>
-    <p><strong>Notable Cards:</strong> {{ getNotableCards() }}</p>
-    <p><strong>Tags:</strong> {{ card!.tags.join(', ') }}</p>
-    <p><strong>Primary Info:</strong> {{ card!.primaryInfo }}</p>
-    <p><strong>Secondary Info:</strong> {{ card!.secondaryInfo }}</p>
-    <p><strong>Card Number:</strong> {{ card!.cardNumber }}</p>
-    <p><strong>Card Name:</strong> {{ card!.cardName }}</p>
-    <p><strong>Date of Last Review:</strong> {{ card!.dateOfLastReview }}</p>
-    <p><strong>Repetition Value:</strong> {{ card!.repetitionValue }}</p>
-    <p><strong>Repetition History:</strong> {{ card!.repetitionHistory.join(', ') }}</p>
-  </div>
+    <div *ngIf="!showBackSide">
+        <p [style.fontSize]="settings['frontSideFontSize']">{{ card.frontSide }}</p>
+    </div>
+    <div *ngIf="showBackSide">
+        <p [style.fontSize]="settings['frontSideFontSize']"><strong>Front Side:</strong> {{ card.frontSide }}</p>
+        <p [style.fontSize]="settings['backSideFontSize']"><strong>Back Side:</strong> {{ card.backSide }}</p>
+        <p [style.fontSize]="settings['cardNumberFontSize']"><strong>Card Number:</strong> {{ card.cardNumber }}</p>
+        <p [style.fontSize]="settings['cardNameFontSize']"><strong>Card Name:</strong> {{ card.cardName }}</p>
+        <p [style.fontSize]="settings['notableCardsFontSize']"><strong>Notable Cards:</strong> {{ getNotableCards() }}</p>
+        <p [style.fontSize]="settings['tagsFontSize']"><strong>Tags:</strong> {{ card.tags.join(', ') }}</p>
+        <p [style.fontSize]="settings['dateOfLastReviewFontSize']"><strong>Date of Last Review:</strong> {{ card.dateOfLastReview }}</p>
+        <p [style.fontSize]="settings['repetitionValueFontSize']"><strong>Repetition Value:</strong> {{ card.repetitionValue }}</p>
+        <p [style.fontSize]="settings['repetitionHistoryFontSize']"><strong>Repetition History:</strong> {{ card.repetitionHistory.join(', ') }}</p>
+        <p [style.fontSize]="settings['primaryInfoFontSize']"><strong>Primary Info:</strong> {{ card.primaryInfo }}</p>
+        <p [style.fontSize]="settings['secondaryInfoFontSize']"><strong>Secondary Info:</strong> {{ card.secondaryInfo }}</p>
+    </div>
 </div>
-
