@@ -1,5 +1,11 @@
 # Memolibre
 
+A phone-friendly Progressive Web App (PWA) for flashcard-based memorization.
+
+The project is still in development and hasn't yet been released.
+
+# Default Angular info:
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
 ## Development server

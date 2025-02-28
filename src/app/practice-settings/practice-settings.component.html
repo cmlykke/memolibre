@@ -1,6 +1,8 @@
 <p>Practice Settings</p>
 <div *ngIf="resultMessage">{{ resultMessage }}</div>
 
+<!-- Font Size Settings -->
+<h3>Font Sizes</h3>
 <mat-form-field appearance="fill">
   <mat-label>Front Side Font Size</mat-label>
   <input matInput type="number" [ngModel]="displaySettings['frontSideFontSize']" (ngModelChange)="updateFontSize('frontSideFontSize', $event)" step="1" min="1" max="100">
@@ -54,6 +56,35 @@
 <mat-form-field appearance="fill">
   <mat-label>Repetition History Font Size</mat-label>
   <input matInput type="number" [ngModel]="displaySettings['repetitionHistoryFontSize']" (ngModelChange)="updateFontSize('repetitionHistoryFontSize', $event)" step="1" min="1" max="100">
+</mat-form-field>
+
+<!-- Label Visibility Settings -->
+<h3>Label Visibility</h3>
+<mat-checkbox [(ngModel)]="toggleSettings['showFrontSideLabel']">Show Front Side Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showBackSideLabel']">Show Back Side Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showCardNumberLabel']">Show Card Number Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showCardNameLabel']">Show Card Name Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showNotableCardsLabel']">Show Notable Cards Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showTagsLabel']">Show Tags Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showDateOfLastReviewLabel']">Show Date of Last Review Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showRepetitionValueLabel']">Show Repetition Value Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showRepetitionHistoryLabel']">Show Repetition History Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showPrimaryInfoLabel']">Show Primary Info Label</mat-checkbox>
+<mat-checkbox [(ngModel)]="toggleSettings['showSecondaryInfoLabel']">Show Secondary Info Label</mat-checkbox>
+
+<!-- Font Family Settings -->
+<h3>Font Families</h3>
+<mat-form-field appearance="fill">
+  <mat-label>Front Side Font Family</mat-label>
+  <mat-select [(ngModel)]="fontFamilySettings['frontSideFontFamily']">
+    <mat-option *ngFor="let font of fontOptions" [value]="font.value">{{ font.label }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Back Side Font Family</mat-label>
+  <mat-select [(ngModel)]="fontFamilySettings['backSideFontFamily']">
+    <mat-option *ngFor="let font of fontOptions" [value]="font.value">{{ font.label }}</mat-option>
+  </mat-select>
 </mat-form-field>
 
 <button mat-raised-button color="primary" (click)="saveSettings()">Save Settings</button>
