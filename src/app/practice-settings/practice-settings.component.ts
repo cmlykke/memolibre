@@ -36,7 +36,11 @@ export class PracticeSettingsComponent implements OnInit {
     { value: 'Times New Roman', label: 'Times New Roman' },
     { value: 'Noto Sans', label: 'Noto Sans' },
     { value: 'Noto Sans SC', label: 'Noto Sans SC (Simplified Chinese)' },
-    { value: 'Noto Sans TC', label: 'Noto Sans TC (Traditional Chinese)' }
+    { value: 'Noto Sans TC', label: 'Noto Sans TC (Traditional Chinese)' },
+    { value: 'Ma Shan Zheng', label: 'Ma Shan Zheng (Kaishu)' },
+    { value: 'Zhi Mang Xing', label: 'Zhi Mang Xing (Handwriting)' },
+    { value: 'ZCOOL KuaiLe', label: 'ZCOOL KuaiLe (Playful Handwriting)' },
+    { value: 'Liu Jian Mao Cao', label: 'Liu Jian Mao Cao (Cursive)' }
   ];
 
   constructor(private globalStateService: GlobalStateService) {}
