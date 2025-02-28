@@ -1,51 +1,75 @@
 <div *ngIf="card">
   <div *ngIf="!showBackSide">
-    <p [style.fontSize]="settings['frontSideFontSize']">{{ card.frontSide }}</p>
+    <p [style.fontSize]="settings['frontSideFontSize']" [style.fontFamily]="settings['frontSideFontFamily']">
+      {{ card.frontSide }}
+    </p>
   </div>
   <div *ngIf="showBackSide">
     <p>
-      Front Side:
-      <span [style.fontSize]="settings['frontSideFontSize']">{{ card.frontSide }}</span>
+      <span *ngIf="settings['showFrontSideLabel'] === 'true'">Front Side: </span>
+      <span [style.fontSize]="settings['frontSideFontSize']" [style.fontFamily]="settings['frontSideFontFamily']">
+        {{ card.frontSide }}
+      </span>
     </p>
     <p>
-      Back Side:
-      <span [style.fontSize]="settings['backSideFontSize']">{{ card.backSide }}</span>
+      <span *ngIf="settings['showBackSideLabel'] === 'true'">Back Side: </span>
+      <span [style.fontSize]="settings['backSideFontSize']" [style.fontFamily]="settings['backSideFontFamily']">
+        {{ card.backSide }}
+      </span>
     </p>
     <p>
-      Card Number:
-      <span [style.fontSize]="settings['cardNumberFontSize']">{{ card.cardNumber }}</span>
+      <span *ngIf="settings['showCardNumberLabel'] === 'true'">Card Number: </span>
+      <span [style.fontSize]="settings['cardNumberFontSize']">
+        {{ card.cardNumber }}
+      </span>
     </p>
     <p>
-      Card Name:
-      <span [style.fontSize]="settings['cardNameFontSize']">{{ card.cardName }}</span>
+      <span *ngIf="settings['showCardNameLabel'] === 'true'">Card Name: </span>
+      <span [style.fontSize]="settings['cardNameFontSize']">
+        {{ card.cardName }}
+      </span>
     </p>
     <p>
-      Notable Cards:
-      <span [style.fontSize]="settings['notableCardsFontSize']">{{ getNotableCards() }}</span>
+      <span *ngIf="settings['showNotableCardsLabel'] === 'true'">Notable Cards: </span>
+      <span [style.fontSize]="settings['notableCardsFontSize']">
+        {{ getNotableCards() }}
+      </span>
     </p>
     <p>
-      Tags:
-      <span [style.fontSize]="settings['tagsFontSize']">{{ card.tags.join(', ') }}</span>
+      <span *ngIf="settings['showTagsLabel'] === 'true'">Tags: </span>
+      <span [style.fontSize]="settings['tagsFontSize']">
+        {{ card.tags.join(', ') }}
+      </span>
     </p>
     <p>
-      Date of Last Review:
-      <span [style.fontSize]="settings['dateOfLastReviewFontSize']">{{ card.dateOfLastReview }}</span>
+      <span *ngIf="settings['showDateOfLastReviewLabel'] === 'true'">Date of Last Review: </span>
+      <span [style.fontSize]="settings['dateOfLastReviewFontSize']">
+        {{ card.dateOfLastReview }}
+      </span>
     </p>
     <p>
-      Repetition Value:
-      <span [style.fontSize]="settings['repetitionValueFontSize']">{{ card.repetitionValue }}</span>
+      <span *ngIf="settings['showRepetitionValueLabel'] === 'true'">Repetition Value: </span>
+      <span [style.fontSize]="settings['repetitionValueFontSize']">
+        {{ card.repetitionValue }}
+      </span>
     </p>
     <p>
-      Repetition History:
-      <span [style.fontSize]="settings['repetitionHistoryFontSize']">{{ card.repetitionHistory.join(', ') }}</span>
+      <span *ngIf="settings['showRepetitionHistoryLabel'] === 'true'">Repetition History: </span>
+      <span [style.fontSize]="settings['repetitionHistoryFontSize']">
+        {{ card.repetitionHistory.join(', ') }}
+      </span>
     </p>
     <p>
-      Primary Info:
-      <span [style.fontSize]="settings['primaryInfoFontSize']">{{ card.primaryInfo }}</span>
+      <span *ngIf="settings['showPrimaryInfoLabel'] === 'true'">Primary Info: </span>
+      <span [style.fontSize]="settings['primaryInfoFontSize']">
+        {{ card.primaryInfo }}
+      </span>
     </p>
     <p>
-      Secondary Info:
-      <span [style.fontSize]="settings['secondaryInfoFontSize']">{{ card.secondaryInfo }}</span>
+      <span *ngIf="settings['showSecondaryInfoLabel'] === 'true'">Secondary Info: </span>
+      <span [style.fontSize]="settings['secondaryInfoFontSize']">
+        {{ card.secondaryInfo }}
+      </span>
     </p>
   </div>
 </div>
