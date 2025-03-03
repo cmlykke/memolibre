@@ -92,17 +92,24 @@ export class PracticePageComponent {
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
 
-    if (event.key === ' ' || event.key === 'ArrowRight') {
+    // When front side is showing, any of these keys will show back side
+    if (!showBackSide && (event.key === ' ' || event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
       if (event.key === ' ') {
         event.preventDefault();
       }
-      if (!showBackSide) {
-        this.globalStateService.updatePracticeState({ showBackSide: true });
-      } else {
+      this.globalStateService.updatePracticeState({ showBackSide: true });
+    }
+    // When back side is showing, handle marking known/forgotten
+    else if (showBackSide) {
+      if (event.key === ' ' || event.key === 'ArrowRight') {
+        if (event.key === ' ') {
+          event.preventDefault();
+        }
         this.markAsKnown();
       }
-    } else if (event.key === 'ArrowLeft' && showBackSide) {
-      this.markAsForgotten();
+      else if (event.key === 'ArrowLeft') {
+        this.markAsForgotten();
+      }
     }
   }
 

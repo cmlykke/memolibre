@@ -37,8 +37,41 @@
     </p>
     <p>
       <span *ngIf="settings['showTagsLabel'] === 'true'">Tags: </span>
-      <span [style.fontSize]="settings['tagsFontSize']">
-        {{ card.tags.join(', ') }}
+      <!-- View Mode -->
+      <span *ngIf="!isEditingTags">
+        <span *ngFor="let tag of card.tags; let i = index">
+          <span
+            (click)="openTagModal(tag)"
+            style="cursor: pointer; color: blue; text-decoration: underline;"
+            [style.fontSize]="settings['tagsFontSize']"
+          >
+            {{ tag }}
+          </span>{{ i < card.tags.length - 1 ? ', ' : '' }}
+        </span>
+        <button mat-icon-button (click)="toggleEditTags()" style="margin-left: 10px;">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </span>
+      <!-- Edit Mode -->
+      <span *ngIf="isEditingTags">
+        <mat-form-field>
+          <mat-chip-grid #chipGrid>
+            <mat-chip-row *ngFor="let tag of card.tags" (removed)="removeTag(tag)">
+              {{ tag }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input
+              placeholder="New tag..."
+              [matChipInputFor]="chipGrid"
+              (matChipInputTokenEnd)="addTag($event)"
+            >
+          </mat-chip-grid>
+        </mat-form-field>
+        <button mat-icon-button (click)="toggleEditTags()" style="margin-left: 10px;">
+          <mat-icon>done</mat-icon>
+        </button>
       </span>
     </p>
     <p>
@@ -73,3 +106,8 @@
     </p>
   </div>
 </div>
+<app-simple-tag-modal
+  *ngIf="showTagModal"
+  [data]="tagModalData"
+  (close)="closeTagModal()"
+></app-simple-tag-modal>

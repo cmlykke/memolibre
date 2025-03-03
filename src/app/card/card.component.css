@@ -16,3 +16,16 @@ p {
 strong {
   color: #333;
 }
+
+mat-chip-list {
+  display: inline-flex;
+  align-items: center;
+}
+
+mat-chip {
+  margin-right: 5px;
+}
+
+button.mat-icon-button {
+  vertical-align: middle;
+}

@@ -1,0 +1,11 @@
+<div class="modal-overlay" *ngIf="data">
+  <div class="modal-content">
+    <h2>Tag Details</h2>
+    <p><strong>Key:</strong> {{ data.key }}</p>
+    <p><strong>Value:</strong></p>
+    <div class="scrollable">
+      <p>{{ data.value }}</p>
+    </div>
+    <button (click)="closeModal()">Close</button>
+  </div>
+</div>
