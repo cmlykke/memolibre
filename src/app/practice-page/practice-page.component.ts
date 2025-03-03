@@ -16,6 +16,18 @@ import { FlashCardDeckPracticeUpdate } from '../businesslogic/services/flash-car
 export class PracticePageComponent {
   constructor(protected globalStateService: GlobalStateService) {}
 
+  get isTagInteractionLocked(): boolean {
+    return this.globalStateService.getState().practiceSettings['tagInteractionLocked'] === 'true';
+  }
+
+  toggleTagLock(): void {
+    const currentSettings = this.globalStateService.getState().practiceSettings;
+    const currentLocked = currentSettings['tagInteractionLocked'] === 'true';
+    const newLocked = !currentLocked;
+    const newSettings = { ...currentSettings, tagInteractionLocked: newLocked.toString() };
+    this.globalStateService.updatePracticeSettings(newSettings);
+  }
+
   private selectNextCard(deck: FlashCardDeck | null): FlashCard | null {
     if (!deck || deck.cards.length === 0) return null;
     const eligibleCards = deck.cards.filter(card => card.repetitionValue > 0);
@@ -92,22 +104,18 @@ export class PracticePageComponent {
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
 
-    // When front side is showing, any of these keys will show back side
     if (!showBackSide && (event.key === ' ' || event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
       if (event.key === ' ') {
         event.preventDefault();
       }
       this.globalStateService.updatePracticeState({ showBackSide: true });
-    }
-    // When back side is showing, handle marking known/forgotten
-    else if (showBackSide) {
+    } else if (showBackSide) {
       if (event.key === ' ' || event.key === 'ArrowRight') {
         if (event.key === ' ') {
           event.preventDefault();
         }
         this.markAsKnown();
-      }
-      else if (event.key === 'ArrowLeft') {
+      } else if (event.key === 'ArrowLeft') {
         this.markAsForgotten();
       }
     }

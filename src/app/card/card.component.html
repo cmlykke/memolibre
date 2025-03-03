@@ -39,16 +39,25 @@
       <span *ngIf="settings['showTagsLabel'] === 'true'">Tags: </span>
       <!-- View Mode -->
       <span *ngIf="!isEditingTags">
-        <span *ngFor="let tag of card.tags; let i = index">
-          <span
-            (click)="openTagModal(tag)"
-            style="cursor: pointer; color: blue; text-decoration: underline;"
-            [style.fontSize]="settings['tagsFontSize']"
-          >
-            {{ tag }}
-          </span>{{ i < card.tags.length - 1 ? ', ' : '' }}
+        <span *ngIf="!isTagInteractionLocked">
+          <span *ngFor="let tag of card.tags; let i = index">
+            <span
+              (click)="openTagModal(tag)"
+              style="cursor: pointer; color: blue; text-decoration: underline;"
+              [style.fontSize]="settings['tagsFontSize']"
+            >
+              {{ tag }}
+            </span>{{ i < card.tags.length - 1 ? ', ' : '' }}
+          </span>
         </span>
-        <button mat-icon-button (click)="toggleEditTags()" style="margin-left: 10px;">
+        <span *ngIf="isTagInteractionLocked">
+          <span *ngFor="let tag of card.tags; let i = index">
+            <span [style.fontSize]="settings['tagsFontSize']">
+              {{ tag }}
+            </span>{{ i < card.tags.length - 1 ? ', ' : '' }}
+          </span>
+        </span>
+        <button *ngIf="!isTagInteractionLocked" mat-icon-button (click)="toggleEditTags()" style="margin-left: 10px;">
           <mat-icon>edit</mat-icon>
         </button>
       </span>

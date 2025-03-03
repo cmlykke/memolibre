@@ -1,6 +1,7 @@
-<p>practice-page works!</p>
-
-<div *ngIf="globalStateService.practiceState$ | async as state">
+<button class="tag-lock-button" (click)="toggleTagLock()">
+  {{ isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags' }}
+</button>
+<div class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
       <app-card [card]="card" [showBackSide]="state.showBackSide"></app-card>

@@ -1,6 +1,24 @@
+.practice-container {
+  margin-top: 50px; /* Ensures content starts below both buttons */
+}
+
 p {
-    font-size: 1.2em;
-    color: #666;
-    text-align: center;
-    margin-top: 20px;
+  font-size: 1.2em;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.tag-lock-button {
+  width: auto;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #333;
+  background-color: #f0f0f0;
+  color: #000;
+  cursor: pointer;
+  border-radius: 4px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }

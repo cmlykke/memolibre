@@ -6,18 +6,18 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { SimpleTagModalComponent } from '../simple-tag-modal/simple-tag-modal.component'; // New import
+import { SimpleTagModalComponent } from '../simple-tag-modal/simple-tag-modal.component';
 
 @Component({
   selector: 'app-card',
   standalone: true,
   imports: [
     CommonModule,
-    MatChipsModule, // Still used for tag chips
+    MatChipsModule,
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    SimpleTagModalComponent // Add the new modal component
+    SimpleTagModalComponent
   ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
@@ -27,15 +27,25 @@ export class CardComponent implements OnInit {
   @Input() showBackSide: boolean = false;
   settings: Record<string, string> = {};
   isEditingTags: boolean = false;
-  showTagModal: boolean = false; // Controls modal visibility
-  tagModalData: { key: string; value: string } | null = null; // Holds modal data
+  showTagModal: boolean = false;
+  tagModalData: { key: string; value: string } | null = null;
 
   constructor(private globalStateService: GlobalStateService) {}
 
   ngOnInit(): void {
     this.globalStateService.state$.subscribe(state => {
+      const previousLocked = this.settings['tagInteractionLocked'];
       this.settings = state.practiceSettings;
+      const currentLocked = this.settings['tagInteractionLocked'];
+      if (previousLocked !== currentLocked && currentLocked === 'true' && this.isEditingTags) {
+        this.isEditingTags = false;
+        this.saveTags();
+      }
     });
+  }
+
+  get isTagInteractionLocked(): boolean {
+    return this.settings['tagInteractionLocked'] === 'true';
   }
 
   getNotableCards(): string {
@@ -43,20 +53,25 @@ export class CardComponent implements OnInit {
   }
 
   openTagModal(tag: string): void {
+    if (this.isTagInteractionLocked) {
+      return; // Do not open modal if locked
+    }
     const deck = this.globalStateService.getFlashCardDeck();
-    console.log('Clicked tag:', tag, 'Deck tags:', deck?.tags, 'Value:', deck?.tags[tag]);
     if (deck && deck.tags[tag]) {
       this.tagModalData = { key: tag, value: deck.tags[tag] };
-      this.showTagModal = true; // Show the modal
+      this.showTagModal = true;
     }
   }
 
   closeTagModal(): void {
-    this.showTagModal = false; // Hide the modal
-    this.tagModalData = null; // Clear the data
+    this.showTagModal = false;
+    this.tagModalData = null;
   }
 
   toggleEditTags(): void {
+    if (this.isTagInteractionLocked) {
+      return; // Cannot edit when locked
+    }
     this.isEditingTags = !this.isEditingTags;
     if (!this.isEditingTags && this.card) {
       this.saveTags();

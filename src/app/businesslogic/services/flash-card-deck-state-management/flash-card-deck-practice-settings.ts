@@ -1,6 +1,5 @@
 import { FlashCardDeck } from '../../models/flashcarddeck';
 
-// src/app/businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-settings.ts
 export interface PracticeSettings {
   frontSideFontSize: string;      // e.g., "16px"
   backSideFontSize: string;       // e.g., "16px"
@@ -28,6 +27,8 @@ export interface PracticeSettings {
   // New font family settings
   frontSideFontFamily: string;    // e.g., "Arial"
   backSideFontFamily: string;     // e.g., "Arial"
+  // New setting for tag interaction lock
+  tagInteractionLocked: string;   // "true" or "false"
 }
 
 export class FlashCardDeckPracticeSettings {
@@ -62,6 +63,8 @@ export class FlashCardDeckPracticeSettings {
       // New font family settings
       frontSideFontFamily: "Arial",
       backSideFontFamily: "Arial",
+      // New setting for tag interaction lock
+      tagInteractionLocked: "false",
     };
   }
 
@@ -86,6 +89,9 @@ export class FlashCardDeckPracticeSettings {
         } else if (key.endsWith('FontFamily')) {
           // Accept any non-empty string for font family, otherwise use default
           normalized[key] = value && typeof value === 'string' ? value : defaults[key];
+        } else if (key === 'tagInteractionLocked') {
+          // Validate tagInteractionLocked as boolean
+          normalized[key] = booleanRegex.test(value) ? value : defaults[key];
         }
       }
       // Note: Unrecognized keys are ignored as per the original implementation
@@ -106,5 +112,4 @@ export class FlashCardDeckPracticeSettings {
       },
     };
   }
-
 }
