@@ -1,6 +1,10 @@
 <main class="main">
   <div>
     <nav>
+      <!-- Lock Tags Button -->
+      <button *ngIf="isPracticePage" class="tag-lock-button" (click)="toggleTagLock()">
+        {{ isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags' }}
+      </button>
       <!-- Burger Menu Button -->
       <button
         (mouseenter)="onMouseEnter()"
@@ -10,7 +14,6 @@
       >
         Menu
       </button>
-
       <!-- Dropdown Menu -->
       <ul
         [class.open]="menuOpen"
@@ -22,12 +25,11 @@
         <li><a routerLink="/practice-page">Practice</a></li>
         <li><a routerLink="/create-deck">Create Deck</a></li>
         <li><a routerLink="/practice-settings">Practice Settings</a></li>
-        <li><a routerLink="/app-settings">Spp Settings</a></li>
+        <li><a routerLink="/app-settings">App Settings</a></li>
       </ul>
     </nav>
   </div>
-  <div class="content"></div>
-
-  <!-- Display route content -->
-  <router-outlet></router-outlet>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </main>

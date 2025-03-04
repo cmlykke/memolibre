@@ -21,6 +21,7 @@ export interface PracticeSessionState {
   currentCard: FlashCard | null;
   previousCard: FlashCard | null;
   showBackSide: boolean;
+  isTagInteractionLocked: boolean; // Added
 }
 
 @Injectable({
@@ -33,6 +34,7 @@ export class GlobalStateService {
       currentCard: null,
       previousCard: null,
       showBackSide: false,
+      isTagInteractionLocked: false, // Initialize as false
     },
     practiceSettings: FlashCardDeckPracticeSettings.defaultSettings(),
     appSettings: FlashCardDeckAppSettings.defaultSettings(),
@@ -59,6 +61,14 @@ export class GlobalStateService {
   setFlashCardDeck(deck: FlashCardDeck, resetPractice: boolean = true): void {
     const currentState = this.getState();
     const normalizedDeck = this.normalizeDeckSettings(deck);
+
+    // Normalize each card's notableCards and tags to empty arrays if missing or invalid
+    normalizedDeck.cards = normalizedDeck.cards.map(card => ({
+      ...card,
+      notableCards: Array.isArray(card.notableCards) ? card.notableCards : [],
+      tags: Array.isArray(card.tags) ? card.tags : [],
+    }));
+
     const newState: AppState = {
       ...currentState,
       practiceSession: {
@@ -91,6 +101,7 @@ export class GlobalStateService {
         currentCard: null,
         previousCard: null,
         showBackSide: false,
+        isTagInteractionLocked: false
       },
     });
   }

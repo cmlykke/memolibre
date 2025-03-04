@@ -1,47 +1,50 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { GlobalStateService } from './angular/shared/services/global-state-service';
+import { CommonModule } from '@angular/common'; // Provides *ngIf, *ngFor, etc.
+import { RouterModule } from '@angular/router'; // Provides <router-outlet>
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  standalone: true, // Confirms this is a standalone component
+  imports: [CommonModule, RouterModule], // Import required modules
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'memolibre';
-  menuOpen = false; // Controls the visibility of the dropdown menu
-  isTouchDevice = false; // Detects whether the user is using a touch device
-  hovering = false; // Tracks if the mouse is hovering over the button or dropdown
+export class AppComponent implements OnInit {
+  isPracticePage: boolean = false;
+  isTagInteractionLocked: boolean = false;
+  menuOpen: boolean = false; // Existing property for menu toggle
 
-  constructor() {
-    // Detect if the user is using a touch device
-    this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  }
+  constructor(private router: Router, private globalStateService: GlobalStateService) {}
 
-  // Toggle menu open/close on button click
-  // toggleMenu(): void {
-  //  this.menuOpen = !this.menuOpen;
-  //}
-
-  // Called when the mouse enters the dropdown or button
-  onMouseEnter(): void {
-    this.menuOpen = true;
-    //this.hovering = true;
-  }
-
-  // Called when the mouse leaves the dropdown or button
-  onMouseLeave(): void {
-    this.menuOpen = false;
-    //this.hovering = false;
-    //this.closeMenuWithDelay();
-  }
-
-  // Close the menu only if hovering is false after a small delay
-  closeMenuWithDelay(): void {
-    setTimeout(() => {
-      if (!this.hovering && !this.isTouchDevice) {
-        this.menuOpen = false;
+  ngOnInit() {
+    // Detect current route
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isPracticePage = event.url === '/practice-page';
       }
-    }, 100); // Small delay to prevent close when transitioning between button and dropdown
+    });
+
+    // Subscribe to practice state for isTagInteractionLocked
+    this.globalStateService.practiceState$.subscribe(state => {
+      this.isTagInteractionLocked = state.isTagInteractionLocked;
+    });
+  }
+
+  toggleTagLock() {
+    const currentState = this.globalStateService.getState();
+    this.globalStateService.updatePracticeState({
+      isTagInteractionLocked: !currentState.practiceSession.isTagInteractionLocked
+    });
+  }
+
+  // Existing menu methods
+  onMouseEnter() {
+    this.menuOpen = true;
+  }
+
+  onMouseLeave() {
+    this.menuOpen = false;
   }
 }

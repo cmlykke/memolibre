@@ -1,5 +1,10 @@
 import { FlashCardDeck } from '../../models/flashcarddeck';
 
+export interface ModalData {
+  title: string;
+  fields: { label: string; value: string }[];
+}
+
 export interface PracticeSettings {
   frontSideFontSize: string;      // e.g., "16px"
   backSideFontSize: string;       // e.g., "16px"

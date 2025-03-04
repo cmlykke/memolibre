@@ -1,20 +1,17 @@
-<button class="tag-lock-button" (click)="toggleTagLock()">
-  {{ isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags' }}
-</button>
 <div class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
-      <app-card [card]="card" [showBackSide]="state.showBackSide"></app-card>
+      <app-card [card]="card" [showBackSide]="state.showBackSide" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
       <div *ngIf="state.previousCard as prevCard">
         <h3>Previous Card</h3>
-        <app-card [card]="prevCard" [showBackSide]="true"></app-card>
+        <app-card [card]="prevCard" [showBackSide]="true" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
       </div>
     </ng-container>
     <ng-template #noCard>
       <p>No cards to practice. All cards have repetitionValue 0 or the deck is empty.</p>
       <div *ngIf="state.previousCard as prevCard">
         <h3>Previous Card</h3>
-        <app-card [card]="prevCard" [showBackSide]="true"></app-card>
+        <app-card [card]="prevCard" [showBackSide]="true" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
       </div>
     </ng-template>
   </div>
