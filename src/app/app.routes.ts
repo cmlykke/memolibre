@@ -4,6 +4,7 @@ import {LoadUserDataComponent} from './load-user-data/load-user-data.component';
 import {PracticePageComponent} from './practice-page/practice-page.component';
 import {AppSettingsComponent} from './app-settings/app-settings.component';
 import {PracticeSettingsComponent} from './practice-settings/practice-settings.component';
+import {SearchPageComponent} from './search-page/search-page.component';
 
 export const routes: Routes = [{
   path: '',
@@ -18,6 +19,9 @@ export const routes: Routes = [{
 }, {
   path: 'practice-page',
   component: PracticePageComponent
+}, {
+  path: 'search-page',
+  component: SearchPageComponent
 }, {
   path: 'practice-settings',
   component: PracticeSettingsComponent
