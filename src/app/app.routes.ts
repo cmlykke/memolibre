@@ -5,6 +5,7 @@ import {PracticePageComponent} from './practice-page/practice-page.component';
 import {AppSettingsComponent} from './app-settings/app-settings.component';
 import {PracticeSettingsComponent} from './practice-settings/practice-settings.component';
 import {SearchPageComponent} from './search-page/search-page.component';
+import {TagPageComponent} from './tag-page/tag-page.component';
 
 export const routes: Routes = [{
   path: '',
@@ -22,6 +23,9 @@ export const routes: Routes = [{
 }, {
   path: 'search-page',
   component: SearchPageComponent
+}, {
+  path: 'tag-page',
+  component: TagPageComponent
 }, {
   path: 'practice-settings',
   component: PracticeSettingsComponent
