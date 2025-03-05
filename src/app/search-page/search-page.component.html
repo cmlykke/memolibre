@@ -1,1 +1,33 @@
-<p>search-page works!</p>
+<div class="search-container">
+  <h2>Search Cards</h2>
+  <form [formGroup]="searchForm">
+    <div class="input-wrapper">
+      <input formControlName="cardNumberSearch" placeholder="Card Number or Range (e.g., 1-5)" [class.input-with-tooltip]="showTooltips" />
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Enter a single card number or a range like 1-5'">?</span>
+    </div>
+    <div class="input-wrapper">
+      <input formControlName="frontSideRegex" placeholder="Front Side Regex" [class.input-with-tooltip]="showTooltips" />
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Regular expression to match front side'">?</span>
+    </div>
+    <div class="input-wrapper">
+      <input formControlName="backSideRegex" placeholder="Back Side Regex" [class.input-with-tooltip]="showTooltips" />
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Regular expression to match back side'">?</span>
+    </div>
+    <div class="input-wrapper">
+      <input formControlName="tagsRegex" placeholder="Tags Regex" [class.input-with-tooltip]="showTooltips" />
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Regular expression to match tags'">?</span>
+    </div>
+  </form>
+  <div *ngIf="getDeck(); else noDeck">
+    <p>Matching cards: {{ matchingCount }}</p>
+    <div *ngIf="matchingCards.length > 0">
+      <h3>First 5 Matching Cards:</h3>
+      <div *ngFor="let card of matchingCards | slice:0:5">
+        <app-card [card]="card" [showBackSide]="true" [isTagInteractionLocked]="true"></app-card>
+      </div>
+    </div>
+  </div>
+  <ng-template #noDeck>
+    <p>No deck loaded. Please load a deck first.</p>
+  </ng-template>
+</div>

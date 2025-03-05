@@ -1,9 +1,9 @@
 <main class="main">
   <div>
     <nav>
-      <!-- Lock Tags Button -->
-      <button *ngIf="isPracticePage" class="tag-lock-button" (click)="toggleTagLock()">
-        {{ isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags' }}
+      <!-- Dynamic Action Button (replaces tag-lock-button) -->
+      <button *ngIf="buttonVisible" class="tag-lock-button" (click)="executeButtonAction()">
+        {{ buttonText }}
       </button>
       <!-- Burger Menu Button -->
       <button

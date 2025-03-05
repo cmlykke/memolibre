@@ -1,10 +1,12 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
+import { ActionButtonService } from '../angular/shared/services/action-button.service'; // Import the service
 import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
 import { FlashCard } from '../businesslogic/models/flashcard';
 import { CardComponent } from '../card/card.component';
 import { CommonModule } from '@angular/common';
 import { FlashCardDeckPracticeUpdate } from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-update';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-practice-page',
@@ -13,19 +15,41 @@ import { FlashCardDeckPracticeUpdate } from '../businesslogic/services/flash-car
   templateUrl: './practice-page.component.html',
   styleUrls: ['./practice-page.component.css'],
 })
-export class PracticePageComponent {
-  constructor(protected globalStateService: GlobalStateService) {}
+export class PracticePageComponent implements OnInit, OnDestroy {
+  private subscription: Subscription = new Subscription();
+  private isTagInteractionLocked: boolean = false;
 
-  get isTagInteractionLocked(): boolean {
-    return this.globalStateService.getState().practiceSettings['tagInteractionLocked'] === 'true';
+  constructor(
+    protected globalStateService: GlobalStateService,
+    private actionButtonService: ActionButtonService
+  ) {}
+
+  ngOnInit(): void {
+    this.initializePracticeSession();
+
+    // Subscribe to the tag interaction lock state
+    this.subscription.add(
+      this.globalStateService.practiceState$.subscribe(state => {
+        this.isTagInteractionLocked = state.isTagInteractionLocked;
+        // Register the button behavior for the Practice Page
+        this.actionButtonService.setButtonBehavior(
+          () => this.toggleTagLock(),
+          this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags',
+          true
+        );
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   toggleTagLock(): void {
-    const currentSettings = this.globalStateService.getState().practiceSettings;
-    const currentLocked = currentSettings['tagInteractionLocked'] === 'true';
-    const newLocked = !currentLocked;
-    const newSettings = { ...currentSettings, tagInteractionLocked: newLocked.toString() };
-    this.globalStateService.updatePracticeSettings(newSettings);
+    const currentState = this.globalStateService.getState();
+    this.globalStateService.updatePracticeState({
+      isTagInteractionLocked: !currentState.practiceSession.isTagInteractionLocked,
+    });
   }
 
   private selectNextCard(deck: FlashCardDeck | null): FlashCard | null {
@@ -66,19 +90,12 @@ export class PracticePageComponent {
     const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!;
     const nextCard = this.selectNextCard(updatedDeck);
 
-    console.log('Before update - currentCard:', currentCard.cardNumber, 'showBackSide:', currentState.showBackSide);
-    console.log('Updated card:', updatedCard);
-    console.log('Next card selected:', nextCard?.cardNumber);
-
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
       previousCard: updatedCard,
       currentCard: nextCard,
       showBackSide: false,
     });
-
-    const newState = this.globalStateService.getState().practiceSession;
-    console.log('After update - currentCard:', newState.currentCard?.cardNumber, 'showBackSide:', newState.showBackSide);
   }
 
   markAsForgotten(): void {
@@ -119,9 +136,5 @@ export class PracticePageComponent {
         this.markAsForgotten();
       }
     }
-  }
-
-  ngOnInit(): void {
-    this.initializePracticeSession();
   }
 }
