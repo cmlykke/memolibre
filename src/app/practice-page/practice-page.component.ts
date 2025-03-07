@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
 import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
 import { FlashCard } from '../businesslogic/models/flashcard';
@@ -14,10 +14,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './practice-page.component.html',
   styleUrls: ['./practice-page.component.css'],
 })
-export class PracticePageComponent implements OnInit, OnDestroy {
+export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private isTagInteractionLocked: boolean = false;
-  tagLockButtonText: string = 'Lock Tags'; // New property for button text
+  tagLockButtonText: string = 'Lock Tags';
+
+  @ViewChild('practiceContainer') practiceContainer!: ElementRef;
 
   constructor(protected globalStateService: GlobalStateService) {}
 
@@ -29,6 +31,10 @@ export class PracticePageComponent implements OnInit, OnDestroy {
         this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
       })
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.addTouchListeners();
   }
 
   ngOnDestroy(): void {
@@ -123,6 +129,45 @@ export class PracticePageComponent implements OnInit, OnDestroy {
         }
         this.markAsKnown();
       } else if (event.key === 'ArrowLeft') {
+        this.markAsForgotten();
+      }
+    }
+  }
+
+  private addTouchListeners(): void {
+    const element = this.practiceContainer.nativeElement;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    element.addEventListener('touchstart', (event: TouchEvent) => {
+      touchStartX = event.changedTouches[0].screenX;
+    }, false);
+
+    element.addEventListener('touchend', (event: TouchEvent) => {
+      touchEndX = event.changedTouches[0].screenX;
+      this.handleSwipe(touchStartX, touchEndX);
+    }, false);
+  }
+
+  private handleSwipe(touchStartX: number, touchEndX: number): void {
+    const currentState = this.globalStateService.getState().practiceSession;
+    const { currentCard, showBackSide } = currentState;
+    if (!currentCard) return;
+
+    const distance = touchEndX - touchStartX;
+
+    if (!showBackSide) {
+      // Tap to show back side (small movement)
+      if (Math.abs(distance) < 10) {
+        this.globalStateService.updatePracticeState({ showBackSide: true });
+      }
+    } else {
+      // Swipe right (> 50px) to mark as known
+      if (distance > 50) {
+        this.markAsKnown();
+      }
+      // Swipe left (< -50px) to mark as forgotten
+      else if (distance < -50) {
         this.markAsForgotten();
       }
     }

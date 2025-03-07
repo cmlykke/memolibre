@@ -1,4 +1,4 @@
-<div class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
+<div #practiceContainer class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
   <button class="fixed-button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
