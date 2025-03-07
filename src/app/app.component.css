@@ -26,20 +26,6 @@ nav {
   right: 10px;
 }
 
-.tag-lock-button {
-  width: auto;
-  padding: 5px 10px;
-  font-size: 14px;
-  border: 1px solid #333;
-  background-color: #f0f0f0;
-  color: #000;
-  cursor: pointer;
-  border-radius: 4px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
 .menu {
   list-style: none;
   padding: 0;

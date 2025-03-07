@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FlashCard } from '../businesslogic/models/flashcard';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
 import { CommonModule } from '@angular/common';
@@ -6,8 +6,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { SimpleTagModalComponent } from '../simple-tag-modal/simple-tag-modal.component';
+import { DetailsModalComponent } from '../details-modal/details-modal.component';
 import { ModalData } from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -18,44 +19,47 @@ import { ModalData } from '../businesslogic/services/flash-card-deck-state-manag
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    SimpleTagModalComponent
+    DetailsModalComponent
   ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, OnDestroy {
   @Input() card: FlashCard | null = null;
   @Input() showBackSide: boolean = false;
+  @Input() isTagInteractionLocked!: boolean;
   settings: Record<string, string> = {};
   isEditingTags: boolean = false;
   isEditingNotableCards: boolean = false;
   showTagModal: boolean = false;
   tagModalData: ModalData | null = null;
-  @Input() isTagInteractionLocked!: boolean;
+  private subscription: Subscription = new Subscription();
 
   constructor(private globalStateService: GlobalStateService) {}
 
   ngOnInit(): void {
-    this.globalStateService.state$.subscribe(state => {
-      const previousLocked = this.settings['tagInteractionLocked'];
-      this.settings = state.practiceSettings;
-      const currentLocked = this.settings['tagInteractionLocked'];
-      if (previousLocked !== currentLocked && currentLocked === 'true') {
-        if (this.isEditingTags) {
-          this.isEditingTags = false;
-          this.saveTags();
+    this.subscription.add(
+      this.globalStateService.state$.subscribe(state => {
+        const previousLocked = this.settings['tagInteractionLocked'];
+        this.settings = state.practiceSettings;
+        const currentLocked = this.settings['tagInteractionLocked'];
+        if (previousLocked !== currentLocked && currentLocked === 'true') {
+          if (this.isEditingTags) {
+            this.isEditingTags = false;
+            this.saveTags();
+          }
+          if (this.isEditingNotableCards) {
+            this.isEditingNotableCards = false;
+            this.saveNotableCards();
+          }
         }
-        if (this.isEditingNotableCards) {
-          this.isEditingNotableCards = false;
-          this.saveNotableCards();
-        }
-      }
-    });
+      })
+    );
   }
 
-  //get isTagInteractionLocked(): boolean {
-  //  return this.settings['tagInteractionLocked'] === 'true';
-  //}
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   getNotableCards(): string {
     return this.card && this.card.notableCards.length > 0 ? this.card.notableCards.join(', ') : 'None';
@@ -82,27 +86,21 @@ export class CardComponent implements OnInit {
     if (deck) {
       const notableCard = deck.cards.find(c => c.cardNumber === cardNumber);
       if (notableCard) {
-        // Combine all values into a single string with new lines
-        const details = `
-Card Number: ${notableCard.cardNumber}
-Card Name: ${notableCard.cardName}
-Front Side: ${notableCard.frontSide}
-Back Side: ${notableCard.backSide}
-Primary Info: ${notableCard.primaryInfo}
-Secondary Info: ${notableCard.secondaryInfo}
-Notable Cards: ${notableCard.notableCards.join(', ')}
-Date of Last Review: ${notableCard.dateOfLastReview}
-Repetition Value: ${notableCard.repetitionValue}
-Repetition History: ${notableCard.repetitionHistory.join(', ')}
-Tags: ${notableCard.tags.join(', ')}
-      `.trim();
-
-        // Set tagModalData with a single field
         this.tagModalData = {
           title: `Card ${notableCard.cardNumber} Details`,
           fields: [
-            { label: 'Details', value: details },
-          ],
+            { label: 'Card Number', value: notableCard.cardNumber.toString() },
+            { label: 'Card Name', value: notableCard.cardName },
+            { label: 'Front Side', value: notableCard.frontSide },
+            { label: 'Back Side', value: notableCard.backSide },
+            { label: 'Primary Info', value: notableCard.primaryInfo },
+            { label: 'Secondary Info', value: notableCard.secondaryInfo },
+            { label: 'Notable Cards', value: notableCard.notableCards.join(', ') },
+            { label: 'Date of Last Review', value: notableCard.dateOfLastReview },
+            { label: 'Repetition Value', value: notableCard.repetitionValue.toString() },
+            { label: 'Repetition History', value: notableCard.repetitionHistory.join(', ') },
+            { label: 'Tags', value: notableCard.tags.join(', ') }
+          ]
         };
         this.showTagModal = true;
       }

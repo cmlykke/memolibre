@@ -1,0 +1,65 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px 0 20px; /* Standard padding for all pages */
+}
+
+.fixed-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #333;
+  background-color: #f0f0f0;
+  color: #000;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.fixed-button:hover {
+  background-color: #e0e0e0; /* Subtle darker gray for hover */
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+p {
+  font-size: 1.2em;
+  color: #666;
+  text-align: center;
+  margin: 10px 0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.edit-icon {
+  font-size: 16px;
+  color: #333; /* Neutral color, adjust if Practice Page differs */
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-left: 10px;
+}

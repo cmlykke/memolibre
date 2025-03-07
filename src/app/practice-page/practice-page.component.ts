@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
-import { ActionButtonService } from '../angular/shared/services/action-button.service'; // Import the service
 import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
 import { FlashCard } from '../businesslogic/models/flashcard';
 import { CardComponent } from '../card/card.component';
@@ -18,25 +17,16 @@ import { Subscription } from 'rxjs';
 export class PracticePageComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private isTagInteractionLocked: boolean = false;
+  tagLockButtonText: string = 'Lock Tags'; // New property for button text
 
-  constructor(
-    protected globalStateService: GlobalStateService,
-    private actionButtonService: ActionButtonService
-  ) {}
+  constructor(protected globalStateService: GlobalStateService) {}
 
   ngOnInit(): void {
     this.initializePracticeSession();
-
-    // Subscribe to the tag interaction lock state
     this.subscription.add(
       this.globalStateService.practiceState$.subscribe(state => {
         this.isTagInteractionLocked = state.isTagInteractionLocked;
-        // Register the button behavior for the Practice Page
-        this.actionButtonService.setButtonBehavior(
-          () => this.toggleTagLock(),
-          this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags',
-          true
-        );
+        this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
       })
     );
   }

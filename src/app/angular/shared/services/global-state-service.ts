@@ -11,12 +11,16 @@ import { Result } from '../../utils/types';
 import {
   FlashCardDeckSearchSettings
 } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-search-settings';
+import {
+  FlashCardDeckTagSettings
+} from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
 
 export interface AppState {
   practiceSession: PracticeSessionState;
   practiceSettings: Record<string, string>;
   appSettings: Record<string, string>;
-  searchSettings: Record<string, string>; // Added
+  searchSettings: Record<string, string>;
+  tagSearchSettings: Record<string, string>; // Added for tag page
   protoDeck: string | null;
 }
 
@@ -42,7 +46,8 @@ export class GlobalStateService {
     },
     practiceSettings: FlashCardDeckPracticeSettings.defaultSettings(),
     appSettings: FlashCardDeckAppSettings.defaultSettings(),
-    searchSettings: FlashCardDeckSearchSettings.defaultSettings(), // Added
+    searchSettings: FlashCardDeckSearchSettings.defaultSettings(),
+    tagSearchSettings: { tagRegex: '' }, // Initialize with empty regex
     protoDeck: null,
   });
 
@@ -82,7 +87,8 @@ export class GlobalStateService {
       },
       practiceSettings: FlashCardDeckPracticeSettings.normalizeSettings(normalizedDeck.settings["practice-settings"]),
       appSettings: FlashCardDeckAppSettings.normalizeSettings(normalizedDeck.settings["app-settings"]),
-      searchSettings: FlashCardDeckSearchSettings.normalizeSettings(normalizedDeck.settings["search"]), // Added
+      searchSettings: FlashCardDeckSearchSettings.normalizeSettings(normalizedDeck.settings["search"]),
+      tagSearchSettings: normalizedDeck.settings["tag-search"], // Added
     };
     this.setState(newState);
   }
@@ -199,19 +205,37 @@ export class GlobalStateService {
     }
   }
 
+  updateTagSearchSettings(newSettings: Record<string, string>): Result<string, string> {
+    const currentState = this.getState();
+    const deck = currentState.practiceSession.deck;
+    if (!deck) {
+      return { ok: false, error: 'Error: No flashcard deck exists to update settings.' };
+    }
+    try {
+      const updatedDeck = FlashCardDeckTagSettings.updateTagSearchSettings(deck, newSettings);
+      this.setFlashCardDeck(updatedDeck, false); // Update deck without resetting practice
+      return { ok: true, value: 'Tag search settings updated successfully' };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred.';
+      return { ok: false, error: `Error: ${errorMessage}` };
+    }
+  }
+
   private normalizeDeckSettings(deck: FlashCardDeck): FlashCardDeck {
     const currentSettings = deck.settings || {};
     const practiceSettings = FlashCardDeckPracticeSettings.normalizeSettings(currentSettings["practice-settings"] || {});
     const appSettings = FlashCardDeckAppSettings.normalizeSettings(currentSettings["app-settings"] || {});
-    const searchSettings = FlashCardDeckSearchSettings.normalizeSettings(currentSettings["search"] || {}); // Added
+    const searchSettings = FlashCardDeckSearchSettings.normalizeSettings(currentSettings["search"] || {});
+    const tagSearchSettings = FlashCardDeckTagSettings.normalizeSearchSettings(currentSettings["tag-search"] || {}); // Added
 
     const normalizedSettings: Record<string, Record<string, string>> = {
       "practice-settings": practiceSettings,
       "app-settings": appSettings,
-      "search": searchSettings, // Added
+      "search": searchSettings,
+      "tag-search": tagSearchSettings, // Added
     };
     Object.entries(currentSettings).forEach(([key, value]) => {
-      if (key !== "practice-settings" && key !== "app-settings" && key !== "search") {
+      if (key !== "practice-settings" && key !== "app-settings" && key !== "search" && key !== "tag-search") {
         normalizedSettings[key] = value; // Preserve unrecognized settings
       }
     });

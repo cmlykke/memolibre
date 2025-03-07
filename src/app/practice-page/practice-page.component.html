@@ -1,4 +1,5 @@
 <div class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
+  <button class="fixed-button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
       <app-card [card]="card" [showBackSide]="state.showBackSide" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>

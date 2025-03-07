@@ -1,7 +1,7 @@
 <div class="modal-overlay" *ngIf="data">
   <div class="modal-content">
     <h2>{{ data.title }}</h2>
-    <div *ngFor="let field of data.fields">
+    <div class="field-item" *ngFor="let field of data.fields">
       <p><strong>{{ field.label }}:</strong></p>
       <div class="scrollable">
         <p>{{ field.value }}</p>

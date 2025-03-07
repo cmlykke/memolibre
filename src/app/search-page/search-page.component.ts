@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
-import { ActionButtonService } from '../angular/shared/services/action-button.service'; // Import the service
 import { FlashCard } from '../businesslogic/models/flashcard';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../card/card.component';
@@ -21,12 +20,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   matchingCards: FlashCard[] = [];
   matchingCount: number = 0;
   showTooltips: boolean = true;
+  clearSearchButtonText: string = 'Clear Search'; // New property
   private subscription: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
-    private globalStateService: GlobalStateService,
-    private actionButtonService: ActionButtonService
+    private globalStateService: GlobalStateService
   ) {
     this.searchForm = this.fb.group({
       cardNumberSearch: [''],
@@ -43,13 +42,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.globalStateService.state$.subscribe(state => {
       this.showTooltips = state.appSettings['showTooltips'] === 'true';
     });
-
-    // Register the button behavior for the Search Page
-    this.actionButtonService.setButtonBehavior(
-      () => this.clearSearch(),
-      'Clear Search',
-      true
-    );
 
     this.searchForm.valueChanges.pipe(debounceTime(300)).subscribe(values => {
       this.globalStateService.updateSearchSettings(values);
@@ -116,13 +108,17 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  clearSearch(): void {
+  clearSearchAndScrollToTop(): void {
+    // Reset the search form
     this.searchForm.reset({
       cardNumberSearch: '',
       frontSideRegex: '',
       backSideRegex: '',
-      tagsRegex: '',
+      tagsRegex: ''
     });
+
+    // Scroll to the top of the page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   public getDeck() {

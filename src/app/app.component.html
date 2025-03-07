@@ -1,10 +1,6 @@
 <main class="main">
   <div>
     <nav>
-      <!-- Dynamic Action Button (replaces tag-lock-button) -->
-      <button *ngIf="buttonVisible" class="tag-lock-button" (click)="executeButtonAction()">
-        {{ buttonText }}
-      </button>
       <!-- Burger Menu Button -->
       <button
         (mouseenter)="onMouseEnter()"

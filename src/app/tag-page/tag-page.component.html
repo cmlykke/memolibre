@@ -1,1 +1,46 @@
-<p>tag-page works!</p>
+<div class="tag-container">
+  <button class="fixed-button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
+  <h2>Manage Tags</h2> <!-- Added heading -->
+  <form [formGroup]="searchForm">
+    <div class="input-wrapper">
+      <input
+        formControlName="tagRegex"
+        placeholder="Search tags with regex"
+        [class.input-with-tooltip]="showTooltips"
+      />
+      <span
+        *ngIf="showTooltips"
+        class="tooltip-icon"
+        appTooltip
+        [tooltipMessage]="'Regular expression to match tag keys'"
+      >?</span>
+    </div>
+  </form>
+  <div *ngIf="getDeck(); else noDeck">
+    <p>Total matching tags: {{ matchingCount }}</p>
+    <p *ngIf="matchingCount > maxTagsToShow">
+      Showing first {{ displayedTags.length }} of {{ matchingCount }} tags.
+    </p>
+    <ul>
+      <li *ngFor="let tag of displayedTags" class="tag-item">
+       <span class="tag-text">
+          <span class="tag-key">{{ tag.key }}</span>
+          <span class="tag-value">{{ getTagValue(tag.key) }}</span>
+        </span>
+        <button *ngIf="!isTagInteractionLocked" (click)="openTagModal(tag.key)" class="edit-icon">✏️</button>
+      </li>
+    </ul>
+  </div>
+  <ng-template #noDeck>
+    <p>No deck loaded. Please load a deck first.</p>
+  </ng-template>
+  <app-tag-modal
+    *ngIf="showTagModal"
+    [key]="selectedTagKey"
+    [value]="getTagValue(selectedTagKey)"
+    [isEditable]="!isTagInteractionLocked"
+    [currentTags]="getDeck()?.tags || {}"
+    (save)="onSaveTag($event)"
+    (close)="closeTagModal()"
+  ></app-tag-modal>
+</div>
