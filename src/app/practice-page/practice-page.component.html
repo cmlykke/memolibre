@@ -1,15 +1,16 @@
 <div #practiceContainer class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
-  <!-- Combined container for all top buttons -->
   <div class="top-buttons-container">
     <button class="button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
     <button class="button" (click)="undo()" [disabled]="!canUndo()">Undo</button>
     <button class="button" (click)="redo()" [disabled]="!canRedo()">Redo</button>
     <span class="practice-count">{{ state.practiceCount }}</span>
   </div>
-  <!-- Rest of the template remains unchanged -->
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
-      <app-card [card]="card" [showBackSide]="state.showBackSide" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
+      <!-- Add div with #currentCardContainer here -->
+      <div #currentCardContainer>
+        <app-card [card]="card" [showBackSide]="state.showBackSide" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
+      </div>
       <div *ngIf="state.previousCard as prevCard">
         <h3>Previous Card</h3>
         <app-card [card]="prevCard" [showBackSide]="true" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>

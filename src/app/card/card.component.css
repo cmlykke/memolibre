@@ -5,6 +5,19 @@ div {
   background-color: #f9f9f9;
 }
 
+.card-front {
+  min-height: 60vh; /* Ensures the front side takes up at least 60% of the viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.card-back {
+  padding: 10px;
+}
+
 hr {
   margin: 10px 0;
 }

@@ -1,11 +1,11 @@
 <div *ngIf="card">
-  <div *ngIf="!showBackSide">
+  <div *ngIf="!showBackSide" class="card-front">
     <p [style.fontSize]="settings['frontSideFontSize']" [style.fontFamily]="settings['frontSideFontFamily']">
       {{ card.frontSide }}
     </p>
   </div>
-  <div *ngIf="showBackSide">
-    <!-- Existing fields -->
+  <div *ngIf="showBackSide" class="card-back">
+    <!-- Existing fields remain unchanged -->
     <p>
       <span *ngIf="settings['showFrontSideLabel'] === 'true'">Front Side: </span>
       <span [style.fontSize]="settings['frontSideFontSize']" [style.fontFamily]="settings['frontSideFontFamily']">
@@ -144,7 +144,6 @@
         {{ card.repetitionHistory.join(', ') }}
       </span>
     </p>
-    <!-- Primary Info with Edit Button -->
     <p>
       <span *ngIf="settings['showPrimaryInfoLabel'] === 'true'">Primary Info: </span>
       <span [style.fontSize]="settings['primaryInfoFontSize']">
@@ -152,7 +151,6 @@
       </span>
       <button *ngIf="!isTagInteractionLocked" class="edit-icon" (click)="openEditModal('primaryInfo')">✏️</button>
     </p>
-    <!-- Secondary Info with Edit Button -->
     <p>
       <span *ngIf="settings['showSecondaryInfoLabel'] === 'true'">Secondary Info: </span>
       <span [style.fontSize]="settings['secondaryInfoFontSize']">
@@ -162,13 +160,26 @@
     </p>
   </div>
 </div>
-<!-- Existing Details Modal -->
-<app-details-modal
+
+<!-- Tag Modal for displaying tag details -->
+<app-tag-modal
   *ngIf="showTagModal"
-  [data]="tagModalData"
+  [key]="selectedTagKey"
+  [value]="selectedTagValue"
+  [isEditable]="true"
+  [currentTags]="deckTags"
+  (save)="onSaveTag($event)"
   (close)="closeTagModal()"
+></app-tag-modal>
+
+<!-- Details Modal for notable card details -->
+<app-details-modal
+  *ngIf="showDetailsModal"
+  [data]="detailsModalData"
+  (close)="closeDetailsModal()"
 ></app-details-modal>
-<!-- New Card Field Edit Modal -->
+
+<!-- Card Field Edit Modal (unchanged) -->
 <app-card-field-edit-modal
   *ngIf="showEditModal"
   [field]="fieldToEdit"

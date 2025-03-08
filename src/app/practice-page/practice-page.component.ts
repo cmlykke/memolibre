@@ -20,6 +20,12 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   tagLockButtonText: string = 'Lock Tags';
 
   @ViewChild('practiceContainer') practiceContainer!: ElementRef;
+  @ViewChild('currentCardContainer') currentCardContainer!: ElementRef; // Add this
+
+  // Add properties for touch handling
+  private touchStartX: number = 0;
+  private touchEndX: number = 0;
+  private isTouchOnCurrentCard: boolean = false;
 
   constructor(protected globalStateService: GlobalStateService) {}
 
@@ -156,16 +162,24 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private addTouchListeners(): void {
     const element = this.practiceContainer.nativeElement;
-    let touchStartX = 0;
-    let touchEndX = 0;
 
     element.addEventListener('touchstart', (event: TouchEvent) => {
-      touchStartX = event.changedTouches[0].screenX;
+      const isOnCurrentCard = this.currentCardContainer && this.currentCardContainer.nativeElement.contains(event.target as Node);
+      console.log('Touch start on current card:', isOnCurrentCard, 'Target:', event.target);
+      if (isOnCurrentCard) {
+        this.isTouchOnCurrentCard = true;
+        this.touchStartX = event.changedTouches[0].screenX;
+      } else {
+        this.isTouchOnCurrentCard = false;
+      }
     }, false);
 
     element.addEventListener('touchend', (event: TouchEvent) => {
-      touchEndX = event.changedTouches[0].screenX;
-      this.handleSwipe(touchStartX, touchEndX);
+      if (this.isTouchOnCurrentCard) {
+        this.touchEndX = event.changedTouches[0].screenX;
+        this.handleSwipe(this.touchStartX, this.touchEndX);
+        this.isTouchOnCurrentCard = false; // Reset the flag
+      }
     }, false);
   }
 
@@ -178,6 +192,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (Math.abs(distance) < 10) {
         this.globalStateService.updatePracticeState({ showBackSide: true });
       }
+      // Note: No action for swipes when in front-side mode, per your requirement
     } else {
       if (distance > 50) {
         this.markAsKnown();
