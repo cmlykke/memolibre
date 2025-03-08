@@ -6,6 +6,7 @@ import {AppSettingsComponent} from './app-settings/app-settings.component';
 import {PracticeSettingsComponent} from './practice-settings/practice-settings.component';
 import {SearchPageComponent} from './search-page/search-page.component';
 import {TagPageComponent} from './tag-page/tag-page.component';
+import {ManageCirculationPageComponent} from './manage-circulation-page/manage-circulation-page.component';
 
 export const routes: Routes = [{
   path: '',
@@ -26,6 +27,9 @@ export const routes: Routes = [{
 }, {
   path: 'tag-page',
   component: TagPageComponent
+}, {
+  path: 'manage-circulation-page',
+  component: ManageCirculationPageComponent
 }, {
   path: 'practice-settings',
   component: PracticeSettingsComponent
