@@ -2,6 +2,39 @@
   /* Inherit .container from shared.css */
 }
 
+.top-buttons-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 10px; /* Adds spacing between buttons */
+  z-index: 1000; /* Ensures it stays above other content */
+  align-items: center; /* Vertically aligns buttons and counter */
+}
+
+.practice-count {
+  margin-left: 10px; /* Space between last button and counter */
+  font-size: 14px;   /* Readable size */
+  color: #333;       /* Dark gray for visibility */
+}
+
+.tag-lock-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.undo-redo-container {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%); /* Centers the container horizontally */
+  display: flex;
+  gap: 10px; /* Space between Undo and Redo buttons */
+  z-index: 1000;
+}
+
 .tag-lock-button {
   /* Inherit .fixed-button from shared.css */
 }

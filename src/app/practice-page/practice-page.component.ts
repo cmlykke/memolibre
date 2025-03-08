@@ -48,28 +48,11 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private selectNextCard(deck: FlashCardDeck | null): FlashCard | null {
-    if (!deck || deck.cards.length === 0) return null;
-    const eligibleCards = deck.cards.filter(card => card.repetitionValue > 0);
-    if (eligibleCards.length === 0) return null;
-    eligibleCards.sort((a, b) => {
-      if (a.repetitionValue !== b.repetitionValue) {
-        return a.repetitionValue - b.repetitionValue;
-      }
-      const sumA = a.repetitionHistory.reduce((sum, val) => sum + val, 0);
-      const sumB = b.repetitionHistory.reduce((sum, val) => sum + val, 0);
-      if (sumA !== sumB) {
-        return sumA - sumB;
-      }
-      return a.cardNumber - b.cardNumber;
-    });
-    return eligibleCards[0];
-  }
-
   private initializePracticeSession(): void {
     const currentState = this.globalStateService.getState().practiceSession;
-    if (!currentState.currentCard) {
-      const nextCard = this.selectNextCard(currentState.deck);
+    if (!currentState.currentCard && currentState.deck) {
+      const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
+      const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(currentState.deck, minCardsBeforeRepeat, currentState.practicedCardHistory);
       this.globalStateService.updatePracticeState({
         currentCard: nextCard,
         showBackSide: false,
@@ -79,36 +62,78 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   markAsKnown(): void {
     const currentState = this.globalStateService.getState().practiceSession;
-    const { deck, currentCard } = currentState;
+    const { deck, currentCard, practicedCardHistory, practiceCount } = currentState;
     if (!currentCard || !deck) return;
-
-    const updatedDeck = FlashCardDeckPracticeUpdate.markCardAsKnown(deck, currentCard.cardNumber);
-    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!;
-    const nextCard = this.selectNextCard(updatedDeck);
-
+    const updatedDeck = FlashCardDeckPracticeUpdate.performPracticeAction(deck, currentCard.cardNumber, 'known');
+    const newHistory = [...practicedCardHistory, currentCard.cardNumber];
+    const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
+    const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: updatedCard,
+      previousCard: currentCard,
       currentCard: nextCard,
       showBackSide: false,
+      practicedCardHistory: newHistory,
+      practiceCount: practiceCount + 1, // Increment counter
     });
   }
 
   markAsForgotten(): void {
     const currentState = this.globalStateService.getState().practiceSession;
-    const { deck, currentCard } = currentState;
+    const { deck, currentCard, practicedCardHistory, practiceCount } = currentState;
     if (!currentCard || !deck) return;
-
-    const updatedDeck = FlashCardDeckPracticeUpdate.markCardAsForgotten(deck, currentCard.cardNumber);
-    const updatedCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber)!;
-    const nextCard = this.selectNextCard(updatedDeck);
-
+    const updatedDeck = FlashCardDeckPracticeUpdate.performPracticeAction(deck, currentCard.cardNumber, 'forgotten');
+    const newHistory = [...practicedCardHistory, currentCard.cardNumber];
+    const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
+    const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: updatedCard,
+      previousCard: currentCard,
       currentCard: nextCard,
       showBackSide: false,
+      practicedCardHistory: newHistory,
+      practiceCount: practiceCount + 1, // Increment counter
     });
+  }
+
+  undo(): void {
+    const currentState = this.globalStateService.getState().practiceSession;
+    const { deck, practiceCount } = currentState;
+    if (!deck) return;
+    const { updatedDeck, revertedCard } = FlashCardDeckPracticeUpdate.undoLastAction(deck);
+    if (revertedCard) {
+      this.globalStateService.updatePracticeState({
+        deck: updatedDeck,
+        currentCard: revertedCard,
+        showBackSide: true,
+        practiceCount: Math.max(0, practiceCount - 1), // Decrement, not below 0
+      });
+    }
+  }
+
+  redo(): void {
+    const currentState = this.globalStateService.getState().practiceSession;
+    const { deck, practiceCount } = currentState;
+    if (!deck) return;
+    const { updatedDeck, appliedCard } = FlashCardDeckPracticeUpdate.redoLastAction(deck);
+    if (appliedCard) {
+      this.globalStateService.updatePracticeState({
+        deck: updatedDeck,
+        currentCard: appliedCard,
+        showBackSide: true,
+        practiceCount: practiceCount + 1, // Increment counter
+      });
+    }
+  }
+
+  canUndo(): boolean {
+    const deck = this.globalStateService.getState().practiceSession.deck;
+    return !!deck && !!deck.settings["practiceHistory"]?.["undoStack"];
+  }
+
+  canRedo(): boolean {
+    const deck = this.globalStateService.getState().practiceSession.deck;
+    return !!deck && !!deck.settings["practiceHistory"]?.["redoStack"];
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -116,17 +141,12 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentState = this.globalStateService.getState().practiceSession;
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
-
-    if (!showBackSide && (event.key === ' ' || event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
-      if (event.key === ' ') {
-        event.preventDefault();
-      }
+    if (!showBackSide && [' ', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+      if (event.key === ' ') event.preventDefault();
       this.globalStateService.updatePracticeState({ showBackSide: true });
     } else if (showBackSide) {
       if (event.key === ' ' || event.key === 'ArrowRight') {
-        if (event.key === ' ') {
-          event.preventDefault();
-        }
+        if (event.key === ' ') event.preventDefault();
         this.markAsKnown();
       } else if (event.key === 'ArrowLeft') {
         this.markAsForgotten();
@@ -153,21 +173,15 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentState = this.globalStateService.getState().practiceSession;
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
-
     const distance = touchEndX - touchStartX;
-
     if (!showBackSide) {
-      // Tap to show back side (small movement)
       if (Math.abs(distance) < 10) {
         this.globalStateService.updatePracticeState({ showBackSide: true });
       }
     } else {
-      // Swipe right (> 50px) to mark as known
       if (distance > 50) {
         this.markAsKnown();
-      }
-      // Swipe left (< -50px) to mark as forgotten
-      else if (distance < -50) {
+      } else if (distance < -50) {
         this.markAsForgotten();
       }
     }

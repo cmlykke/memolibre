@@ -1,6 +1,12 @@
 <p>Practice Settings</p>
 <div *ngIf="resultMessage">{{ resultMessage }}</div>
 
+<h3>Practice Options</h3>
+<mat-form-field appearance="fill">
+  <mat-label>Minimum Cards Before Repeat</mat-label>
+  <input matInput type="number" [(ngModel)]="minCardsBeforeRepeat" step="1" min="0">
+</mat-form-field>
+
 <!-- Font Size Settings -->
 <h3>Font Sizes</h3>
 <mat-form-field appearance="fill">

@@ -8,20 +8,17 @@ import { FlashCardDeckCreate } from '../../../businesslogic/services/flash-card-
 import { FlashCardDeckPracticeSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
 import { FlashCardDeckAppSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-app-settings';
 import { Result } from '../../utils/types';
-import {
-  FlashCardDeckSearchSettings
-} from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-search-settings';
-import {
-  FlashCardDeckTagSettings
-} from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
+import { FlashCardDeckSearchSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-search-settings';
+import { FlashCardDeckTagSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
 
 export interface AppState {
   practiceSession: PracticeSessionState;
   practiceSettings: Record<string, string>;
   appSettings: Record<string, string>;
   searchSettings: Record<string, string>;
-  tagSearchSettings: Record<string, string>; // Added for tag page
+  tagSearchSettings: Record<string, string>;
   protoDeck: string | null;
+  practiceHistory: Record<string, string>; // Added for undo/redo
 }
 
 export interface PracticeSessionState {
@@ -29,7 +26,9 @@ export interface PracticeSessionState {
   currentCard: FlashCard | null;
   previousCard: FlashCard | null;
   showBackSide: boolean;
-  isTagInteractionLocked: boolean; // Added
+  isTagInteractionLocked: boolean;
+  practicedCardHistory: number[]; // Tracks the sequence of practiced card numbers
+  practiceCount: number;
 }
 
 @Injectable({
@@ -43,12 +42,15 @@ export class GlobalStateService {
       previousCard: null,
       showBackSide: false,
       isTagInteractionLocked: false,
+      practicedCardHistory: [],
+      practiceCount: 0, // Initialize to 0
     },
     practiceSettings: FlashCardDeckPracticeSettings.defaultSettings(),
     appSettings: FlashCardDeckAppSettings.defaultSettings(),
     searchSettings: FlashCardDeckSearchSettings.defaultSettings(),
-    tagSearchSettings: { tagRegex: '' }, // Initialize with empty regex
+    tagSearchSettings: { tagRegex: '' },
     protoDeck: null,
+    practiceHistory: { undoStack: '', redoStack: '' },
   });
 
   public state$ = this.stateSubject.asObservable();
@@ -83,12 +85,19 @@ export class GlobalStateService {
       practiceSession: {
         ...currentState.practiceSession,
         deck: normalizedDeck,
-        ...(resetPractice ? { currentCard: null, previousCard: null, showBackSide: false } : {}),
+        ...(resetPractice ? {
+          currentCard: null,
+          previousCard: null,
+          showBackSide: false,
+          practicedCardHistory: [],
+          practiceCount: 0, // Reset counter when practice is reset
+        } : {}),
       },
       practiceSettings: FlashCardDeckPracticeSettings.normalizeSettings(normalizedDeck.settings["practice-settings"]),
       appSettings: FlashCardDeckAppSettings.normalizeSettings(normalizedDeck.settings["app-settings"]),
       searchSettings: FlashCardDeckSearchSettings.normalizeSettings(normalizedDeck.settings["search"]),
-      tagSearchSettings: normalizedDeck.settings["tag-search"], // Added
+      tagSearchSettings: normalizedDeck.settings["tag-search"],
+      practiceHistory: normalizedDeck.settings["practiceHistory"],
     };
     this.setState(newState);
   }
@@ -112,7 +121,9 @@ export class GlobalStateService {
         currentCard: null,
         previousCard: null,
         showBackSide: false,
-        isTagInteractionLocked: false
+        isTagInteractionLocked: false,
+        practicedCardHistory: [],
+        practiceCount: 0, // Reset counter
       },
     });
   }
@@ -226,24 +237,30 @@ export class GlobalStateService {
     const practiceSettings = FlashCardDeckPracticeSettings.normalizeSettings(currentSettings["practice-settings"] || {});
     const appSettings = FlashCardDeckAppSettings.normalizeSettings(currentSettings["app-settings"] || {});
     const searchSettings = FlashCardDeckSearchSettings.normalizeSettings(currentSettings["search"] || {});
-    const tagSearchSettings = FlashCardDeckTagSettings.normalizeSearchSettings(currentSettings["tag-search"] || {}); // Added
+    const tagSearchSettings = FlashCardDeckTagSettings.normalizeSearchSettings(currentSettings["tag-search"] || {});
+    const practiceHistory = currentSettings["practiceHistory"] || { undoStack: '', redoStack: '' };
+
+    // Ensure practiceHistory has the correct structure
+    const normalizedPracticeHistory: Record<string, string> = {
+      undoStack: typeof practiceHistory['undoStack'] === 'string' ? practiceHistory['undoStack'] : '',
+      redoStack: typeof practiceHistory['redoStack'] === 'string' ? practiceHistory['redoStack'] : '',
+    };
 
     const normalizedSettings: Record<string, Record<string, string>> = {
       "practice-settings": practiceSettings,
       "app-settings": appSettings,
       "search": searchSettings,
-      "tag-search": tagSearchSettings, // Added
+      "tag-search": tagSearchSettings,
+      "practiceHistory": normalizedPracticeHistory, // Add normalized practiceHistory
     };
+
     Object.entries(currentSettings).forEach(([key, value]) => {
-      if (key !== "practice-settings" && key !== "app-settings" && key !== "search" && key !== "tag-search") {
-        normalizedSettings[key] = value; // Preserve unrecognized settings
+      if (!["practice-settings", "app-settings", "search", "tag-search", "practiceHistory"].includes(key)) {
+        normalizedSettings[key] = value; // Preserve other settings
       }
     });
 
-    return {
-      ...deck,
-      settings: normalizedSettings,
-    };
+    return { ...deck, settings: normalizedSettings };
   }
 
   updateFlashCardNameState(updatedDeckName: string): Result<string, string> {

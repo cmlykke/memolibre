@@ -53,7 +53,6 @@ export class FlashCardDeckPracticeSettings {
       dateOfLastReviewFontSize: "12px",
       repetitionValueFontSize: "12px",
       repetitionHistoryFontSize: "12px",
-      // New toggle settings (default to visible)
       showFrontSideLabel: "true",
       showBackSideLabel: "true",
       showCardNumberLabel: "true",
@@ -65,11 +64,10 @@ export class FlashCardDeckPracticeSettings {
       showRepetitionHistoryLabel: "true",
       showPrimaryInfoLabel: "true",
       showSecondaryInfoLabel: "true",
-      // New font family settings
       frontSideFontFamily: "Arial",
       backSideFontFamily: "Arial",
-      // New setting for tag interaction lock
       tagInteractionLocked: "false",
+      minCardsBeforeRepeat: "0", // Default: no restriction
     };
   }
 
@@ -80,26 +78,24 @@ export class FlashCardDeckPracticeSettings {
     const defaults = this.defaultSettings();
     const normalized: Record<string, string> = { ...defaults };
 
-    const pixelRegex = /^\d+px$/;       // For font sizes (e.g., "16px")
-    const booleanRegex = /^(true|false)$/; // For toggle settings (e.g., "true" or "false")
+    const pixelRegex = /^\d+px$/;
+    const booleanRegex = /^(true|false)$/;
 
     for (const [key, value] of Object.entries(settings)) {
       if (key in defaults) {
         if (key.endsWith('FontSize')) {
-          // Validate font size
           normalized[key] = pixelRegex.test(value) ? value : defaults[key];
         } else if (key.startsWith('show') && key.endsWith('Label')) {
-          // Validate toggle settings
           normalized[key] = booleanRegex.test(value) ? value : defaults[key];
         } else if (key.endsWith('FontFamily')) {
-          // Accept any non-empty string for font family, otherwise use default
           normalized[key] = value && typeof value === 'string' ? value : defaults[key];
         } else if (key === 'tagInteractionLocked') {
-          // Validate tagInteractionLocked as boolean
           normalized[key] = booleanRegex.test(value) ? value : defaults[key];
+        } else if (key === 'minCardsBeforeRepeat') {
+          const num = parseInt(value, 10);
+          normalized[key] = (!isNaN(num) && num >= 0) ? num.toString() : defaults[key];
         }
       }
-      // Note: Unrecognized keys are ignored as per the original implementation
     }
     return normalized;
   }

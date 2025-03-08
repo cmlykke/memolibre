@@ -1,14 +1,38 @@
-/* Base button styles (no tooltip) */
-button {
-  padding: 10px 16px; /* Standard padding without extra left space */
-  font-size: 16px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px 0 20px; /* Standard padding for all pages */
+}
+
+/* Base button styles */
+.button {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #333;
+  background-color: #f0f0f0;
+  color: #000;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  position: relative;
+  border-radius: 4px;
+  min-width: 80px; /* Ensures uniform button width */
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #e0e0e0; /* Subtle darker gray for hover */
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Remove or adjust .fixed-button if not needed elsewhere */
+.fixed-button {
+  /* If still used elsewhere, keep positioning; otherwise, remove */
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
 }
 
 /* Base input styles (no tooltip) */

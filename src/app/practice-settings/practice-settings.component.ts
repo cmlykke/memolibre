@@ -29,6 +29,7 @@ export class PracticeSettingsComponent implements OnInit {
   toggleSettings: Record<string, boolean> = {}; // For checkbox states
   fontFamilySettings: Record<string, string> = {}; // For font family selections
   resultMessage: string = '';
+  minCardsBeforeRepeat: number = 0;
 
   // Define font options for dropdowns
   fontOptions = [
@@ -50,6 +51,7 @@ export class PracticeSettingsComponent implements OnInit {
     this.initializeDisplaySettings();
     this.initializeToggleSettings();
     this.initializeFontFamilySettings();
+    this.minCardsBeforeRepeat = parseInt(this.settings['minCardsBeforeRepeat'] || '0', 10);
   }
 
   private initializeDisplaySettings(): void {
@@ -80,18 +82,16 @@ export class PracticeSettingsComponent implements OnInit {
 
   saveSettings(): void {
     const updatedSettings: Record<string, string> = {};
-    // Save font sizes
     Object.entries(this.displaySettings).forEach(([key, value]) => {
       updatedSettings[key] = `${value}px`;
     });
-    // Save toggle settings
     Object.entries(this.toggleSettings).forEach(([key, value]) => {
       updatedSettings[key] = value.toString();
     });
-    // Save font family settings
     Object.entries(this.fontFamilySettings).forEach(([key, value]) => {
       updatedSettings[key] = value;
     });
+    updatedSettings['minCardsBeforeRepeat'] = this.minCardsBeforeRepeat.toString();
     const result = this.globalStateService.updatePracticeSettings(updatedSettings);
     this.resultMessage = result.ok ? result.value : result.error;
     if (result.ok) {
