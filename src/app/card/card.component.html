@@ -5,6 +5,7 @@
     </p>
   </div>
   <div *ngIf="showBackSide">
+    <!-- Existing fields -->
     <p>
       <span *ngIf="settings['showFrontSideLabel'] === 'true'">Front Side: </span>
       <span [style.fontSize]="settings['frontSideFontSize']" [style.fontFamily]="settings['frontSideFontFamily']">
@@ -29,9 +30,9 @@
         {{ card.cardName }}
       </span>
     </p>
+    <!-- Notable Cards (unchanged) -->
     <p>
       <span *ngIf="settings['showNotableCardsLabel'] === 'true'">Notable Cards: </span>
-      <!-- View Mode -->
       <span *ngIf="!isEditingNotableCards">
         <span *ngIf="!isTagInteractionLocked">
           <span *ngFor="let cardNumber of card.notableCards; let i = index">
@@ -55,7 +56,6 @@
           <mat-icon>edit</mat-icon>
         </button>
       </span>
-      <!-- Edit Mode -->
       <span *ngIf="isEditingNotableCards">
         <mat-form-field>
           <mat-chip-grid #chipGrid>
@@ -78,9 +78,9 @@
         </button>
       </span>
     </p>
+    <!-- Tags (unchanged) -->
     <p>
       <span *ngIf="settings['showTagsLabel'] === 'true'">Tags: </span>
-      <!-- View Mode -->
       <span *ngIf="!isEditingTags">
         <span *ngIf="!isTagInteractionLocked">
           <span *ngFor="let tag of card.tags; let i = index">
@@ -104,7 +104,6 @@
           <mat-icon>edit</mat-icon>
         </button>
       </span>
-      <!-- Edit Mode -->
       <span *ngIf="isEditingTags">
         <mat-form-field>
           <mat-chip-grid #chipGrid>
@@ -126,6 +125,7 @@
         </button>
       </span>
     </p>
+    <!-- Remaining fields (unchanged) -->
     <p>
       <span *ngIf="settings['showDateOfLastReviewLabel'] === 'true'">Date of Last Review: </span>
       <span [style.fontSize]="settings['dateOfLastReviewFontSize']">
@@ -144,22 +144,35 @@
         {{ card.repetitionHistory.join(', ') }}
       </span>
     </p>
+    <!-- Primary Info with Edit Button -->
     <p>
       <span *ngIf="settings['showPrimaryInfoLabel'] === 'true'">Primary Info: </span>
       <span [style.fontSize]="settings['primaryInfoFontSize']">
         {{ card.primaryInfo }}
       </span>
+      <button *ngIf="!isTagInteractionLocked" class="edit-icon" (click)="openEditModal('primaryInfo')">✏️</button>
     </p>
+    <!-- Secondary Info with Edit Button -->
     <p>
       <span *ngIf="settings['showSecondaryInfoLabel'] === 'true'">Secondary Info: </span>
       <span [style.fontSize]="settings['secondaryInfoFontSize']">
         {{ card.secondaryInfo }}
       </span>
+      <button *ngIf="!isTagInteractionLocked" class="edit-icon" (click)="openEditModal('secondaryInfo')">✏️</button>
     </p>
   </div>
 </div>
+<!-- Existing Details Modal -->
 <app-details-modal
   *ngIf="showTagModal"
   [data]="tagModalData"
   (close)="closeTagModal()"
 ></app-details-modal>
+<!-- New Card Field Edit Modal -->
+<app-card-field-edit-modal
+  *ngIf="showEditModal"
+  [field]="fieldToEdit"
+  [currentValue]="getCurrentValue(fieldToEdit!)"
+  (save)="saveField($event)"
+  (close)="closeEditModal()"
+></app-card-field-edit-modal>

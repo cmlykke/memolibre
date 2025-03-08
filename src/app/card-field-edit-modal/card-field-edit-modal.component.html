@@ -1,1 +1,17 @@
-<p>card-field-edit-modal works!</p>
+<div class="modal-overlay" *ngIf="field">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Edit {{ getFieldDisplayName() }}</h2>
+      <button class="close" (click)="closeModal()">×</button>
+    </div>
+    <form (ngSubmit)="saveField()" class="modal-form">
+      <div class="modal-body">
+        <textarea [(ngModel)]="editedValue" name="editedValue"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="submit">Save</button>
+        <button type="button" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

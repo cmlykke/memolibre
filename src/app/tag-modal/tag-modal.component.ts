@@ -6,39 +6,10 @@ import { CommonModule } from '@angular/common';
   selector: 'app-tag-modal',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <div class="modal-overlay">
-      <div class="modal-content">
-        <h2>{{ isEditable ? 'Edit Tag' : 'View Tag' }}</h2>
-        <form [formGroup]="tagForm" *ngIf="isEditable">
-          <div>
-            <label>Key:</label>
-            <input formControlName="key" (input)="cleanKey($event)" />
-            <div *ngIf="tagForm.get('key')?.invalid && tagForm.get('key')?.touched" class="error">
-              <span *ngIf="tagForm.get('key')?.errors?.['required']">Key is required</span>
-              <span *ngIf="tagForm.get('key')?.errors?.['pattern']">Key must contain only visible ASCII characters (no whitespace)</span>
-              <span *ngIf="tagForm.get('key')?.errors?.['unique']">Tag key already exists</span>
-            </div>
-          </div>
-          <div>
-            <label>Value:</label>
-            <textarea formControlName="value"></textarea>
-          </div>
-          <button (click)="saveTag()">Save</button>
-        </form>
-        <div *ngIf="!isEditable">
-          <p><strong>Key:</strong> {{ key }}</p>
-          <p><strong>Value:</strong></p>
-          <div class="scrollable">
-            <p>{{ value }}</p>
-          </div>
-        </div>
-        <button (click)="closeModal()">Close</button>
-      </div>
-    </div>
-  `,
+  templateUrl: './tag-modal.component.html',
   styleUrls: ['../styles/modal-shared.css', './tag-modal.component.css']
 })
+
 export class TagModalComponent implements OnInit {
   @Input() key: string = '';
   @Input() value: string = '';

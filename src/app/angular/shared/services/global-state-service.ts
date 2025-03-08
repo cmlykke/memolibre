@@ -303,4 +303,22 @@ export class GlobalStateService {
       return { ok: false, error: `Error: ${errorMessage}` };
     }
   }
+
+  public updateCard(updatedCard: FlashCard): void {
+    const currentState = this.getState();
+    const deck = currentState.practiceSession.deck;
+    if (!deck) return;
+    const updatedCards = deck.cards.map(c => c.cardNumber === updatedCard.cardNumber ? updatedCard : c);
+    const updatedDeck = { ...deck, cards: updatedCards };
+    const newCurrentCard = currentState.practiceSession.currentCard?.cardNumber === updatedCard.cardNumber ? updatedCard : currentState.practiceSession.currentCard;
+    const newPreviousCard = currentState.practiceSession.previousCard?.cardNumber === updatedCard.cardNumber ? updatedCard : currentState.practiceSession.previousCard;
+    this.updateState({
+      practiceSession: {
+        ...currentState.practiceSession,
+        deck: updatedDeck,
+        currentCard: newCurrentCard,
+        previousCard: newPreviousCard,
+      },
+    });
+  }
 }

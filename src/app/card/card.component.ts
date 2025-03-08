@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { DetailsModalComponent } from '../details-modal/details-modal.component';
+import { CardFieldEditModalComponent } from '../card-field-edit-modal/card-field-edit-modal.component'; // Import the new modal
 import { ModalData } from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
 import { Subscription } from 'rxjs';
 
@@ -19,7 +20,8 @@ import { Subscription } from 'rxjs';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    DetailsModalComponent
+    DetailsModalComponent,
+    CardFieldEditModalComponent // Add to imports
   ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
@@ -33,6 +35,8 @@ export class CardComponent implements OnInit, OnDestroy {
   isEditingNotableCards: boolean = false;
   showTagModal: boolean = false;
   tagModalData: ModalData | null = null;
+  showEditModal: boolean = false; // Controls visibility of the edit modal
+  fieldToEdit: 'primaryInfo' | 'secondaryInfo' | null = null; // Tracks which field is being edited
   private subscription: Subscription = new Subscription();
 
   constructor(private globalStateService: GlobalStateService) {}
@@ -173,29 +177,41 @@ export class CardComponent implements OnInit, OnDestroy {
     }
   }
 
+  openEditModal(field: 'primaryInfo' | 'secondaryInfo'): void {
+    if (this.isTagInteractionLocked || !this.card) return;
+    this.fieldToEdit = field;
+    this.showEditModal = true;
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.fieldToEdit = null;
+  }
+
+  getCurrentValue(field: 'primaryInfo' | 'secondaryInfo'): string {
+    return this.card ? this.card[field] : '';
+  }
+
+  saveField(newValue: string): void {
+    if (!this.card || !this.fieldToEdit) return;
+    const updatedCard = { ...this.card, [this.fieldToEdit]: newValue };
+    this.globalStateService.updateCard(updatedCard);
+    this.closeEditModal();
+  }
+
+
   private saveTags(): void {
-    const deck = this.globalStateService.getFlashCardDeck();
-    if (deck && this.card) {
-      const updatedCards = deck.cards.map(c =>
-        c.cardNumber === this.card!.cardNumber
-          ? { ...c, tags: Array.isArray(this.card!.tags) ? this.card!.tags : [] }
-          : c
-      );
-      const updatedDeck = { ...deck, cards: updatedCards };
-      this.globalStateService.setFlashCardDeck(updatedDeck, false);
+    if (this.card) {
+      const updatedCard = { ...this.card, tags: Array.isArray(this.card.tags) ? this.card.tags : [] };
+      this.globalStateService.updateCard(updatedCard);
     }
   }
 
   private saveNotableCards(): void {
-    const deck = this.globalStateService.getFlashCardDeck();
-    if (deck && this.card) {
-      const updatedCards = deck.cards.map(c =>
-        c.cardNumber === this.card!.cardNumber
-          ? { ...c, notableCards: Array.isArray(this.card!.notableCards) ? this.card!.notableCards : [] }
-          : c
-      );
-      const updatedDeck = { ...deck, cards: updatedCards };
-      this.globalStateService.setFlashCardDeck(updatedDeck, false);
+    if (this.card) {
+      const updatedCard = { ...this.card, notableCards: Array.isArray(this.card.notableCards) ? this.card.notableCards : [] };
+      this.globalStateService.updateCard(updatedCard);
     }
   }
+
 }

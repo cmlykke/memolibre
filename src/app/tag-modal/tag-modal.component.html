@@ -1,1 +1,34 @@
-<p>tag-modal works!</p>
+<div class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ isEditable ? 'Edit Tag' : 'View Tag' }}</h2>
+      <button class="close" (click)="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="tagForm" (ngSubmit)="saveTag()" *ngIf="isEditable" class="modal-form">
+        <div class="form-group">
+          <label>Key:</label>
+          <input formControlName="key" (input)="cleanKey($event)" />
+          <div *ngIf="tagForm.get('key')?.invalid && tagForm.get('key')?.touched" class="error">
+            <span *ngIf="tagForm.get('key')?.errors?.['required']">Key is required</span>
+            <span *ngIf="tagForm.get('key')?.errors?.['pattern']">Key must contain only visible ASCII characters (no whitespace)</span>
+            <span *ngIf="tagForm.get('key')?.errors?.['unique']">Tag key already exists</span>
+          </div>
+        </div>
+        <div class="form-group textarea-group">
+          <label>Value:</label>
+          <textarea formControlName="value"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="submit">Save</button>
+          <button type="button" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
+      <div *ngIf="!isEditable" class="modal-view">
+        <p><strong>Key:</strong> {{ key }}</p>
+        <p><strong>Value:</strong></p>
+        <p class="tag-value">{{ value }}</p>
+      </div>
+    </div>
+  </div>
+</div>

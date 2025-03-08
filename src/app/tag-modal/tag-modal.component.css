@@ -1,12 +1,27 @@
-textarea {
-  width: 100%;
-  min-height: 100px;
-  resize: vertical;
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.error {
-  color: red;
-  font-size: 0.9em;
+.form-group {
+  margin-bottom: 10px;
+}
+
+.textarea-group {
+  flex-grow: 1; /* Allow this group to expand */
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea-group textarea {
+  flex-grow: 1; /* Textarea fills the .textarea-group */
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: none; /* Optional */
 }
 
 label {
@@ -14,6 +29,25 @@ label {
   margin-top: 10px;
 }
 
-input, textarea {
+input {
+  width: 100%;
+  padding: 8px;
   margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.modal-view {
+  height: 100%;
+}
+
+.tag-value {
+  white-space: pre-wrap; /* Preserve formatting */
+  margin: 5px 0;
 }
