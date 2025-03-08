@@ -1,1 +1,37 @@
-<p>manage-circulation-page works!</p>
+<div class="container">
+  <h2>Manage Circulation</h2>
+
+  <div class="controls">
+    <input
+      type="number"
+      min="1"
+      class="text-field"
+      placeholder="Enter number"
+      (input)="onNumberInputChange($event)"
+      title="Enter a positive integer to specify how many cards to increase/decrease"
+    />
+
+    <button
+      class="action-button"
+      (click)="increase()"
+      title="Increase the number of cards in circulation"
+    >Increase</button>
+    <button
+      class="action-button"
+      (click)="decrease()"
+      title="Decrease the number of cards in circulation"
+    >Decrease</button>
+  </div>
+
+  <div class="stats">
+    <p><strong>Total Cards:</strong> {{ totalCards }}</p>
+    <p><strong>Cards in Circulation:</strong> {{ cardsInCirculation }}</p>
+    <p><strong>Highest Card in Circulation:</strong> {{ highestCardInCirculation }}</p>
+    <h3>Repetition Statistics</h3>
+    <ul>
+      <li *ngFor="let stat of repetitionStats">
+        Repetition Value {{ stat.repetitionValue }}: {{ stat.count }} card(s)
+      </li>
+    </ul>
+  </div>
+</div>
