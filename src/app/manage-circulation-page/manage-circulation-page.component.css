@@ -4,9 +4,31 @@
   margin: 0 auto;
 }
 
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px; /* Adds space below the title wrapper */
+}
+
+.tooltip-icon {
+  position: static; /* Overrides global position: absolute */
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333; /* Ensures visibility against the background */
+  background-color: #ccc; /* Matches global style for consistency */
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  line-height: 18px;
+}
+
 h2 {
   text-align: center;
   color: #333;
+  margin: 0;
 }
 
 .controls {
@@ -35,6 +57,16 @@ h2 {
 
 .action-button:hover {
   background-color: #0056b3;
+}
+
+.card-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical; /* Allows vertical resizing only */
 }
 
 .stats {

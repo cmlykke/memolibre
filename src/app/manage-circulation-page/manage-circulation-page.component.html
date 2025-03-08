@@ -1,5 +1,8 @@
 <div class="container">
-  <h2>Manage Circulation</h2>
+  <div class="title-wrapper">
+    <span class="tooltip-icon" appTooltip [tooltipMessage]="'This is a tooltip for managing circulation.'">?</span>
+    <h2>Manage Circulation</h2>
+  </div>
 
   <div class="controls">
     <input
@@ -22,6 +25,12 @@
       title="Decrease the number of cards in circulation"
     >Decrease</button>
   </div>
+
+  <textarea
+    class="card-input"
+    placeholder="Enter card range (e.g., 1289-1400) or list (e.g., 132,233,237,321)"
+    (input)="onCardInputChange($event)"
+  ></textarea>
 
   <div class="stats">
     <p><strong>Total Cards:</strong> {{ totalCards }}</p>

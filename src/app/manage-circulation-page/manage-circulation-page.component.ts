@@ -3,18 +3,20 @@ import { Subscription } from 'rxjs';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
 import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
 import { increaseCirculation, decreaseCirculation } from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-circulation';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common';
+import { TooltipDirective } from '../tooltip.directive'; // Adjust the path if necessary
 
 @Component({
   selector: 'app-manage-circulation-page',
   standalone: true,
-  imports: [CommonModule], // Add CommonModule to imports
+  imports: [CommonModule, TooltipDirective], // Add TooltipDirective here
   templateUrl: './manage-circulation-page.component.html',
   styleUrls: ['./manage-circulation-page.component.css']
 })
 export class ManageCirculationPageComponent implements OnInit, OnDestroy {
   deck: FlashCardDeck | null = null;
   numberInput: number | null = null;
+  cardInput: string = ''; // New property for textarea input
   private subscription: Subscription = new Subscription();
 
   constructor(private globalStateService: GlobalStateService) {}
@@ -52,16 +54,44 @@ export class ManageCirculationPageComponent implements OnInit, OnDestroy {
       .sort((a, b) => a.repetitionValue - b.repetitionValue);
   }
 
+  // Parse the textarea input into an array of card numbers
+  private parseCardInput(input: string): number[] {
+    const trimmedInput = input.trim();
+    if (trimmedInput.includes('-')) {
+      // Handle range (e.g., "1289-1400")
+      const [start, end] = trimmedInput.split('-').map(s => parseInt(s.trim(), 10));
+      if (!isNaN(start) && !isNaN(end) && start <= end) {
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+      }
+    } else if (trimmedInput.includes(',')) {
+      // Handle comma-separated list (e.g., "132,233,237,321")
+      return trimmedInput.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+    }
+    return [];
+  }
+
   increase(): void {
     if (this.deck) {
-      const updatedDeck = increaseCirculation(this.deck, this.numberInput);
+      let updatedDeck: FlashCardDeck;
+      if (this.numberInput === null && this.cardInput.trim() !== '') {
+        const cardNumbers = this.parseCardInput(this.cardInput);
+        updatedDeck = increaseCirculation(this.deck, null, cardNumbers);
+      } else {
+        updatedDeck = increaseCirculation(this.deck, this.numberInput);
+      }
       this.globalStateService.setFlashCardDeck(updatedDeck, false);
     }
   }
 
   decrease(): void {
     if (this.deck) {
-      const updatedDeck = decreaseCirculation(this.deck, this.numberInput);
+      let updatedDeck: FlashCardDeck;
+      if (this.numberInput === null && this.cardInput.trim() !== '') {
+        const cardNumbers = this.parseCardInput(this.cardInput);
+        updatedDeck = decreaseCirculation(this.deck, null, cardNumbers);
+      } else {
+        updatedDeck = decreaseCirculation(this.deck, this.numberInput);
+      }
       this.globalStateService.setFlashCardDeck(updatedDeck, false);
     }
   }
@@ -77,5 +107,10 @@ export class ManageCirculationPageComponent implements OnInit, OnDestroy {
     if (this.numberInput !== null && (isNaN(this.numberInput) || this.numberInput <= 0)) {
       this.numberInput = null;
     }
+  }
+
+  onCardInputChange(event: Event): void {
+    const textareaElement = event.target as HTMLTextAreaElement;
+    this.cardInput = textareaElement.value;
   }
 }
