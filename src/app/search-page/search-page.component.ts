@@ -20,7 +20,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   matchingCards: FlashCard[] = [];
   matchingCount: number = 0;
   showTooltips: boolean = true;
-  isTagInteractionLocked: boolean = false; // New property
+  isTagInteractionLocked: boolean = true; // New property
   tagLockButtonText: string = 'Lock Tags'; // New property
   private subscription: Subscription = new Subscription();
 

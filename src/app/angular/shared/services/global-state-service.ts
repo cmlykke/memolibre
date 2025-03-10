@@ -43,7 +43,7 @@ export class GlobalStateService {
       currentCard: null,
       previousCard: null,
       showBackSide: false,
-      isTagInteractionLocked: false,
+      isTagInteractionLocked: true,
       practicedCardHistory: [],
       practiceCount: 0,
     },
