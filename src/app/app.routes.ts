@@ -7,6 +7,7 @@ import {PracticeSettingsComponent} from './practice-settings/practice-settings.c
 import {SearchPageComponent} from './search-page/search-page.component';
 import {TagPageComponent} from './tag-page/tag-page.component';
 import {ManageCirculationPageComponent} from './manage-circulation-page/manage-circulation-page.component';
+import {AddRemoveCardPageComponent} from './add-remove-card-page/add-remove-card-page.component';
 
 export const routes: Routes = [{
   path: '',
@@ -15,9 +16,6 @@ export const routes: Routes = [{
 }, {
   path: 'load-user-data',
   component: LoadUserDataComponent // Example: Set 'home' to show LoadUserDataComponent
-}, {
-  path: 'create-deck',
-  component: CreateDeckComponent
 }, {
   path: 'practice-page',
   component: PracticePageComponent
@@ -30,6 +28,12 @@ export const routes: Routes = [{
 }, {
   path: 'manage-circulation-page',
   component: ManageCirculationPageComponent
+}, {
+  path: 'create-deck',
+  component: CreateDeckComponent
+}, {
+  path: 'add-remove-card',
+  component: AddRemoveCardPageComponent
 }, {
   path: 'practice-settings',
   component: PracticeSettingsComponent
