@@ -20,7 +20,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   matchingCards: FlashCard[] = [];
   matchingCount: number = 0;
   showTooltips: boolean = true;
-  clearSearchButtonText: string = 'Clear Search'; // New property
+  isTagInteractionLocked: boolean = false; // New property
+  tagLockButtonText: string = 'Lock Tags'; // New property
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -39,9 +40,14 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const searchSettings = this.globalStateService.getState().searchSettings;
     this.searchForm.patchValue(searchSettings);
 
-    this.globalStateService.state$.subscribe(state => {
-      this.showTooltips = state.appSettings['showTooltips'] === 'true';
-    });
+    this.subscription.add(
+      this.globalStateService.state$.subscribe(state => {
+        this.showTooltips = state.appSettings['showTooltips'] === 'true';
+        // Optionally sync with practice state if shared
+        // this.isTagInteractionLocked = state.practiceSession.isTagInteractionLocked;
+        this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
+      })
+    );
 
     this.searchForm.valueChanges.pipe(debounceTime(300)).subscribe(values => {
       this.globalStateService.updateSearchSettings(values);
@@ -53,6 +59,11 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  toggleTagLock(): void {
+    this.isTagInteractionLocked = !this.isTagInteractionLocked;
+    this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
   }
 
   performSearch(): void {
@@ -109,15 +120,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   clearSearchAndScrollToTop(): void {
-    // Reset the search form
     this.searchForm.reset({
       cardNumberSearch: '',
       frontSideRegex: '',
       backSideRegex: '',
       tagsRegex: ''
     });
-
-    // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

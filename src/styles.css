@@ -1,73 +1,18 @@
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 50px 0 20px; /* Standard padding for all pages */
-}
-
-/* Base button styles */
-.button {
-  padding: 5px 10px;
-  font-size: 14px;
-  border: 1px solid #333;
-  background-color: #f0f0f0;
-  color: #000;
-  cursor: pointer;
-  border-radius: 4px;
-  min-width: 80px; /* Ensures uniform button width */
-  text-align: center;
-}
-
-.button:hover {
-  background-color: #e0e0e0; /* Subtle darker gray for hover */
-}
-
-.button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Remove or adjust .fixed-button if not needed elsewhere */
-.fixed-button {
-  /* If still used elsewhere, keep positioning; otherwise, remove */
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1000;
-}
-
 /* Base input styles (no tooltip) */
 input {
-  padding: 8px; /* Standard padding */
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
 }
-
-/* Base textarea styles (no tooltip) */
-textarea {
-  padding: 10px; /* Standard padding */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
 
 /* Classes to add extra padding when tooltips are enabled */
-.with-tooltip {
-  padding-left: 34px !important; /* Extra space for ? icon */
-}
-
 .input-with-tooltip {
   padding-left: 30px !important;
 }
 
-.textarea-with-tooltip {
-  padding-left: 30px !important;
-}
-
-/* Tooltip icon styling (unchanged) */
+/* Tooltip icon styling */
 .tooltip-icon {
   position: absolute;
   top: 4px;
@@ -82,38 +27,4 @@ textarea {
   font-size: 12px;
   cursor: help;
   z-index: 10;
-}
-
-.button-wrapper {
-  position: relative;
-  width: fit-content;
-  margin: 0 auto;
-}
-
-.textarea-wrapper,
-.input-wrapper {
-  position: relative;
-  width: fit-content; /* Wrapper shrinks to fit the textarea/input width */
-  margin: 0 auto; /* Center the wrapper within its parent */
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .tooltip-icon {
-    width: 24px;
-    height: 24px;
-    font-size: 16px;
-    line-height: 24px;
-    top: 6px;
-    left: 6px;
-  }
-  .with-tooltip {
-    padding-left: 40px !important;
-  }
-  .input-with-tooltip {
-    padding-left: 36px !important;
-  }
-  .textarea-with-tooltip {
-    padding-left: 36px !important;
-  }
 }

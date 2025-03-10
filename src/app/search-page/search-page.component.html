@@ -1,7 +1,9 @@
-<!-- Fixed wrapper for the button -->
-<button class="fixed-button" (click)="clearSearchAndScrollToTop()">Clear Search</button>
-<!-- Scrollable search content -->
-<div class="search-container">
+<div #searchContainer class="search-container">
+  <div class="top-buttons-container">
+    <button class="button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
+    <button class="button" (click)="clearSearchAndScrollToTop()">Clear</button>
+  </div>
+
   <h2>Search Cards</h2>
   <form [formGroup]="searchForm">
     <div class="input-wrapper">
@@ -26,7 +28,7 @@
     <div *ngIf="matchingCards.length > 0">
       <h3>First 5 Matching Cards:</h3>
       <div *ngFor="let card of matchingCards | slice:0:5">
-        <app-card [card]="card" [showBackSide]="true" [isTagInteractionLocked]="true"></app-card>
+        <app-card [card]="card" [showBackSide]="true" [isTagInteractionLocked]="isTagInteractionLocked"></app-card>
       </div>
     </div>
   </div>
