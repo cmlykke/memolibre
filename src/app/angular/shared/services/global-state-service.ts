@@ -1,3 +1,4 @@
+// C:\Users\CMLyk\WebstormProjects\memolibre\src\app\angular\shared\services\global-state-service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,6 +11,7 @@ import { FlashCardDeckAppSettings } from '../../../businesslogic/services/flash-
 import { Result } from '../../utils/types';
 import { FlashCardDeckSearchSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-search-settings';
 import { FlashCardDeckTagSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
+import { FlashCardDeckAddRemoveCard } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-add-remove-card';
 
 export interface AppState {
   practiceSession: PracticeSessionState;
@@ -18,7 +20,7 @@ export interface AppState {
   searchSettings: Record<string, string>;
   tagSearchSettings: Record<string, string>;
   protoDeck: string | null;
-  practiceHistory: Record<string, string>; // Added for undo/redo
+  practiceHistory: Record<string, string>;
 }
 
 export interface PracticeSessionState {
@@ -27,7 +29,7 @@ export interface PracticeSessionState {
   previousCard: FlashCard | null;
   showBackSide: boolean;
   isTagInteractionLocked: boolean;
-  practicedCardHistory: number[]; // Tracks the sequence of practiced card numbers
+  practicedCardHistory: number[];
   practiceCount: number;
 }
 
@@ -43,7 +45,7 @@ export class GlobalStateService {
       showBackSide: false,
       isTagInteractionLocked: false,
       practicedCardHistory: [],
-      practiceCount: 0, // Initialize to 0
+      practiceCount: 0,
     },
     practiceSettings: FlashCardDeckPracticeSettings.defaultSettings(),
     appSettings: FlashCardDeckAppSettings.defaultSettings(),
@@ -90,7 +92,7 @@ export class GlobalStateService {
           previousCard: null,
           showBackSide: false,
           practicedCardHistory: [],
-          practiceCount: 0, // Reset counter when practice is reset
+          practiceCount: 0,
         } : {}),
       },
       practiceSettings: FlashCardDeckPracticeSettings.normalizeSettings(normalizedDeck.settings["practice-settings"]),
@@ -321,4 +323,42 @@ export class GlobalStateService {
       },
     });
   }
+
+  public removeCards(cardInput: string): Result<string, string> {
+    const currentState = this.getState();
+    const deck = currentState.practiceSession.deck;
+    if (!deck) {
+      return { ok: false, error: 'No deck exists to remove cards from' };
+    }
+    const result = FlashCardDeckAddRemoveCard.removeCards(deck, cardInput);
+    if (result.ok) {
+      this.setFlashCardDeck(result.value, false);
+      return { ok: true, value: 'Cards removed successfully' };
+    }
+    return { ok: false, error: result.error };
+  }
+
+  // New method to add a card
+  public addCard(newCard: FlashCard): Result<string, string> {
+    const currentState = this.getState();
+    const deck = currentState.practiceSession.deck;
+    if (!deck) {
+      return { ok: false, error: 'No deck exists to add a card to' };
+    }
+    const result = FlashCardDeckAddRemoveCard.addCard(deck, newCard);
+    if (result.ok) {
+      this.setFlashCardDeck(result.value, false);
+      return { ok: true, value: 'Card added successfully' };
+    }
+    return { ok: false, error: result.error };
+  }
+
+  // New method to get the next card number
+  public getNextCardNumber(): number {
+    const deck = this.getState().practiceSession.deck;
+    if (!deck) return 1;
+    return FlashCardDeckAddRemoveCard.getHighestCardNumber(deck) + 1;
+  }
+
+
 }

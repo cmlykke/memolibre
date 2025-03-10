@@ -1,1 +1,63 @@
-<p>add-remove-card-page works!</p>
+<!-- C:\Users\CMLyk\WebstormProjects\memolibre\src\app\add-remove-card-page\add-remove-card-page.component.html -->
+<div class="container">
+  <button class="fixed-button" (click)="onUpdate()">Update</button>
+  <button class="fixed-button clear-button" (click)="onClear()">Clear</button>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Delete Cards (e.g., "239-435" or "234,345,456")</mat-label>
+      <input matInput [(ngModel)]="deleteCardInput" placeholder="Enter card numbers to delete">
+    </mat-form-field>
+  </div>
+
+  <h2>Add New Card</h2>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Card Number</mat-label>
+      <input matInput type="number" [(ngModel)]="cardNumber" min="1">
+    </mat-form-field>
+  </div>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Front Side</mat-label>
+      <textarea matInput [(ngModel)]="frontSide" rows="3"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Back Side</mat-label>
+      <textarea matInput [(ngModel)]="backSide" rows="3"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Card Name</mat-label>
+      <textarea matInput [(ngModel)]="cardName" rows="1"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Tags (comma-separated)</mat-label>
+      <textarea matInput [(ngModel)]="tags" rows="1"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Primary Info</mat-label>
+      <textarea matInput [(ngModel)]="primaryInfo" rows="3"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Secondary Info</mat-label>
+      <textarea matInput [(ngModel)]="secondaryInfo" rows="3"></textarea>
+    </mat-form-field>
+  </div>
+</div>

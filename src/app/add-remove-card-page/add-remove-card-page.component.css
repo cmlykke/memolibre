@@ -1,0 +1,13 @@
+/* C:\Users\CMLyk\WebstormProjects\memolibre\src\app\add-remove-card-page\add-remove-card-page.component.css */
+
+.clear-button {
+  left: 100px; /* Position to the right of the Update button */
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  resize: vertical; /* Allow vertical resizing only */
+}
