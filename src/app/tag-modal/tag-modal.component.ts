@@ -17,6 +17,8 @@ export class TagModalComponent implements OnInit {
   @Input() currentTags: Record<string, string> = {};
   @Output() save = new EventEmitter<{ newKey: string, newValue: string }>();
   @Output() close = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<string>(); // New event emitter for delete
+  showDeleteConfirmation: boolean = false; // New property for confirmation popup
   tagForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -36,6 +38,20 @@ export class TagModalComponent implements OnInit {
       ]);
       this.tagForm.get('key')?.updateValueAndValidity();
     }
+  }
+
+  initiateDelete(): void {
+    this.showDeleteConfirmation = true;
+  }
+
+  confirmDelete(): void {
+    this.delete.emit(this.key);
+    this.showDeleteConfirmation = false;
+    this.closeModal();
+  }
+
+  cancelDelete(): void {
+    this.showDeleteConfirmation = false;
   }
 
   uniqueTagKeyValidator(currentTags: Record<string, string>, oldKey: string) {

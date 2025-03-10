@@ -1,53 +1,44 @@
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.form-group {
-  margin-bottom: 10px;
-}
-
-.textarea-group {
-  flex-grow: 1; /* Allow this group to expand */
-  display: flex;
-  flex-direction: column;
-}
-
-.textarea-group textarea {
-  flex-grow: 1; /* Textarea fills the .textarea-group */
+.confirmation-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  resize: none; /* Optional */
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.error {
-  color: red;
-  font-size: 0.9em;
-}
-
-.modal-view {
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.tag-value {
-  white-space: pre-wrap; /* Preserve formatting */
-  margin: 5px 0;
+.confirmation-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.confirmation-buttons button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.confirmation-buttons button:first-child {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+}
+
+.confirmation-buttons button:first-child:hover {
+  background-color: #cc0000;
+}
+
+.confirmation-buttons button:last-child {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.confirmation-buttons button:last-child:hover {
+  background-color: #e0e0e0;
 }

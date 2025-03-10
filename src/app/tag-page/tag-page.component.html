@@ -1,6 +1,10 @@
 <div class="tag-container">
   <button class="fixed-button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
-  <h2>Manage Tags</h2> <!-- Added heading -->
+  <h2>Manage Tags</h2>
+  <div class="button-group">
+    <button *ngIf="!isTagInteractionLocked" (click)="openAddTagModal()">Add Tag</button>
+    <button (click)="toggleSort()">{{ sortButtonText }}</button>
+  </div>
   <form [formGroup]="searchForm">
     <div class="input-wrapper">
       <input
@@ -23,8 +27,9 @@
     </p>
     <ul>
       <li *ngFor="let tag of displayedTags" class="tag-item">
-       <span class="tag-text">
+        <span class="tag-text">
           <span class="tag-key">{{ tag.key }}</span>
+          <span class="tag-count">({{ getTagCardCount(tag.key) }})</span>
           <span class="tag-value">{{ getTagValue(tag.key) }}</span>
         </span>
         <button *ngIf="!isTagInteractionLocked" (click)="openTagModal(tag.key)" class="edit-icon">✏️</button>
@@ -41,6 +46,7 @@
     [isEditable]="!isTagInteractionLocked"
     [currentTags]="getDeck()?.tags || {}"
     (save)="onSaveTag($event)"
+    (delete)="onDeleteTag($event)"
     (close)="closeTagModal()"
   ></app-tag-modal>
 </div>

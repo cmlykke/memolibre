@@ -1,7 +1,7 @@
 <div class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>{{ isEditable ? 'Edit Tag' : 'View Tag' }}</h2>
+      <h2>{{ isEditable && key ? 'Edit Tag' : (isEditable ? 'Add Tag' : 'View Tag') }}</h2>
       <button class="close" (click)="closeModal()">×</button>
     </div>
     <div class="modal-body">
@@ -21,6 +21,7 @@
         </div>
         <div class="modal-footer">
           <button type="submit">Save</button>
+          <button type="button" *ngIf="key" (click)="initiateDelete()">Delete</button>
           <button type="button" (click)="closeModal()">Cancel</button>
         </div>
       </form>
@@ -28,6 +29,16 @@
         <p><strong>Key:</strong> {{ key }}</p>
         <p><strong>Value:</strong></p>
         <p class="tag-value">{{ value }}</p>
+      </div>
+      <!-- Delete Confirmation Popup -->
+      <div class="confirmation-overlay" *ngIf="showDeleteConfirmation">
+        <div class="confirmation-content">
+          <p>Are you sure you want to delete the tag "{{ key }}"?</p>
+          <div class="confirmation-buttons">
+            <button (click)="confirmDelete()">Yes</button>
+            <button (click)="cancelDelete()">No</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

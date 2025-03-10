@@ -1,70 +1,22 @@
-
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.input-wrapper {
-  /* Inherit from shared.css */
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-}
-
-.tag-item {
+.button-group {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.tag-text {
-  flex: 1; /* Ensures the tag text takes up available space */
-}
-
-.tag-key {
-  font-weight: bold;
-  color: #333; /* Darker for contrast */
-}
-
-.tag-key::after {
-  content: ': '; /* Adds the colon and a space after the key */
-}
-
-.tag-value {
-  color: #666; /* Match paragraph color */
-}
-
-.clickable {
+.button-group button {
+  padding: 5px 10px;
+  border-radius: 4px;
   cursor: pointer;
-  color: blue;
-  text-decoration: underline;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
 }
 
-p {
-  font-size: 1.2em;
-  color: #666;
-  text-align: center;
-  margin: 10px 0;
+.button-group button:hover {
+  background-color: #e0e0e0;
 }
 
-.tag-item p {
-  margin: 0;
-  font-size: 1em;
-  color: #333;
-  text-align: left;
-}
-
-.tag-container {
-  /* Inherit .container from shared.css */
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.edit-icon:hover {
-  color: #0056b3;
+.tag-count {
+  color: #888;
+  margin-left: 5px;
 }
