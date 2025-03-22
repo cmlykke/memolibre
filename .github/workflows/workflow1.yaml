@@ -23,9 +23,9 @@ jobs:
       - name: Build
         run: npx ng build --configuration production # Builds your app; adjust flags as needed
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3  # Updated from v1 to v3
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/memolibre  # Replace with your app’s output folder
+          path: dist/memolibre/browser  # Adjusted to point to the browser subdirectory
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
 
