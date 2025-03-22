@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write  # Required for actions/deploy-pages to request an OIDC token
-      contents: read  # Optional: typically needed for accessing repository contents
+      pages: write     # Required for actions/deploy-pages to manage GitHub Pages
+      contents: read   # Needed to access repository contents
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js
