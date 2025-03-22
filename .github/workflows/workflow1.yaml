@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        run: ng build --prod  # Builds your app; adjust flags as needed
+        run: npx ng build --prod  # Builds your app; adjust flags as needed
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3  # Updated from v1 to v3
         with:
