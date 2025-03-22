@@ -8,6 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for actions/deploy-pages to request an OIDC token
+      contents: read  # Optional: typically needed for accessing repository contents
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js
@@ -24,3 +27,4 @@ jobs:
           path: dist/memolibre  # Replace with your app’s output folder
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+
