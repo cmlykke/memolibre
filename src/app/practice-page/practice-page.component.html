@@ -17,7 +17,7 @@
       </div>
     </ng-container>
     <ng-template #noCard>
-      <p>No cards to practice. All cards have repetitionValue 0 or the deck is empty</p>
+      <p>No cards to practice. All cards have repetitionValue 0 or the deck is empty..</p>
       <div *ngIf="state.previousCard as prevCard">
         <h3>Previous Card</h3>
         <app-card [card]="prevCard" [showBackSide]="true" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
