@@ -42,3 +42,25 @@
 .confirmation-buttons button:last-child:hover {
   background-color: #e0e0e0;
 }
+
+
+/* Ensure the form takes the full height of modal-body and uses Flexbox */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Allow the textarea-group to grow, stacking its label and textarea vertically */
+.form-group.textarea-group {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Make the textarea expand to fill the textarea-group's available space */
+.textarea-group textarea {
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding/borders don't increase size */
+}
