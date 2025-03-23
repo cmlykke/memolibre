@@ -32,8 +32,8 @@ export class FlashCardDeckCreate {
       }
 
       if (hashCount === 0 && eachline.trim().length !== 0) {
-        if (lineNumAfterSpace === 1) backside = eachline;
-        if (lineNumAfterSpace === 2) frontside = eachline;
+        if (lineNumAfterSpace === 1) frontside = eachline;
+        if (lineNumAfterSpace === 2) backside = eachline;
         if (lineNumAfterSpace > 2) secondaryinfo.push(eachline);
       }
 
