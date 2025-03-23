@@ -17,6 +17,7 @@ export interface PracticeSettings {
   dateOfLastReviewFontSize: string; // e.g., "12px"
   repetitionValueFontSize: string;  // e.g., "12px"
   repetitionHistoryFontSize: string; // e.g., "12px"
+  tagValueFontSize: string;       // e.g., "16px" <- New setting
   // New toggle settings for label visibility
   showFrontSideLabel: string;     // "true" or "false"
   showBackSideLabel: string;      // "true" or "false"
@@ -37,9 +38,6 @@ export interface PracticeSettings {
 }
 
 export class FlashCardDeckPracticeSettings {
-  /**
-   * Default practice settings.
-   */
   public static defaultSettings(): Record<string, string> {
     return {
       frontSideFontSize: "16px",
@@ -53,6 +51,7 @@ export class FlashCardDeckPracticeSettings {
       dateOfLastReviewFontSize: "12px",
       repetitionValueFontSize: "12px",
       repetitionHistoryFontSize: "12px",
+      tagValueFontSize: "16px",     // New default value
       showFrontSideLabel: "true",
       showBackSideLabel: "true",
       showCardNumberLabel: "true",

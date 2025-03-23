@@ -17,7 +17,7 @@
         </div>
         <div class="form-group textarea-group">
           <label>Value:</label>
-          <textarea formControlName="value"></textarea>
+          <textarea formControlName="value" [style.fontSize]="tagValueFontSize"></textarea>
         </div>
         <div class="modal-footer">
           <button type="submit">Save</button>
@@ -28,7 +28,7 @@
       <div *ngIf="!isEditable" class="modal-view">
         <p><strong>Key:</strong> {{ key }}</p>
         <p><strong>Value:</strong></p>
-        <p class="tag-value">{{ value }}</p>
+        <p class="tag-value" [style.fontSize]="tagValueFontSize">{{ value }}</p>
       </div>
       <!-- Delete Confirmation Popup -->
       <div class="confirmation-overlay" *ngIf="showDeleteConfirmation">

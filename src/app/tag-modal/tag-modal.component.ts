@@ -1,6 +1,9 @@
+// C:\Users\CMLyk\WebstormProjects\memolibre\src\app\tag-modal\tag-modal.component.ts
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { GlobalStateService } from '../angular/shared/services/global-state-service'; // Adjust path if needed
 
 @Component({
   selector: 'app-tag-modal',
@@ -9,7 +12,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './tag-modal.component.html',
   styleUrls: ['../styles/modal-shared.css', './tag-modal.component.css']
 })
-
 export class TagModalComponent implements OnInit {
   @Input() key: string = '';
   @Input() value: string = '';
@@ -17,11 +19,12 @@ export class TagModalComponent implements OnInit {
   @Input() currentTags: Record<string, string> = {};
   @Output() save = new EventEmitter<{ newKey: string, newValue: string }>();
   @Output() close = new EventEmitter<void>();
-  @Output() delete = new EventEmitter<string>(); // New event emitter for delete
-  showDeleteConfirmation: boolean = false; // New property for confirmation popup
+  @Output() delete = new EventEmitter<string>();
+  showDeleteConfirmation: boolean = false;
   tagForm: FormGroup;
+  tagValueFontSize: string = '16px'; // Default value
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private globalStateService: GlobalStateService) {
     this.tagForm = this.fb.group({
       key: ['', [Validators.required, Validators.pattern(/^[\x21-\x7E]+$/)]],
       value: [''],
@@ -38,6 +41,7 @@ export class TagModalComponent implements OnInit {
       ]);
       this.tagForm.get('key')?.updateValueAndValidity();
     }
+    this.tagValueFontSize = this.globalStateService.getState().practiceSettings['tagValueFontSize'] || '16px';
   }
 
   initiateDelete(): void {
