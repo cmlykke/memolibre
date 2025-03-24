@@ -44,6 +44,10 @@ export class TagModalComponent implements OnInit {
     this.tagValueFontSize = this.globalStateService.getState().practiceSettings['tagValueFontSize'] || '16px';
   }
 
+  onKeyDown(event: KeyboardEvent): void {
+    event.stopPropagation();
+  }
+
   initiateDelete(): void {
     this.showDeleteConfirmation = true;
   }

@@ -17,7 +17,11 @@
         </div>
         <div class="form-group textarea-group">
           <label>Value:</label>
-          <textarea formControlName="value" [style.fontSize]="tagValueFontSize"></textarea>
+          <textarea
+            formControlName="value"
+            [style.fontSize]="tagValueFontSize"
+            (keydown)="onKeyDown($event)"
+          ></textarea>
         </div>
         <div class="modal-footer">
           <button type="submit">Save</button>
