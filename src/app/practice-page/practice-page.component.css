@@ -18,6 +18,12 @@
   color: #333;       /* Dark gray for visibility */
 }
 
+.positive-count {
+  margin-left: 10px; /* Space between last button and counter */
+  font-size: 14px;   /* Readable size */
+  color: #333;       /* Dark gray for visibility */
+}
+
 .tag-lock-container {
   position: fixed;
   top: 10px;

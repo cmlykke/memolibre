@@ -68,7 +68,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   markAsKnown(): void {
     const currentState = this.globalStateService.getState().practiceSession;
-    const { deck, currentCard, practicedCardHistory, practiceCount } = currentState;
+    const { deck, currentCard, practicedCardHistory, practiceCount, positiveCount } = currentState;
     if (!currentCard || !deck) return;
     const updatedDeck = FlashCardDeckPracticeUpdate.performPracticeAction(deck, currentCard.cardNumber, 'known');
     const newHistory = [...practicedCardHistory, currentCard.cardNumber];
@@ -81,12 +81,13 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       showBackSide: false,
       practicedCardHistory: newHistory,
       practiceCount: practiceCount + 1, // Increment counter
+      positiveCount: positiveCount + 1,
     });
   }
 
   markAsForgotten(): void {
     const currentState = this.globalStateService.getState().practiceSession;
-    const { deck, currentCard, practicedCardHistory, practiceCount } = currentState;
+    const { deck, currentCard, practicedCardHistory, practiceCount, positiveCount } = currentState;
     if (!currentCard || !deck) return;
     const updatedDeck = FlashCardDeckPracticeUpdate.performPracticeAction(deck, currentCard.cardNumber, 'forgotten');
     const newHistory = [...practicedCardHistory, currentCard.cardNumber];
@@ -99,35 +100,44 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       showBackSide: false,
       practicedCardHistory: newHistory,
       practiceCount: practiceCount + 1, // Increment counter
+      positiveCount: positiveCount - 1,
     });
   }
 
   undo(): void {
     const currentState = this.globalStateService.getState().practiceSession;
-    const { deck, practiceCount } = currentState;
-    if (!deck) return;
-    const { updatedDeck, revertedCard } = FlashCardDeckPracticeUpdate.undoLastAction(deck);
+    const { deck, practicedCardHistory, practiceCount, positiveCount } = currentState;
+    if (!deck || practicedCardHistory.length === 0) return;
+    const { updatedDeck, revertedCard, undoCount } = FlashCardDeckPracticeUpdate.undoLastAction(deck, positiveCount);
     if (revertedCard) {
+      const newHistory = practicedCardHistory.slice(0, -1); // Remove the last card from history
       this.globalStateService.updatePracticeState({
         deck: updatedDeck,
         currentCard: revertedCard,
         showBackSide: true,
-        practiceCount: Math.max(0, practiceCount - 1), // Decrement, not below 0
+        practicedCardHistory: newHistory,
+        practiceCount: Math.max(0, practiceCount - 1),
+        positiveCount: undoCount,
       });
     }
   }
 
   redo(): void {
     const currentState = this.globalStateService.getState().practiceSession;
-    const { deck, practiceCount } = currentState;
+    const { deck, practicedCardHistory, practiceCount, positiveCount } = currentState;
     if (!deck) return;
-    const { updatedDeck, appliedCard } = FlashCardDeckPracticeUpdate.redoLastAction(deck);
+    const { updatedDeck, appliedCard, redoCount } = FlashCardDeckPracticeUpdate.redoLastAction(deck, positiveCount);
     if (appliedCard) {
+      const newHistory = [...practicedCardHistory, appliedCard.cardNumber]; // Add the redone card to history
+      const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
+      const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
       this.globalStateService.updatePracticeState({
         deck: updatedDeck,
-        currentCard: appliedCard,
-        showBackSide: true,
-        practiceCount: practiceCount + 1, // Increment counter
+        currentCard: nextCard,
+        showBackSide: false,
+        practicedCardHistory: newHistory,
+        practiceCount: practiceCount + 1,
+        positiveCount: redoCount,
       });
     }
   }
@@ -189,7 +199,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!currentCard) return;
     const distance = touchEndX - touchStartX;
     if (!showBackSide) {
-      if (Math.abs(distance) < 10) {
+      if (Math.abs(distance) > 50) {
         this.globalStateService.updatePracticeState({ showBackSide: true });
       }
       // Note: No action for swipes when in front-side mode, per your requirement

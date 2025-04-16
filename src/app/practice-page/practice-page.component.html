@@ -4,6 +4,7 @@
     <button class="button" (click)="undo()" [disabled]="!canUndo()">Undo</button>
     <button class="button" (click)="redo()" [disabled]="!canRedo()">Redo</button>
     <span class="practice-count">{{ state.practiceCount }}</span>
+    <span class="positive-count">{{ state.positiveCount }}</span>
   </div>
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">

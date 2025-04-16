@@ -31,6 +31,7 @@ export interface PracticeSessionState {
   isTagInteractionLocked: boolean;
   practicedCardHistory: number[];
   practiceCount: number;
+  positiveCount: number;
 }
 
 @Injectable({
@@ -46,6 +47,7 @@ export class GlobalStateService {
       isTagInteractionLocked: true,
       practicedCardHistory: [],
       practiceCount: 0,
+      positiveCount: 0,
     },
     practiceSettings: FlashCardDeckPracticeSettings.defaultSettings(),
     appSettings: FlashCardDeckAppSettings.defaultSettings(),
@@ -93,6 +95,7 @@ export class GlobalStateService {
           showBackSide: false,
           practicedCardHistory: [],
           practiceCount: 0,
+          positiveCount: 0,
         } : {}),
       },
       practiceSettings: FlashCardDeckPracticeSettings.normalizeSettings(normalizedDeck.settings["practice-settings"]),
@@ -126,6 +129,7 @@ export class GlobalStateService {
         isTagInteractionLocked: false,
         practicedCardHistory: [],
         practiceCount: 0, // Reset counter
+        positiveCount: 0,
       },
     });
   }
