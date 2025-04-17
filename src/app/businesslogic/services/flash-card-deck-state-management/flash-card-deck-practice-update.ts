@@ -49,11 +49,11 @@ export class FlashCardDeckPracticeUpdate {
   }
 
   public static undoLastAction(deck: FlashCardDeck, positiveCount: number):
-      { updatedDeck: FlashCardDeck; revertedCard: FlashCard | null; undoCount: number } {
+      { updatedDeck: FlashCardDeck; revertedCard: FlashCard | null; undoCount: number; updatedPreviusCard: FlashCard | null} {
     const practiceHistory = deck.settings["practiceHistory"] || { undoStack: '', redoStack: '' };
     const undoStack = practiceHistory['undoStack'] ? practiceHistory['undoStack'].split('|') : [];
     if (undoStack.length === 0) {
-      return { updatedDeck: deck, revertedCard: null, undoCount: positiveCount };
+      return { updatedDeck: deck, revertedCard: null, undoCount: positiveCount, updatedPreviusCard: null };
     }
     const lastAction = undoStack.pop()!;
     const [cardNumberStr, actionType] = lastAction.split(':');
@@ -80,16 +80,29 @@ export class FlashCardDeckPracticeUpdate {
       cards: updatedCards,
       settings: { ...deck.settings, practiceHistory: newPracticeHistory },
     };
-    const undoCount = actionType === 'known' ? positiveCount - 1 : positiveCount
-    return { updatedDeck, revertedCard: updatedCard, undoCount: undoCount };
+    const undoCount = actionType === 'known' ? positiveCount - 1 : positiveCount + 1
+
+
+    if (undoStack.length === 0) {
+      return { updatedDeck: updatedDeck, revertedCard: updatedCard, undoCount: undoCount, updatedPreviusCard: null };
+    }
+    // update previus card
+    const updatedPreviusCardString: string = undoStack.at(-1) ?? "";
+    const [cardNumberStrTEMP, actionTypeTEMP] = updatedPreviusCardString.split(':');
+    const cardNumberTEMP = parseInt(cardNumberStrTEMP, 10);
+    const cardTEMP = deck.cards.find(c => c.cardNumber === cardNumberTEMP);
+    if (!cardTEMP) {
+      throw new Error(`Card with number ${cardNumberTEMP} not found`);
+    }
+    return { updatedDeck, revertedCard: updatedCard, undoCount: undoCount, updatedPreviusCard: cardTEMP };
   }
 
   public static redoLastAction(deck: FlashCardDeck, positiveCount: number):
-      { updatedDeck: FlashCardDeck; appliedCard: FlashCard | null; redoCount: number } {
+      { updatedDeck: FlashCardDeck; appliedCard: FlashCard | null; redoCount: number; updatedPreviusCard: FlashCard | null } {
     const practiceHistory = deck.settings["practiceHistory"] || { undoStack: '', redoStack: '' };
     const redoStack = practiceHistory['redoStack'] ? practiceHistory['redoStack'].split('|') : [];
     if (redoStack.length === 0) {
-      return { updatedDeck: deck, appliedCard: null, redoCount: positiveCount };
+      return { updatedDeck: deck, appliedCard: null, redoCount: positiveCount, updatedPreviusCard: null };
     }
     const nextAction = redoStack.pop()!;
     const [cardNumberStr, actionType] = nextAction.split(':');
@@ -112,15 +125,25 @@ export class FlashCardDeckPracticeUpdate {
     if (undoStack.length > 100) {
       undoStack.shift();
     }
+    // generate previus card
+    const updatedPreviusCardString: string = undoStack.at(-1) ?? "";
+    const [cardNumberStrTEMP, actionTypeTEMP] = updatedPreviusCardString.split(':');
+    const cardNumberTEMP = parseInt(cardNumberStrTEMP, 10);
+    const cardTEMP = deck.cards.find(c => c.cardNumber === cardNumberTEMP);
+    if (!cardTEMP) {
+      throw new Error(`Card with number ${cardNumberTEMP} not found`);
+    }
+
     const newPracticeHistory: Record<string, string> = {
       undoStack: undoStack.join('|'),
       redoStack: redoStack.join('|'),
     };
-    const redoCount = actionType === 'known' ? positiveCount + 1 : positiveCount
+    const redoCount = actionType === 'known' ? positiveCount + 1 : positiveCount - 1
     return {
       updatedDeck: { ...updatedDeck, settings: { ...updatedDeck.settings, practiceHistory: newPracticeHistory } },
       appliedCard: updatedCard,
-      redoCount: redoCount
+      redoCount: redoCount,
+      updatedPreviusCard: cardTEMP
     };
   }
 

@@ -95,8 +95,8 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: currentCard,
       currentCard: nextCard,
+      previousCard: currentCard,
       showBackSide: false,
       practicedCardHistory: newHistory,
       practiceCount: practiceCount + 1, // Increment counter
@@ -108,11 +108,15 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentState = this.globalStateService.getState().practiceSession;
     const { deck, practicedCardHistory, practiceCount, positiveCount } = currentState;
     if (!deck || practicedCardHistory.length === 0) return;
-    const { updatedDeck, revertedCard, undoCount } = FlashCardDeckPracticeUpdate.undoLastAction(deck, positiveCount);
+    const { updatedDeck, revertedCard, undoCount, updatedPreviusCard } = FlashCardDeckPracticeUpdate.undoLastAction(deck, positiveCount);
     if (revertedCard) {
       const newHistory = practicedCardHistory.slice(0, -1); // Remove the last card from history
+      if (!updatedPreviusCard) {
+        throw new Error(`Previus Card not found. current card number: ${revertedCard?.cardNumber}`);
+      }
       this.globalStateService.updatePracticeState({
         deck: updatedDeck,
+        previousCard: updatedPreviusCard,
         currentCard: revertedCard,
         showBackSide: true,
         practicedCardHistory: newHistory,
@@ -126,13 +130,17 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentState = this.globalStateService.getState().practiceSession;
     const { deck, practicedCardHistory, practiceCount, positiveCount } = currentState;
     if (!deck) return;
-    const { updatedDeck, appliedCard, redoCount } = FlashCardDeckPracticeUpdate.redoLastAction(deck, positiveCount);
+    const { updatedDeck, appliedCard, redoCount, updatedPreviusCard } = FlashCardDeckPracticeUpdate.redoLastAction(deck, positiveCount);
     if (appliedCard) {
       const newHistory = [...practicedCardHistory, appliedCard.cardNumber]; // Add the redone card to history
       const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
       const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
+      if (!updatedPreviusCard) {
+        throw new Error(`Previus Card not found. current card number: ${nextCard?.cardNumber}`);
+      }
       this.globalStateService.updatePracticeState({
         deck: updatedDeck,
+        previousCard: updatedPreviusCard,
         currentCard: nextCard,
         showBackSide: false,
         practicedCardHistory: newHistory,
