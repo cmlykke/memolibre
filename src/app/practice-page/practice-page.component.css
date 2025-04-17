@@ -1,10 +1,13 @@
 .practice-container {
+  overscroll-behavior-y: contain;
   /* Inherit .container from shared.css */
 }
 
 .current-card {
   touch-action: pan-y;
   overscroll-behavior-y: contain;
+  max-height: 80vh; /* Adjust based on your layout */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
 }
 
 .top-buttons-container {
