@@ -24,9 +24,9 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Properties for touch handling
   private touchStartX: number = 0;
-  private touchStartY: number = 0; // Added
+  private touchStartY: number = 0;
   private touchEndX: number = 0;
-  private touchEndY: number = 0; // Added
+  private touchEndY: number = 0;
   private isTouchOnCurrentCard: boolean = false;
 
   constructor(protected globalStateService: GlobalStateService) {}
@@ -189,7 +189,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (isOnCurrentCard) {
         this.isTouchOnCurrentCard = true;
         this.touchStartX = event.changedTouches[0].screenX;
-        this.touchStartY = event.changedTouches[0].screenY; // Capture Y coordinate
+        this.touchStartY = event.changedTouches[0].screenY;
       } else {
         this.isTouchOnCurrentCard = false;
       }
@@ -198,9 +198,9 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     element.addEventListener('touchend', (event: TouchEvent) => {
       if (this.isTouchOnCurrentCard) {
         this.touchEndX = event.changedTouches[0].screenX;
-        this.touchEndY = event.changedTouches[0].screenY; // Capture Y coordinate
-        this.handleSwipe(this.touchStartX, this.touchStartY, this.touchEndX, this.touchEndY); // Pass all 4 arguments
-        this.isTouchOnCurrentCard = false; // Reset the flag
+        this.touchEndY = event.changedTouches[0].screenY;
+        this.handleSwipe(this.touchStartX, this.touchStartY, this.touchEndX, this.touchEndY);
+        this.isTouchOnCurrentCard = false;
       }
     }, false);
   }
@@ -216,25 +216,24 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const absDeltaX = Math.abs(deltaX);
     const absDeltaY = Math.abs(deltaY);
 
-    // Get screen width for dynamic threshold
-    const screenWidth = window.innerWidth;
-    const minSwipeDistance = screenWidth * 0.2; // 30% of screen width
+    // Define thresholds
+    const minDragDistance = 50; // Lower threshold for slow drags (in pixels)
     const maxVerticalDistance = 20; // Max vertical movement in pixels
+    const maxAngle = 30; // Allow movements within ±30 degrees of horizontal
 
     // Calculate swipe angle (in degrees)
     const angle = Math.atan2(absDeltaY, absDeltaX) * (180 / Math.PI);
-    const maxAngle = 30; // Allow swipes within ±30 degrees of horizontal
 
-    // Only process swipe if it's primarily horizontal and vertical movement is limited
-    if (absDeltaX > minSwipeDistance && absDeltaY < maxVerticalDistance && angle < maxAngle) {
+    // Process horizontal movement if it's primarily horizontal
+    if (absDeltaX > minDragDistance && absDeltaY < maxVerticalDistance && angle < maxAngle) {
       if (!showBackSide) {
-        // Show back side on any significant horizontal swipe
+        // Show back side on any significant horizontal movement
         this.globalStateService.updatePracticeState({ showBackSide: true });
       } else {
-        // Handle known/forgotten based on swipe direction
-        if (deltaX > minSwipeDistance) {
+        // Handle known/forgotten based on direction
+        if (deltaX > minDragDistance) {
           this.markAsKnown();
-        } else if (deltaX < -minSwipeDistance) {
+        } else if (deltaX < -minDragDistance) {
           this.markAsForgotten();
         }
       }
