@@ -20,11 +20,13 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   tagLockButtonText: string = 'Lock Tags';
 
   @ViewChild('practiceContainer') practiceContainer!: ElementRef;
-  @ViewChild('currentCardContainer') currentCardContainer!: ElementRef; // Add this
+  @ViewChild('currentCardContainer') currentCardContainer!: ElementRef;
 
-  // Add properties for touch handling
+  // Properties for touch handling
   private touchStartX: number = 0;
+  private touchStartY: number = 0; // Added
   private touchEndX: number = 0;
+  private touchEndY: number = 0; // Added
   private isTouchOnCurrentCard: boolean = false;
 
   constructor(protected globalStateService: GlobalStateService) {}
@@ -80,7 +82,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       currentCard: nextCard,
       showBackSide: false,
       practicedCardHistory: newHistory,
-      practiceCount: practiceCount + 1, // Increment counter
+      practiceCount: practiceCount + 1,
       positiveCount: positiveCount + 1,
     });
   }
@@ -99,7 +101,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       previousCard: currentCard,
       showBackSide: false,
       practicedCardHistory: newHistory,
-      practiceCount: practiceCount + 1, // Increment counter
+      practiceCount: practiceCount + 1,
       positiveCount: positiveCount - 1,
     });
   }
@@ -110,9 +112,9 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!deck || practicedCardHistory.length === 0) return;
     const { updatedDeck, revertedCard, undoCount, updatedPreviusCard } = FlashCardDeckPracticeUpdate.undoLastAction(deck, positiveCount);
     if (revertedCard) {
-      const newHistory = practicedCardHistory.slice(0, -1); // Remove the last card from history
+      const newHistory = practicedCardHistory.slice(0, -1);
       if (!updatedPreviusCard) {
-        throw new Error(`Previus Card not found. current card number: ${revertedCard?.cardNumber}`);
+        throw new Error(`Previous Card not found. Current card number: ${revertedCard?.cardNumber}`);
       }
       this.globalStateService.updatePracticeState({
         deck: updatedDeck,
@@ -132,11 +134,11 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!deck) return;
     const { updatedDeck, appliedCard, redoCount, updatedPreviusCard } = FlashCardDeckPracticeUpdate.redoLastAction(deck, positiveCount);
     if (appliedCard) {
-      const newHistory = [...practicedCardHistory, appliedCard.cardNumber]; // Add the redone card to history
+      const newHistory = [...practicedCardHistory, appliedCard.cardNumber];
       const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
       const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
       if (!updatedPreviusCard) {
-        throw new Error(`Previus Card not found. current card number: ${nextCard?.cardNumber}`);
+        throw new Error(`Previous Card not found. Current card number: ${nextCard?.cardNumber}`);
       }
       this.globalStateService.updatePracticeState({
         deck: updatedDeck,
@@ -187,6 +189,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (isOnCurrentCard) {
         this.isTouchOnCurrentCard = true;
         this.touchStartX = event.changedTouches[0].screenX;
+        this.touchStartY = event.changedTouches[0].screenY; // Capture Y coordinate
       } else {
         this.isTouchOnCurrentCard = false;
       }
@@ -195,27 +198,45 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     element.addEventListener('touchend', (event: TouchEvent) => {
       if (this.isTouchOnCurrentCard) {
         this.touchEndX = event.changedTouches[0].screenX;
-        this.handleSwipe(this.touchStartX, this.touchEndX);
+        this.touchEndY = event.changedTouches[0].screenY; // Capture Y coordinate
+        this.handleSwipe(this.touchStartX, this.touchStartY, this.touchEndX, this.touchEndY); // Pass all 4 arguments
         this.isTouchOnCurrentCard = false; // Reset the flag
       }
     }, false);
   }
 
-  private handleSwipe(touchStartX: number, touchEndX: number): void {
+  private handleSwipe(touchStartX: number, touchStartY: number, touchEndX: number, touchEndY: number): void {
     const currentState = this.globalStateService.getState().practiceSession;
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
-    const distance = touchEndX - touchStartX;
-    if (!showBackSide) {
-      if (Math.abs(distance) > 50) {
+
+    // Calculate distances
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
+
+    // Get screen width for dynamic threshold
+    const screenWidth = window.innerWidth;
+    const minSwipeDistance = screenWidth * 0.3; // 30% of screen width
+    const maxVerticalDistance = 20; // Max vertical movement in pixels
+
+    // Calculate swipe angle (in degrees)
+    const angle = Math.atan2(absDeltaY, absDeltaX) * (180 / Math.PI);
+    const maxAngle = 30; // Allow swipes within ±30 degrees of horizontal
+
+    // Only process swipe if it's primarily horizontal and vertical movement is limited
+    if (absDeltaX > minSwipeDistance && absDeltaY < maxVerticalDistance && angle < maxAngle) {
+      if (!showBackSide) {
+        // Show back side on any significant horizontal swipe
         this.globalStateService.updatePracticeState({ showBackSide: true });
-      }
-      // Note: No action for swipes when in front-side mode, per your requirement
-    } else {
-      if (distance > 50) {
-        this.markAsKnown();
-      } else if (distance < -50) {
-        this.markAsForgotten();
+      } else {
+        // Handle known/forgotten based on swipe direction
+        if (deltaX > minSwipeDistance) {
+          this.markAsKnown();
+        } else if (deltaX < -minSwipeDistance) {
+          this.markAsForgotten();
+        }
       }
     }
   }
