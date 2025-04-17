@@ -9,7 +9,7 @@
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
       <!-- Add div with #currentCardContainer here -->
-      <div #currentCardContainer>
+      <div #currentCardContainer class="current-card">
         <app-card [card]="card" [showBackSide]="state.showBackSide" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
       </div>
       <div *ngIf="state.previousCard as prevCard">

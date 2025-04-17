@@ -218,7 +218,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Get screen width for dynamic threshold
     const screenWidth = window.innerWidth;
-    const minSwipeDistance = screenWidth * 0.3; // 30% of screen width
+    const minSwipeDistance = screenWidth * 0.2; // 30% of screen width
     const maxVerticalDistance = 20; // Max vertical movement in pixels
 
     // Calculate swipe angle (in degrees)

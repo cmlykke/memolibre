@@ -2,6 +2,10 @@
   /* Inherit .container from shared.css */
 }
 
+.current-card {
+  touch-action: pan-y;
+}
+
 .top-buttons-container {
   position: fixed;
   top: 10px;
