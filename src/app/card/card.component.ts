@@ -1,4 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 import { FlashCard } from '../businesslogic/models/flashcard';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
 import { CommonModule } from '@angular/common';
@@ -6,12 +9,13 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DetailsModalComponent } from '../details-modal/details-modal.component';
 import { CardFieldEditModalComponent } from '../card-field-edit-modal/card-field-edit-modal.component';
-import { TagModalComponent } from '../tag-modal/tag-modal.component'; // Import TagModalComponent
+import { TagModalComponent } from '../tag-modal/tag-modal.component';
 import { ModalData } from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
 import { Subscription } from 'rxjs';
-import { FlashCardDeckTagSettings } from '../../app/businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';//'../businesslogic/services/flash-card-deck-tag-settings'; // Adjust path as needed
+import { FlashCardDeckTagSettings } from '../../app/businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
 
 @Component({
   selector: 'app-card',
@@ -22,9 +26,11 @@ import { FlashCardDeckTagSettings } from '../../app/businesslogic/services/flash
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
     DetailsModalComponent,
     CardFieldEditModalComponent,
-    TagModalComponent // Add to imports
+    TagModalComponent
   ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
@@ -36,17 +42,28 @@ export class CardComponent implements OnInit, OnDestroy {
   settings: Record<string, string> = {};
   isEditingTags: boolean = false;
   isEditingNotableCards: boolean = false;
-  showTagModal: boolean = false; // For tag modal
-  selectedTagKey: string = ''; // Store selected tag key
-  selectedTagValue: string = ''; // Store selected tag value
-  deckTags: Record<string, string> = {}; // Store deck tags for TagModalComponent
-  showDetailsModal: boolean = false; // For details modal (notable cards)
-  detailsModalData: ModalData | null = null; // Data for notable card details
+  showTagModal: boolean = false;
+  selectedTagKey: string = '';
+  selectedTagValue: string = '';
+  deckTags: Record<string, string> = {};
+  showDetailsModal: boolean = false;
+  detailsModalData: ModalData | null = null;
   showEditModal: boolean = false;
   fieldToEdit: 'primaryInfo' | 'secondaryInfo' | null = null;
   private subscription: Subscription = new Subscription();
 
-  constructor(private globalStateService: GlobalStateService) {}
+  // Properties for tag autocomplete
+  tagControl = new FormControl();
+  filteredTags: Observable<string[]>;
+  allTags: string[] = [];
+  isRegexMode: boolean = false; // New property to toggle between simple and regex filtering
+
+  constructor(private globalStateService: GlobalStateService) {
+    this.filteredTags = this.tagControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterTags(value || ''))
+    );
+  }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -64,6 +81,10 @@ export class CardComponent implements OnInit, OnDestroy {
             this.saveNotableCards();
           }
         }
+        const deck = state.practiceSession.deck;
+        if (deck) {
+          this.allTags = Object.keys(deck.tags);
+        }
       })
     );
   }
@@ -72,96 +93,45 @@ export class CardComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onSaveTag(data: { newKey: string, newValue: string }): void {
-    const deck = this.globalStateService.getFlashCardDeck();
-    if (deck) {
+  // Updated filtering method to support regex
+  private _filterTags(value: string): string[] {
+    if (!value) {
+      return this.allTags; // Show all tags if input is empty
+    }
+    if (this.isRegexMode) {
       try {
-        // Update the deck with the new tag key and value
-        const updatedDeck = FlashCardDeckTagSettings.editTag(deck, this.selectedTagKey, data.newKey, data.newValue);
-        // Persist the updated deck
-        this.globalStateService.setFlashCardDeck(updatedDeck, false);
-        console.log('Tag updated successfully:', { newKey: data.newKey, newValue: data.newValue });
-      } catch (error) {
-        console.error('Failed to update tag:', error);
+        const regex = new RegExp(value, 'i'); // Case-insensitive regex matching
+        return this.allTags.filter(tag => regex.test(tag));
+      } catch (e) {
+        return this.allTags; // Fallback to all tags if regex is invalid
       }
-    }
-    // Close the modal after saving
-    this.closeTagModal();
-  }
-
-  openTagModal(tag: string): void {
-    if (this.isTagInteractionLocked) return;
-    const deck = this.globalStateService.getFlashCardDeck();
-    if (deck && deck.tags[tag]) {
-      this.selectedTagKey = tag;
-      this.selectedTagValue = deck.tags[tag];
-      this.deckTags = deck.tags;
-      this.showTagModal = true;
-      console.log('Tag modal opened:', { key: tag, value: deck.tags[tag] });
     } else {
-      console.log('Tag not found:', tag);
+      const filterValue = value.toLowerCase();
+      return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue)); // Original simple filtering
     }
   }
 
-  closeTagModal(): void {
-    this.showTagModal = false;
-    this.selectedTagKey = '';
-    this.selectedTagValue = '';
-    this.deckTags = {};
+  // Method to toggle between simple and regex modes
+  toggleFilterMode(): void {
+    this.isRegexMode = !this.isRegexMode;
   }
 
-  openNotableCardModal(cardNumber: number): void {
-    if (this.isTagInteractionLocked) return;
-    const deck = this.globalStateService.getFlashCardDeck();
-    if (deck) {
-      const notableCard = deck.cards.find(c => c.cardNumber === cardNumber);
-      if (notableCard) {
-        this.detailsModalData = {
-          title: `Card ${notableCard.cardNumber} Details`,
-          fields: [
-            { label: 'Card Number', value: notableCard.cardNumber.toString() },
-            { label: 'Card Name', value: notableCard.cardName },
-            { label: 'Front Side', value: notableCard.frontSide },
-            { label: 'Back Side', value: notableCard.backSide },
-            { label: 'Primary Info', value: notableCard.primaryInfo },
-            { label: 'Secondary Info', value: notableCard.secondaryInfo },
-            { label: 'Notable Cards', value: notableCard.notableCards.join(', ') },
-            { label: 'Date of Last Review', value: notableCard.dateOfLastReview },
-            { label: 'Repetition Value', value: notableCard.repetitionValue.toString() },
-            { label: 'Repetition History', value: notableCard.repetitionHistory.join(', ') },
-            { label: 'Tags', value: notableCard.tags.join(', ') }
-          ]
-        };
-        this.showDetailsModal = true;
-      }
+  selectTag(event: any): void {
+    const tag = event.option.value;
+    if (this.card && !this.card.tags.includes(tag)) {
+      this.card.tags.push(tag);
     }
-  }
-
-  closeDetailsModal(): void {
-    this.showDetailsModal = false;
-    this.detailsModalData = null;
-  }
-
-  toggleEditTags(): void {
-    if (this.isTagInteractionLocked) {
-      return; // Cannot edit when locked
-    }
-    this.isEditingTags = !this.isEditingTags;
-    if (!this.isEditingTags && this.card) {
-      this.saveTags();
-    }
+    this.tagControl.setValue('');
   }
 
   addTag(event: any): void {
-    const input = event.input;
-    const value = event.value.trim();
-    const deck = this.globalStateService.getFlashCardDeck();
-    if (deck && deck.tags && value && this.card && deck.tags.hasOwnProperty(value) && !this.card.tags.includes(value)) {
+    const value = (event.value || '').trim();
+    if (value && this.allTags.includes(value) && this.card && !this.card.tags.includes(value)) {
       this.card.tags.push(value);
+    } else if (value && !this.allTags.includes(value)) {
+      console.log(`Tag "${value}" does not exist in the deck.`);
     }
-    if (input) {
-      input.value = '';
-    }
+    this.tagControl.setValue('');
   }
 
   removeTag(tag: string): void {
@@ -170,10 +140,16 @@ export class CardComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleEditNotableCards(): void {
-    if (this.isTagInteractionLocked) {
-      return; // Cannot edit when locked
+  toggleEditTags(): void {
+    if (this.isTagInteractionLocked) return;
+    this.isEditingTags = !this.isEditingTags;
+    if (!this.isEditingTags && this.card) {
+      this.saveTags();
     }
+  }
+
+  toggleEditNotableCards(): void {
+    if (this.isTagInteractionLocked) return;
     this.isEditingNotableCards = !this.isEditingNotableCards;
     if (!this.isEditingNotableCards && this.card) {
       this.saveNotableCards();
@@ -239,4 +215,70 @@ export class CardComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSaveTag(data: { newKey: string, newValue: string }): void {
+    const deck = this.globalStateService.getFlashCardDeck();
+    if (deck) {
+      try {
+        const updatedDeck = FlashCardDeckTagSettings.editTag(deck, this.selectedTagKey, data.newKey, data.newValue);
+        this.globalStateService.setFlashCardDeck(updatedDeck, false);
+        console.log('Tag updated successfully:', { newKey: data.newKey, newValue: data.newValue });
+      } catch (error) {
+        console.error('Failed to update tag:', error);
+      }
+    }
+    this.closeTagModal();
+  }
+
+  openTagModal(tag: string): void {
+    if (this.isTagInteractionLocked) return;
+    const deck = this.globalStateService.getFlashCardDeck();
+    if (deck && deck.tags[tag]) {
+      this.selectedTagKey = tag;
+      this.selectedTagValue = deck.tags[tag];
+      this.deckTags = deck.tags;
+      this.showTagModal = true;
+      console.log('Tag modal opened:', { key: tag, value: deck.tags[tag] });
+    } else {
+      console.log('Tag not found:', tag);
+    }
+  }
+
+  closeTagModal(): void {
+    this.showTagModal = false;
+    this.selectedTagKey = '';
+    this.selectedTagValue = '';
+    this.deckTags = {};
+  }
+
+  openNotableCardModal(cardNumber: number): void {
+    if (this.isTagInteractionLocked) return;
+    const deck = this.globalStateService.getFlashCardDeck();
+    if (deck) {
+      const notableCard = deck.cards.find(c => c.cardNumber === cardNumber);
+      if (notableCard) {
+        this.detailsModalData = {
+          title: `Card ${notableCard.cardNumber} Details`,
+          fields: [
+            { label: 'Card Number', value: notableCard.cardNumber.toString() },
+            { label: 'Card Name', value: notableCard.cardName },
+            { label: 'Front Side', value: notableCard.frontSide },
+            { label: 'Back Side', value: notableCard.backSide },
+            { label: 'Primary Info', value: notableCard.primaryInfo },
+            { label: 'Secondary Info', value: notableCard.secondaryInfo },
+            { label: 'Notable Cards', value: notableCard.notableCards.join(', ') },
+            { label: 'Date of Last Review', value: notableCard.dateOfLastReview },
+            { label: 'Repetition Value', value: notableCard.repetitionValue.toString() },
+            { label: 'Repetition History', value: notableCard.repetitionHistory.join(', ') },
+            { label: 'Tags', value: notableCard.tags.join(', ') }
+          ]
+        };
+        this.showDetailsModal = true;
+      }
+    }
+  }
+
+  closeDetailsModal(): void {
+    this.showDetailsModal = false;
+    this.detailsModalData = null;
+  }
 }
