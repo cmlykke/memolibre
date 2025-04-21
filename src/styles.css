@@ -1,3 +1,8 @@
+html, body {
+  height: 100%;
+  overscroll-behavior-y: contain;
+}
+
 /* Base input styles (no tooltip) */
 input {
   padding: 8px;
