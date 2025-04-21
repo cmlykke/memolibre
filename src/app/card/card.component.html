@@ -30,7 +30,7 @@
         {{ card.cardName }}
       </span>
     </p>
-    <!-- Notable Cards (unchanged) -->
+    <!-- Updated Notable Cards section -->
     <p>
       <span *ngIf="settings['showNotableCardsLabel'] === 'true'">Notable Cards: </span>
       <span *ngIf="!isEditingNotableCards">
@@ -69,16 +69,23 @@
               type="number"
               placeholder="Add card number..."
               [matChipInputFor]="chipGrid"
+              [matAutocomplete]="cardAuto"
               (matChipInputTokenEnd)="addNotableCard($event)"
+              [formControl]="notableCardControl"
             >
           </mat-chip-grid>
+          <mat-autocomplete #cardAuto="matAutocomplete" (optionSelected)="selectNotableCard($event)">
+            <mat-option *ngFor="let cardNumber of filteredCardNumbers | async" [value]="cardNumber">
+              {{ cardNumber }}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
         <button mat-icon-button (click)="toggleEditNotableCards()" style="margin-left: 10px;">
           <mat-icon>done</mat-icon>
         </button>
       </span>
     </p>
-    <!-- Tags (unchanged) -->
+    <!-- Tags section (unchanged) -->
     <p>
       <span *ngIf="settings['showTagsLabel'] === 'true'">Tags: </span>
       <span *ngIf="!isEditingTags">
@@ -105,36 +112,35 @@
         </button>
       </span>
       <span *ngIf="isEditingTags">
-  <!-- Toggle button for switching filtering modes -->
-  <button mat-button (click)="toggleFilterMode()">
-    {{ isRegexMode ? 'Switch to Simple Mode' : 'Switch to Regex Mode' }}
-  </button>
-  <mat-form-field>
-    <mat-chip-grid #chipGrid>
-      <mat-chip-row *ngFor="let tag of card.tags" (removed)="removeTag(tag)">
-        {{ tag }}
-        <button matChipRemove>
-          <mat-icon>cancel</mat-icon>
+        <button mat-button (click)="toggleFilterMode()">
+          {{ isRegexMode ? 'Switch to Simple Mode' : 'Switch to Regex Mode' }}
         </button>
-      </mat-chip-row>
-      <input
-        [placeholder]="isRegexMode ? 'Enter regex pattern...' : 'New tag...'"
-        [matChipInputFor]="chipGrid"
-        [matAutocomplete]="auto"
-        (matChipInputTokenEnd)="addTag($event)"
-        [formControl]="tagControl"
-      >
-    </mat-chip-grid>
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
-      <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-        {{ tag }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <button mat-icon-button (click)="toggleEditTags()" style="margin-left: 10px;">
-    <mat-icon>done</mat-icon>
-  </button>
-</span>
+        <mat-form-field>
+          <mat-chip-grid #chipGrid>
+            <mat-chip-row *ngFor="let tag of card.tags" (removed)="removeTag(tag)">
+              {{ tag }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input
+              [placeholder]="isRegexMode ? 'Enter regex pattern...' : 'New tag...'"
+              [matChipInputFor]="chipGrid"
+              [matAutocomplete]="auto"
+              (matChipInputTokenEnd)="addTag($event)"
+              [formControl]="tagControl"
+            >
+          </mat-chip-grid>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
+            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+              {{ tag }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button mat-icon-button (click)="toggleEditTags()" style="margin-left: 10px;">
+          <mat-icon>done</mat-icon>
+        </button>
+      </span>
     </p>
     <!-- Remaining fields (unchanged) -->
     <p>
@@ -172,7 +178,7 @@
   </div>
 </div>
 
-<!-- Tag Modal for displaying tag details -->
+<!-- Modals (unchanged) -->
 <app-tag-modal
   *ngIf="showTagModal"
   [key]="selectedTagKey"
@@ -183,14 +189,12 @@
   (close)="closeTagModal()"
 ></app-tag-modal>
 
-<!-- Details Modal for notable card details -->
 <app-details-modal
   *ngIf="showDetailsModal"
   [data]="detailsModalData"
   (close)="closeDetailsModal()"
 ></app-details-modal>
 
-<!-- Card Field Edit Modal (unchanged) -->
 <app-card-field-edit-modal
   *ngIf="showEditModal"
   [field]="fieldToEdit"

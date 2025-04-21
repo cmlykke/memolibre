@@ -52,16 +52,28 @@ export class CardComponent implements OnInit, OnDestroy {
   fieldToEdit: 'primaryInfo' | 'secondaryInfo' | null = null;
   private subscription: Subscription = new Subscription();
 
-  // Properties for tag autocomplete
+  // Properties for tag autocomplete (unchanged)
   tagControl = new FormControl();
   filteredTags: Observable<string[]>;
   allTags: string[] = [];
-  isRegexMode: boolean = false; // New property to toggle between simple and regex filtering
+  isRegexMode: boolean = false;
+
+  // New properties for notable card autocomplete
+  notableCardControl = new FormControl();
+  filteredCardNumbers: Observable<number[]>;
+  allCardNumbers: number[] = [];
 
   constructor(private globalStateService: GlobalStateService) {
+    // Tag autocomplete setup (unchanged)
     this.filteredTags = this.tagControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filterTags(value || ''))
+    );
+
+    // Notable card autocomplete setup
+    this.filteredCardNumbers = this.notableCardControl.valueChanges.pipe(
+      startWith(null),
+      map(value => this._filterCardNumbers(value))
     );
   }
 
@@ -84,6 +96,8 @@ export class CardComponent implements OnInit, OnDestroy {
         const deck = state.practiceSession.deck;
         if (deck) {
           this.allTags = Object.keys(deck.tags);
+          // Populate allCardNumbers with sorted card numbers from the deck
+          this.allCardNumbers = deck.cards.map(c => c.cardNumber).sort((a, b) => a - b);
         }
       })
     );
@@ -93,29 +107,36 @@ export class CardComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  // Updated filtering method to support regex
+  // Tag filtering (unchanged)
   private _filterTags(value: string): string[] {
     if (!value) {
-      return this.allTags; // Show all tags if input is empty
+      return this.allTags;
     }
     if (this.isRegexMode) {
       try {
-        const regex = new RegExp(value, 'i'); // Case-insensitive regex matching
+        const regex = new RegExp(value, 'i');
         return this.allTags.filter(tag => regex.test(tag));
       } catch (e) {
-        return this.allTags; // Fallback to all tags if regex is invalid
+        return this.allTags;
       }
     } else {
       const filterValue = value.toLowerCase();
-      return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue)); // Original simple filtering
+      return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
     }
   }
 
-  // Method to toggle between simple and regex modes
-  toggleFilterMode(): void {
-    this.isRegexMode = !this.isRegexMode;
+  // New filtering for notable cards
+  private _filterCardNumbers(value: number | null): number[] {
+    if (value === null) {
+      return this.allCardNumbers; // Show all card numbers when input is empty
+    }
+    const filterValue = value.toString();
+    return this.allCardNumbers.filter(cardNumber =>
+      cardNumber.toString().startsWith(filterValue)
+    );
   }
 
+  // Tag methods (unchanged)
   selectTag(event: any): void {
     const tag = event.option.value;
     if (this.card && !this.card.tags.includes(tag)) {
@@ -148,6 +169,7 @@ export class CardComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Notable card methods
   toggleEditNotableCards(): void {
     if (this.isTagInteractionLocked) return;
     this.isEditingNotableCards = !this.isEditingNotableCards;
@@ -157,26 +179,35 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   addNotableCard(event: any): void {
-    const input = event.input;
-    const value = event.value.trim();
-    if (value) {
-      const cardNumber = parseInt(value, 10);
-      if (!isNaN(cardNumber)) {
-        const deck = this.globalStateService.getFlashCardDeck();
-        if (deck && deck.cards.some(c => c.cardNumber === cardNumber) && this.card && !this.card.notableCards.includes(cardNumber)) {
-          this.card.notableCards.push(cardNumber);
-        }
+    const value = event.value;
+    if (value !== null && value !== '') {
+      const cardNumber = Number(value); // Convert input to number
+      if (!isNaN(cardNumber) && this.allCardNumbers.includes(cardNumber) && this.card && !this.card.notableCards.includes(cardNumber)) {
+        this.card.notableCards.push(cardNumber);
+      } else {
+        console.log(`Card number ${value} does not exist in the deck.`);
       }
     }
-    if (input) {
-      input.value = '';
+    this.notableCardControl.setValue(null); // Clear the input
+  }
+
+  selectNotableCard(event: any): void {
+    const cardNumber = event.option.value;
+    if (this.card && !this.card.notableCards.includes(cardNumber)) {
+      this.card.notableCards.push(cardNumber);
     }
+    this.notableCardControl.setValue(null); // Clear the input
   }
 
   removeNotableCard(cardNumber: number): void {
     if (this.card) {
       this.card.notableCards = this.card.notableCards.filter(n => n !== cardNumber);
     }
+  }
+
+  // Remaining methods (unchanged)
+  toggleFilterMode(): void {
+    this.isRegexMode = !this.isRegexMode;
   }
 
   openEditModal(field: 'primaryInfo' | 'secondaryInfo'): void {

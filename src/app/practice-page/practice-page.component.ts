@@ -216,24 +216,20 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const absDeltaX = Math.abs(deltaX);
     const absDeltaY = Math.abs(deltaY);
 
-    // Define thresholds
-    const minDragDistance = 50; // Lower threshold for slow drags (in pixels)
-    const maxVerticalDistance = 20; // Max vertical movement in pixels
-    const maxAngle = 30; // Allow movements within ±30 degrees of horizontal
+    // Get screen width for dynamic threshold
+    const screenWidth = window.innerWidth;
+    const minSwipeDistance = screenWidth * 0.15; // 15% of screen width
 
-    // Calculate swipe angle (in degrees)
-    const angle = Math.atan2(absDeltaY, absDeltaX) * (180 / Math.PI);
-
-    // Process horizontal movement if it's primarily horizontal
-    if (absDeltaX > minDragDistance && absDeltaY < maxVerticalDistance && angle < maxAngle) {
+    // Check if swipe is primarily horizontal
+    if (absDeltaX > minSwipeDistance && absDeltaX > absDeltaY) {
       if (!showBackSide) {
-        // Show back side on any significant horizontal movement
+        // Show back side on any significant horizontal swipe
         this.globalStateService.updatePracticeState({ showBackSide: true });
       } else {
-        // Handle known/forgotten based on direction
-        if (deltaX > minDragDistance) {
+        // Handle known/forgotten based on swipe direction
+        if (deltaX > 0) {
           this.markAsKnown();
-        } else if (deltaX < -minDragDistance) {
+        } else if (deltaX < 0) {
           this.markAsForgotten();
         }
       }
