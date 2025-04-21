@@ -72,13 +72,25 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentState = this.globalStateService.getState().practiceSession;
     const { deck, currentCard, practicedCardHistory, practiceCount, positiveCount } = currentState;
     if (!currentCard || !deck) return;
+
+    // Update the deck with the practice action
     const updatedDeck = FlashCardDeckPracticeUpdate.performPracticeAction(deck, currentCard.cardNumber, 'known');
+
+    // Find the updated card in the updated deck
+    const updatedPreviousCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber);
+    if (!updatedPreviousCard) {
+      throw new Error(`Updated card with number ${currentCard.cardNumber} not found in updated deck`);
+    }
+
+    // Update history and select next card
     const newHistory = [...practicedCardHistory, currentCard.cardNumber];
     const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
     const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
+
+    // Update the state with the updated previous card
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
-      previousCard: currentCard,
+      previousCard: updatedPreviousCard,
       currentCard: nextCard,
       showBackSide: false,
       practicedCardHistory: newHistory,
@@ -91,14 +103,26 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentState = this.globalStateService.getState().practiceSession;
     const { deck, currentCard, practicedCardHistory, practiceCount, positiveCount } = currentState;
     if (!currentCard || !deck) return;
+
+    // Update the deck with the practice action
     const updatedDeck = FlashCardDeckPracticeUpdate.performPracticeAction(deck, currentCard.cardNumber, 'forgotten');
+
+    // Find the updated card in the updated deck
+    const updatedPreviousCard = updatedDeck.cards.find(c => c.cardNumber === currentCard.cardNumber);
+    if (!updatedPreviousCard) {
+      throw new Error(`Updated card with number ${currentCard.cardNumber} not found in updated deck`);
+    }
+
+    // Update history and select next card
     const newHistory = [...practicedCardHistory, currentCard.cardNumber];
     const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
     const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);
+
+    // Update the state with the updated previous card
     this.globalStateService.updatePracticeState({
       deck: updatedDeck,
+      previousCard: updatedPreviousCard,
       currentCard: nextCard,
-      previousCard: currentCard,
       showBackSide: false,
       practicedCardHistory: newHistory,
       practiceCount: practiceCount + 1,

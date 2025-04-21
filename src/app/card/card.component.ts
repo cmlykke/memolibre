@@ -56,7 +56,7 @@ export class CardComponent implements OnInit, OnDestroy {
   tagControl = new FormControl();
   filteredTags: Observable<string[]>;
   allTags: string[] = [];
-  isRegexMode: boolean = false;
+  isRegexMode: boolean = true;
 
   // New properties for notable card autocomplete
   notableCardControl = new FormControl();
