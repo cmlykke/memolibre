@@ -83,13 +83,25 @@ export class LoadUserDataComponent {
       console.error('No FlashCardDeck available to download.');
       return;
     }
+
+    // Create GMT date string in format YYYY-MM-DD-HH-MM
+    const now = new Date();
+    const year = now.getUTCFullYear();
+    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(now.getUTCDate()).padStart(2, '0');
+    const hours = String(now.getUTCHours()).padStart(2, '0');
+    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+    const datePrefix = `${year}-${month}-${day}_${hours}:${minutes}`;
+
     const json = JSON.stringify(flashCardDeck, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const anchor = document.createElement('a');
     anchor.href = URL.createObjectURL(blob);
-    anchor.download = `${flashCardDeck.deckName || 'FlashCardDeck'}.json`;
+    anchor.download = `${datePrefix}_${flashCardDeck.deckName || 'FlashCardDeck'}.json`;
     anchor.click();
     URL.revokeObjectURL(anchor.href);
-    this.fileName = `Download successful: ${flashCardDeck.deckName || 'FlashCardDeck'}.json`;
+    this.fileName = `Download successful: ${datePrefix}_${flashCardDeck.deckName || 'FlashCardDeck'}.json`;
   }
+
+
 }
