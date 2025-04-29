@@ -4,7 +4,11 @@
     <button class="button" (click)="clearSearchAndScrollToTop()">Clear</button>
   </div>
 
-  <h2>Search Cards</h2>
+  <div class="title-wrapper">
+    <span class="tooltip-icon" appTooltip [tooltipMessage]="'Search Cards tooltips.'">?</span>
+    <h2>Search Cards</h2>
+  </div>
+
   <form [formGroup]="searchForm">
     <div class="input-wrapper">
       <input formControlName="cardNumberSearch" placeholder="Card Number or Range (e.g., 1-5)" [class.input-with-tooltip]="showTooltips" />

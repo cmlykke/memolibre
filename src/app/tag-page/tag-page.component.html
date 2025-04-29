@@ -1,6 +1,11 @@
 <div class="tag-container">
   <button class="fixed-button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
-  <h2>Manage Tags</h2>
+
+  <div class="title-wrapper">
+    <span class="tooltip-icon" appTooltip [tooltipMessage]="'Manage Tags tooltips.'">?</span>
+    <h2>Manage Tags</h2>
+  </div>
+
   <div class="button-group">
     <button *ngIf="!isTagInteractionLocked" (click)="openAddTagModal()">Add Tag</button>
     <button (click)="toggleSort()">{{ sortButtonText }}</button>

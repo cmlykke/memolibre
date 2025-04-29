@@ -18,6 +18,23 @@ input {
 }
 
 /* Tooltip icon styling */
+
+/*
+ .tooltip-icon {
+  position: static; Overrides global position: absolute
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333; Ensures visibility against the background
+  background-color: #ccc;  Matches global style for consistency
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  line-height: 18px;
+}*/
+
+/*
 .tooltip-icon {
   position: absolute;
   top: 4px;
@@ -29,7 +46,79 @@ input {
   background-color: #ccc;
   color: #333;
   border-radius: 50%;
-  font-size: 12px;
+  font-size: 16px;
+  cursor: help;
+  z-index: 10;
+}*/
+
+/*
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;  Adds space below the title wrapper
+}*/
+
+.tooltip-icon {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  background-color: #ccc;
+  color: #333;
+  border-radius: 50%;
+  font-size: 16px;
   cursor: help;
   z-index: 10;
 }
+
+/*
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;  Left-align the content
+  margin-bottom: 20px; Adds space below the title wrapper
+  position: relative;  Context for absolute positioning
+}*/
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Keep title centered */
+  margin-bottom: 20px; /* Adds space below the title wrapper */
+  position: relative; /* Context for absolute positioning */
+}
+
+/* Override tooltip position for title-wrapper */
+.title-wrapper .tooltip-icon {
+  position: static; /* Return to static positioning in title wrapper */
+  margin-right: 10px; /* Add space after the tooltip icon */
+  transform: none; /* Remove the transform */
+}
+
+
+/* Make button position relative for tooltip placement */
+button.with-tooltip {
+  position: relative;
+  padding-left: 30px; /* Make space for the tooltip icon */
+  text-align: left; /* Align text to the right of the tooltip */
+}
+
+/* Button tooltip specific positioning */
+button .tooltip-icon {
+  left: 1px; /* Move tooltip icon further to the left in buttons */
+}
+
+
+/* Make input wrappers positioned relative for tooltip placement */
+.input-wrapper {
+  position: relative; /* Required for tooltip absolute positioning */
+  margin-bottom: 15px; /* Space between input fields */
+}
+
+
+

@@ -6,11 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { GlobalStateService } from '../angular/shared/services/global-state-service';
 import { FlashCard } from '../businesslogic/models/flashcard';
+import {TooltipDirective} from '../tooltip.directive';
 
 @Component({
   selector: 'app-add-remove-card-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, MatInputModule],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatInputModule, TooltipDirective],
   templateUrl: './add-remove-card-page.component.html',
   styleUrls: ['./add-remove-card-page.component.css'],
 })

@@ -1,6 +1,11 @@
 <!-- Button to select a JSON file -->
 <div class="file-select-container">version: 2025-04-21_10.49</div>
 
+<div class="title-wrapper">
+  <span class="tooltip-icon" appTooltip [tooltipMessage]="'Load user data tooltips.'">?</span>
+  <h2>Load user data</h2>
+</div>
+
 <div class="file-select-container">
   <div class="button-wrapper">
     <button class="file-select-button" (click)="fileInput.click()" [class.with-tooltip]="showTooltips">

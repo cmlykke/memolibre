@@ -4,27 +4,6 @@
   margin: 0 auto;
 }
 
-.title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px; /* Adds space below the title wrapper */
-}
-
-.tooltip-icon {
-  position: static; /* Overrides global position: absolute */
-  margin-right: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #333; /* Ensures visibility against the background */
-  background-color: #ccc; /* Matches global style for consistency */
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  text-align: center;
-  line-height: 18px;
-}
-
 h2 {
   text-align: center;
   color: #333;

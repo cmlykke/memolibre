@@ -1,4 +1,9 @@
 <!-- Text field to input new deck name -->
+<div class="title-wrapper">
+  <span class="tooltip-icon" appTooltip [tooltipMessage]="'Create Deck tooltips.'">?</span>
+  <h2>Create Deck</h2>
+</div>
+
 <div class="input-container">
   <div class="button-wrapper">
     <button (click)="updateDeckName()" [class.with-tooltip]="showTooltips">
