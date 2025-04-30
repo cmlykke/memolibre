@@ -3,7 +3,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { GlobalStateService } from '../../shared/services/global-state-service'; // Adjust path if needed
+import { GlobalStateService } from '../../../shared/services/global-state-service'; // Adjust path if needed
 
 @Component({
   selector: 'app-tag-modal',

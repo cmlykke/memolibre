@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { GlobalStateService } from '../../shared/services/global-state-service';
-import { FlashCard } from '../../core/services/models/flashcard';
-import {TooltipDirective} from '../../shared/directives/tooltip.directive';
+import { GlobalStateService } from '../../../shared/services/global-state-service';
+import { FlashCard } from '../../../core/services/models/flashcard';
+import {TooltipDirective} from '../../../shared/directives/tooltip.directive';
 
 @Component({
   selector: 'app-add-remove-card-page',

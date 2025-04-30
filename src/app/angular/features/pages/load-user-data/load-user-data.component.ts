@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlashCardDeck } from '../../core/services/models/flashcarddeck';
-import { GlobalStateService } from '../../shared/services/global-state-service';
-import { TooltipDirective } from '../../shared/directives/tooltip.directive';
+import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
+import { GlobalStateService } from '../../../shared/services/global-state-service';
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
 
 @Component({
   selector: 'app-load-user-data',

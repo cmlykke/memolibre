@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GlobalStateService } from '../../shared/services/global-state-service';
-import { FlashCardDeck } from '../../core/services/models/flashcarddeck';
-import { increaseCirculation, decreaseCirculation } from '../../core/services/flash-card-deck-state-management/flash-card-deck-circulation';
+import { GlobalStateService } from '../../../shared/services/global-state-service';
+import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
+import { increaseCirculation, decreaseCirculation } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-circulation';
 import { CommonModule } from '@angular/common';
-import { TooltipDirective } from '../../shared/directives/tooltip.directive'; // Adjust the path if necessary
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive'; // Adjust the path if necessary
 
 @Component({
   selector: 'app-manage-circulation-page',

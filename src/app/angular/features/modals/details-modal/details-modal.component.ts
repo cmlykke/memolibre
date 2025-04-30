@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalData } from '../../core/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
+import { ModalData } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
 
 @Component({
   selector: 'app-details-modal',

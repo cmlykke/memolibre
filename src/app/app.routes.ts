@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import {CreateDeckComponent} from '../app/angular/features/create-deck-component/create-deck-component.component';
-import {LoadUserDataComponent} from '../app/angular/features/load-user-data/load-user-data.component';
-import {PracticePageComponent} from '../app/angular/features/practice-page/practice-page.component';
-import {AppSettingsComponent} from '../app/angular/features/app-settings/app-settings.component';
-import {PracticeSettingsComponent} from '../app/angular/features/practice-settings/practice-settings.component';
-import {SearchPageComponent} from '../app/angular/features/search-page/search-page.component';
-import {TagPageComponent} from '../app/angular/features/tag-page/tag-page.component';
-import {ManageCirculationPageComponent} from '../app/angular/features/manage-circulation-page/manage-circulation-page.component';
-import {AddRemoveCardPageComponent} from '../app/angular/features/add-remove-card-page/add-remove-card-page.component';
+import {CreateDeckComponent} from './angular/features/pages/create-deck-component/create-deck-component.component';
+import {LoadUserDataComponent} from './angular/features/pages/load-user-data/load-user-data.component';
+import {PracticePageComponent} from './angular/features/pages/practice-page/practice-page.component';
+import {AppSettingsComponent} from './angular/features/pages/app-settings/app-settings.component';
+import {PracticeSettingsComponent} from './angular/features/pages/practice-settings/practice-settings.component';
+import {SearchPageComponent} from './angular/features/pages/search-page/search-page.component';
+import {TagPageComponent} from './angular/features/pages/tag-page/tag-page.component';
+import {ManageCirculationPageComponent} from './angular/features/pages/manage-circulation-page/manage-circulation-page.component';
+import {AddRemoveCardPageComponent} from './angular/features/pages/add-remove-card-page/add-remove-card-page.component';
 
 export const routes: Routes = [{
   path: '',

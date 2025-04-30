@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GlobalStateService } from '../../shared/services/global-state-service';
+import { GlobalStateService } from '../../../shared/services/global-state-service';
 
 @Component({
   selector: 'app-app-settings',

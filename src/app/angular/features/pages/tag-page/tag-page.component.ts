@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { GlobalStateService } from '../../shared/services/global-state-service';
-import { FlashCardDeckTagSettings } from '../../core/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
+import { GlobalStateService } from '../../../shared/services/global-state-service';
+import { FlashCardDeckTagSettings } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { TooltipDirective } from '../../shared/directives/tooltip.directive';
-import { TagModalComponent } from '../tag-modal/tag-modal.component';
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
+import { TagModalComponent } from '../../modals/tag-modal/tag-modal.component';
 
 @Component({
   selector: 'app-tag-page',

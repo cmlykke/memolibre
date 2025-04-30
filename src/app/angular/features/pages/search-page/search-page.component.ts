@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { GlobalStateService } from '../../shared/services/global-state-service';
-import { FlashCard } from '../../core/services/models/flashcard';
+import { GlobalStateService } from '../../../shared/services/global-state-service';
+import { FlashCard } from '../../../core/services/models/flashcard';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from '../card/card.component';
+import { CardComponent } from '../../reuseables/card/card.component';
 import { debounceTime } from 'rxjs/operators';
-import { TooltipDirective } from '../../shared/directives/tooltip.directive';
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
 import { Subscription } from 'rxjs';
 
 @Component({

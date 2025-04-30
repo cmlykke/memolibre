@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { GlobalStateService } from '../../shared/services/global-state-service';
-import { CardComponent } from '../card/card.component';
+import { GlobalStateService } from '../../../shared/services/global-state-service';
+import { CardComponent } from '../../reuseables/card/card.component';
 import { CommonModule } from '@angular/common';
-import { FlashCardDeckPracticeUpdate } from '../../core/services/flash-card-deck-state-management/flash-card-deck-practice-update';
+import { FlashCardDeckPracticeUpdate } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-practice-update';
 import { Subscription } from 'rxjs';
 
 @Component({
