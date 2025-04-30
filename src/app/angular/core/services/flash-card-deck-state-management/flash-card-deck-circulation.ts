@@ -1,5 +1,5 @@
-import { FlashCardDeck } from '../../../businesslogic/models/flashcarddeck';
-import { FlashCard } from '../../../businesslogic/models/flashcard';
+import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
+import { FlashCard } from '../../../core/services/models/flashcard';
 
 export function increaseCirculation(deck: FlashCardDeck, n: number | null, cardNumbers?: number[]): FlashCardDeck {
   const cards = [...deck.cards];

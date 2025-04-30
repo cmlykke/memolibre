@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Added for checkboxes
 import { MatSelectModule } from '@angular/material/select';     // Added for dropdowns
-import { GlobalStateService } from '../angular/shared/services/global-state-service';
+import { GlobalStateService } from '../../shared/services/global-state-service';
 
 @Component({
   selector: 'app-practice-settings',

@@ -1,4 +1,3 @@
-// C:\Users\CMLyk\WebstormProjects\memolibre\src\app\businesslogic\services\flash-card-deck-state-management\flash-card-deck-add-remove-card.ts
 import { FlashCardDeck } from '../models/flashcarddeck';
 import { FlashCard } from '../models/flashcard';
 import { Result } from '../models/result';

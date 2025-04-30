@@ -1,4 +1,4 @@
-import { FlashCardDeck } from '../../models/flashcarddeck';
+import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
 
 export interface ModalData {
   title: string;

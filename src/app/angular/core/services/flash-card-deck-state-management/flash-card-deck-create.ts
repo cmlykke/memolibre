@@ -1,6 +1,6 @@
-import { FlashCardDeck } from '../../models/flashcarddeck'; // Update the path as per your application structure
-import {FlashCard} from "../../models/flashcard";
-import {Result} from '../../../angular/utils/types';
+import { FlashCardDeck } from '../../../core/services/models/flashcarddeck'; // Update the path as per your application structure
+import {FlashCard} from "../../../core/services/models/flashcard";
+import {Result} from '../../../core/services/models/result';
 import {FlashCardDeckPracticeSettings} from './flash-card-deck-practice-settings';
 import {FlashCardDeckAppSettings} from './flash-card-deck-app-settings'; // Update the path as per your application structure
 export class FlashCardDeckCreate {

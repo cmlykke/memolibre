@@ -1,10 +1,8 @@
 import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { GlobalStateService } from '../angular/shared/services/global-state-service';
-import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
-import { FlashCard } from '../businesslogic/models/flashcard';
+import { GlobalStateService } from '../../shared/services/global-state-service';
 import { CardComponent } from '../card/card.component';
 import { CommonModule } from '@angular/common';
-import { FlashCardDeckPracticeUpdate } from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-update';
+import { FlashCardDeckPracticeUpdate } from '../../core/services/flash-card-deck-state-management/flash-card-deck-practice-update';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -82,7 +80,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       throw new Error(`Updated card with number ${currentCard.cardNumber} not found in updated deck`);
     }
 
-    // Update history and select next card
+    // Update history and select the next card
     const newHistory = [...practicedCardHistory, currentCard.cardNumber];
     const minCardsBeforeRepeat = parseInt(this.globalStateService.getState().practiceSettings['minCardsBeforeRepeat'] || '0', 10);
     const nextCard = FlashCardDeckPracticeUpdate.selectNextCard(updatedDeck, minCardsBeforeRepeat, newHistory);

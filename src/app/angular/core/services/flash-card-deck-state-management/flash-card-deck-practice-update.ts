@@ -1,5 +1,5 @@
-import { FlashCardDeck } from '../../models/flashcarddeck';
-import { FlashCard } from '../../models/flashcard';
+import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
+import { FlashCard } from '../../../core/services/models/flashcard';
 
 export class FlashCardDeckPracticeUpdate {
   public static markCardAsKnown(deck: FlashCardDeck, cardNumber: number): FlashCardDeck {

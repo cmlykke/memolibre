@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import {CreateDeckComponent} from './create-deck-component/create-deck-component.component';
-import {LoadUserDataComponent} from './load-user-data/load-user-data.component';
-import {PracticePageComponent} from './practice-page/practice-page.component';
-import {AppSettingsComponent} from './app-settings/app-settings.component';
-import {PracticeSettingsComponent} from './practice-settings/practice-settings.component';
-import {SearchPageComponent} from './search-page/search-page.component';
-import {TagPageComponent} from './tag-page/tag-page.component';
-import {ManageCirculationPageComponent} from './manage-circulation-page/manage-circulation-page.component';
-import {AddRemoveCardPageComponent} from './add-remove-card-page/add-remove-card-page.component';
+import {CreateDeckComponent} from '../app/angular/features/create-deck-component/create-deck-component.component';
+import {LoadUserDataComponent} from '../app/angular/features/load-user-data/load-user-data.component';
+import {PracticePageComponent} from '../app/angular/features/practice-page/practice-page.component';
+import {AppSettingsComponent} from '../app/angular/features/app-settings/app-settings.component';
+import {PracticeSettingsComponent} from '../app/angular/features/practice-settings/practice-settings.component';
+import {SearchPageComponent} from '../app/angular/features/search-page/search-page.component';
+import {TagPageComponent} from '../app/angular/features/tag-page/tag-page.component';
+import {ManageCirculationPageComponent} from '../app/angular/features/manage-circulation-page/manage-circulation-page.component';
+import {AddRemoveCardPageComponent} from '../app/angular/features/add-remove-card-page/add-remove-card-page.component';
 
 export const routes: Routes = [{
   path: '',

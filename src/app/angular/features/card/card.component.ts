@@ -2,8 +2,8 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { FlashCard } from '../businesslogic/models/flashcard';
-import { GlobalStateService } from '../angular/shared/services/global-state-service';
+import { FlashCard } from '../../core/services/models/flashcard';
+import { GlobalStateService } from '../../shared/services/global-state-service';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,9 +13,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DetailsModalComponent } from '../details-modal/details-modal.component';
 import { CardFieldEditModalComponent } from '../card-field-edit-modal/card-field-edit-modal.component';
 import { TagModalComponent } from '../tag-modal/tag-modal.component';
-import { ModalData } from '../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
+import { ModalData } from '../../core/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
 import { Subscription } from 'rxjs';
-import { FlashCardDeckTagSettings } from '../../app/businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
+import { FlashCardDeckTagSettings } from '../../core/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
 
 @Component({
   selector: 'app-card',

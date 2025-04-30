@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GlobalStateService, PracticeSessionState } from '../angular/shared/services/global-state-service';
+import { GlobalStateService, PracticeSessionState } from '../../shared/services/global-state-service';
 import { CommonModule } from '@angular/common';
-import { FlashCardDeck } from '../businesslogic/models/flashcarddeck';
-import { Result } from '../angular/utils/types';
-import { TooltipDirective } from '../tooltip.directive';
+import { TooltipDirective } from '../../shared/directives/tooltip.directive';
 
 @Component({
   selector: 'app-create-deck-component',
