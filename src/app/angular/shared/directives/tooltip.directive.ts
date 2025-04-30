@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener, Input, Renderer2, OnInit, OnDestroy } from '@angular/core';
-import { GlobalStateService } from '../app/angular/shared/services/global-state-service';
+import { GlobalStateService } from '../services/global-state-service';
 import { Subscription } from 'rxjs';
 
 @Directive({

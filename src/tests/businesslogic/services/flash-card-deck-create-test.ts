@@ -1,6 +1,6 @@
 import { FlashCardDeckCreate } from '../../../app/businesslogic/services/flash-card-deck-state-management/flash-card-deck-create'; // Adjust path as needed
 import { FlashCardDeck } from '../../../app/businesslogic/models/flashcarddeck'; // Adjust path as needed
-import { Result } from '../../../app/angular/utils/types';//'../../../angular/utils/types'; // Adjust path as needed
+import { Result } from '../../../app/angular/core/services/models/result';//'../../../angular/utils/types'; // Adjust path as needed
 
 describe('FlashCardDeckCreate', () => {
   it('should create a new deck successfully with valid input', () => {

@@ -2,16 +2,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FlashCardDeck } from '../../../businesslogic/models/flashcarddeck';
-import { FlashCard } from '../../../businesslogic/models/flashcard';
-import { FlashCardDeckUpdate } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-update';
-import { FlashCardDeckCreate } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-create';
-import { FlashCardDeckPracticeSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
-import { FlashCardDeckAppSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-app-settings';
-import { Result } from '../../utils/types';
-import { FlashCardDeckSearchSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-search-settings';
-import { FlashCardDeckTagSettings } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
-import { FlashCardDeckAddRemoveCard } from '../../../businesslogic/services/flash-card-deck-state-management/flash-card-deck-add-remove-card';
+import { FlashCardDeck } from '../../core/services/models/flashcarddeck';
+import { FlashCard } from '../../core/services/models/flashcard';
+import { FlashCardDeckUpdate } from '../../core/services/flash-card-deck-state-management/flash-card-deck-update';
+import { FlashCardDeckCreate } from '../../core/services/flash-card-deck-state-management/flash-card-deck-create';
+import { FlashCardDeckPracticeSettings } from '../../core/services/flash-card-deck-state-management/flash-card-deck-practice-settings';
+import { FlashCardDeckAppSettings } from '../../core/services/flash-card-deck-state-management/flash-card-deck-app-settings';
+import { Result } from '../../core/services/models/result';
+import { FlashCardDeckSearchSettings } from '../../core/services/flash-card-deck-state-management/flash-card-deck-search-settings';
+import { FlashCardDeckTagSettings } from '../../core/services/flash-card-deck-state-management/flash-card-deck-tag-settings';
+import { FlashCardDeckAddRemoveCard } from '../../core/services/flash-card-deck-state-management/flash-card-deck-add-remove-card';
 
 export interface AppState {
   practiceSession: PracticeSessionState;

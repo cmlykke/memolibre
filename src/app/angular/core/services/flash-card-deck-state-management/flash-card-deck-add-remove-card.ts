@@ -1,7 +1,7 @@
 // C:\Users\CMLyk\WebstormProjects\memolibre\src\app\businesslogic\services\flash-card-deck-state-management\flash-card-deck-add-remove-card.ts
-import { FlashCardDeck } from '../../models/flashcarddeck';
-import { FlashCard } from '../../models/flashcard';
-import { Result } from '../../../angular/utils/types';
+import { FlashCardDeck } from '../models/flashcarddeck';
+import { FlashCard } from '../models/flashcard';
+import { Result } from '../models/result';
 
 export class FlashCardDeckAddRemoveCard {
   // Remove cards based on a range (e.g., "239-435") or comma-separated list (e.g., "234,345,456")
