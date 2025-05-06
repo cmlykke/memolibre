@@ -17,47 +17,6 @@ input {
   padding-left: 30px !important;
 }
 
-/* Tooltip icon styling */
-
-/*
- .tooltip-icon {
-  position: static; Overrides global position: absolute
-  margin-right: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #333; Ensures visibility against the background
-  background-color: #ccc;  Matches global style for consistency
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  text-align: center;
-  line-height: 18px;
-}*/
-
-/*
-.tooltip-icon {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 18px;
-  height: 18px;
-  line-height: 18px;
-  text-align: center;
-  background-color: #ccc;
-  color: #333;
-  border-radius: 50%;
-  font-size: 16px;
-  cursor: help;
-  z-index: 10;
-}*/
-
-/*
-.title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;  Adds space below the title wrapper
-}*/
 
 .tooltip-icon {
   position: absolute;
@@ -75,15 +34,6 @@ input {
   cursor: help;
   z-index: 10;
 }
-
-/*
-.title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;  Left-align the content
-  margin-bottom: 20px; Adds space below the title wrapper
-  position: relative;  Context for absolute positioning
-}*/
 
 .title-wrapper {
   display: flex;
@@ -114,11 +64,67 @@ button .tooltip-icon {
 }
 
 
+
 /* Make input wrappers positioned relative for tooltip placement */
 .input-wrapper {
   position: relative; /* Required for tooltip absolute positioning */
   margin-bottom: 15px; /* Space between input fields */
 }
 
+.top-buttons-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 10px; /* Adds spacing between buttons */
+  z-index: 1000; /* Ensures it stays above other content */
+  align-items: center; /* Vertically aligns buttons and counter */
+}
+
+.button {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #333;
+  background-color: #f0f0f0;
+  color: #000;
+  cursor: pointer;
+  border-radius: 4px;
+  min-width: 80px; /* Ensures uniform button width */
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #e0e0e0; /* Subtle darker gray for hover */
+}
 
 
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-wrapper {
+  position: relative; /* Required for tooltip absolute positioning */
+  margin-bottom: 15px; /* Space between input fields */
+}
+
+input {
+  width: 100%;
+  padding: 8px; /* Base padding */
+  border: 1px solid #ccc; /* Border from shared.css */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Matches styles.css */
+  box-sizing: border-box; /* Ensures padding doesn’t affect width */
+}
+
+p {
+  font-size: 1.2em;
+  color: #666;
+  text-align: center;
+  margin: 10px 0;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

@@ -10,15 +10,6 @@
   /* overflow-y: auto;  Enable vertical scrolling if content overflows */
 }
 
-.top-buttons-container {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  display: flex;
-  gap: 10px; /* Adds spacing between buttons */
-  z-index: 1000; /* Ensures it stays above other content */
-  align-items: center; /* Vertically aligns buttons and counter */
-}
 
 .practice-count {
   margin-left: 10px; /* Space between last button and counter */
