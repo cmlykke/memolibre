@@ -4,65 +4,51 @@
   padding: 50px 0 20px; /* Matches shared.css to push content below fixed buttons */
 }
 
-h2 {
-  text-align: center;
-  color: #333;
-  margin: 0;
+/* Add this to manage-circulation-page.component.css */
+
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 15px;
 }
 
-.controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.text-field {
+.form-input {
+  width: 100%;
   padding: 8px;
-  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  flex: 1;
-}
-
-.action-button {
-  padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  box-sizing: border-box;
 }
 
-.action-button:hover {
-  background-color: #0056b3;
+.textarea-wrapper {
+  position: relative;
+  margin-bottom: 15px;
 }
 
 .card-input {
   width: 100%;
-  margin-top: 10px;
+  min-height: 100px;
   padding: 8px;
-  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  resize: vertical; /* Allows vertical resizing only */
+  font-size: 16px;
+  box-sizing: border-box;
+  resize: both; /* Allows resize both horizontally and vertically */
+  overflow: auto; /* Adds scrollbars when content overflows */
 }
 
 .stats {
-  background-color: #f8f9fa;
+  margin-top: 20px;
   padding: 15px;
+  background-color: #f9f9f9;
   border-radius: 4px;
+  border: 1px solid #eee;
 }
 
-.stats p, .stats h3 {
-  margin: 10px 0;
-}
-
-.stats ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.stats li {
-  margin: 5px 0;
-}
+/* Ensure your component inherits these styles from styles.css:
+ * - .top-buttons-container
+ * - .button
+ * - .title-wrapper
+ * - .tooltip-icon
+ */

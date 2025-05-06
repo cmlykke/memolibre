@@ -9,23 +9,33 @@
     <h2>Manage Circulation</h2>
   </div>
 
-  <div class="controls">
-    <input
-      type="number"
-      min="1"
-      class="text-field"
-      placeholder="Enter number"
-      (input)="onNumberInputChange($event)"
-      title="Enter a positive integer to specify how many cards to increase/decrease"
-    />
+  <form [formGroup]="circulationForm">
+    <div class="input-wrapper">
+      <input
+        type="number"
+        min="1"
+        formControlName="numberInput"
+        class="form-input"
+        placeholder="Enter number"
+        title="Enter a positive integer to specify how many cards to increase/decrease"
+        [class.input-with-tooltip]="showTooltips"
+      />
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'write a curculation number'">?</span>
+    </div>
 
-  </div>
+    <div class="textarea-wrapper">
+      <textarea
+        formControlName="cardInput"
+        class="card-input"
+        placeholder="Enter card range (e.g., 1289-1400) or list (e.g., 132,233,237,321)"
+        [class.input-with-tooltip]="showTooltips"
+      ></textarea>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'write a curculation list'">?</span>
 
-  <textarea
-    class="card-input"
-    placeholder="Enter card range (e.g., 1289-1400) or list (e.g., 132,233,237,321)"
-    (input)="onCardInputChange($event)"
-  ></textarea>
+    </div>
+  </form>
+
+
 
   <div class="stats">
     <p><strong>Total Cards:</strong> {{ totalCards }}</p>

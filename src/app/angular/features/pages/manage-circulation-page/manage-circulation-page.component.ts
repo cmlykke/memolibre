@@ -5,29 +5,63 @@ import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
 import { increaseCirculation, decreaseCirculation } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-circulation';
 import { CommonModule } from '@angular/common';
 import { TooltipDirective } from '../../../shared/directives/tooltip.directive'; // Adjust the path if necessary
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { TextFieldModule } from '@angular/cdk/text-field';
+
 
 @Component({
   selector: 'app-manage-circulation-page',
   standalone: true,
-  imports: [CommonModule, TooltipDirective], // Add TooltipDirective here
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    TextFieldModule,
+    TooltipDirective
+  ],
   templateUrl: './manage-circulation-page.component.html',
   styleUrls: ['./manage-circulation-page.component.css']
 })
+
 export class ManageCirculationPageComponent implements OnInit, OnDestroy {
   deck: FlashCardDeck | null = null;
   numberInput: number | null = null;
   cardInput: string = ''; // New property for textarea input
+  circulationForm!: FormGroup;
+  showTooltips: boolean = true;
   private subscription: Subscription = new Subscription();
 
-  constructor(private globalStateService: GlobalStateService) {}
+  constructor(
+    private fb: FormBuilder,
+    private globalStateService: GlobalStateService) {}
 
   ngOnInit(): void {
+    this.initForm();
     this.subscription.add(
       this.globalStateService.practiceState$.subscribe(practiceState => {
         this.deck = practiceState.deck;
       })
     );
   }
+
+  private initForm(): void {
+    this.circulationForm = this.fb.group({
+      numberInput: [''],
+      cardInput: ['']
+    });
+
+    // Subscribe to form value changes to react to user input
+    this.circulationForm.get('numberInput')?.valueChanges
+      .subscribe(value => this.handleNumberInputChange(value));
+
+    this.circulationForm.get('cardInput')?.valueChanges
+      .subscribe(value => this.handleCardInputChange(value));
+  }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -53,6 +87,17 @@ export class ManageCirculationPageComponent implements OnInit, OnDestroy {
       .map(([repetitionValue, count]) => ({ repetitionValue, count }))
       .sort((a, b) => a.repetitionValue - b.repetitionValue);
   }
+
+  // Replace your existing event handlers with these methods
+  private handleNumberInputChange(value: any): void {
+    // Your existing logic from onNumberInputChange
+  }
+
+  private handleCardInputChange(value: string): void {
+    // Your existing logic from onCardInputChange
+    this.cardInput = value;
+  }
+
 
   // Parse the textarea input into an array of card numbers
   private parseCardInput(input: string): number[] {
