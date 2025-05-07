@@ -1,3 +1,15 @@
+.load-user-data-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px 0 20px; /* Matches shared.css to push content below fixed buttons */
+}
+
+.hidden-input {
+  display: none;
+}
+
+
+
 /* Drag and drop zone styles */
 .drag-drop-zone {
   border: 2px dashed #ccc;
