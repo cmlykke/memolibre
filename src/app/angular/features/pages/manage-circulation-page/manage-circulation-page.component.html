@@ -1,7 +1,11 @@
 <div class="circulation-container">
   <div class="top-buttons-container">
-    <button class="button" (click)="increase()" title="Increase the number of cards in circulation">Increase</button>
-    <button class="button" (click)="decrease()" title="Decrease the number of cards in circulation">Decrease</button>
+    <button class="button" (click)="increase()" title="Increase the number of cards in circulation" [class.with-tooltip]="showTooltips">Increase
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
+    <button class="button" (click)="decrease()" title="Decrease the number of cards in circulation" [class.with-tooltip]="showTooltips">Decrease
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
   </div>
 
   <div class="title-wrapper">
