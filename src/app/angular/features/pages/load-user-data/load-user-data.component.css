@@ -18,8 +18,9 @@
   cursor: pointer;
   transition: border 0.3s, background-color 0.3s;
   width: 50%; /* Set width to 50% of the parent container */
-  margin: 0 auto; /* Center the drag-and-drop zone */
+  margin: 0 auto;  /*Center the drag-and-drop zone */
   position: relative; /* For positioning child elements if needed */
+  margin-bottom: 40px;
 }
 
 .drag-drop-zone:hover {

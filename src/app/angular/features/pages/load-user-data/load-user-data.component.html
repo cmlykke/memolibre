@@ -20,14 +20,10 @@
 
   </div>
 
-
-  <div class="file-select-container">version: 2025-04-21_10.49</div>
-
   <div class="title-wrapper">
     <span class="tooltip-icon" appTooltip [tooltipMessage]="'Load user data tooltips.'">?</span>
     <h2>Load user data</h2>
   </div>
-
 
   <!-- Drag and drop zone -->
   <div class="drag-drop-zone" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)">
@@ -37,4 +33,8 @@
     </div>
     <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Drag a JSON file here to load it into the app. It must be formattet correctly">?</span>
   </div>
+
+
+  <div class="file-select-container">version: 2025-04-21_10.49</div>
+
 </div>
