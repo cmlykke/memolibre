@@ -1,7 +1,14 @@
 <!-- C:\Users\CMLyk\WebstormProjects\memolibre\src\app\add-remove-card-page\add-remove-card-page.component.html -->
 <div class="container">
-  <button class="fixed-button" (click)="onUpdate()">Update</button>
-  <button class="fixed-button clear-button" (click)="onClear()">Clear</button>
+
+  <div class="top-buttons-container">
+    <button class="button" (click)="onUpdate()" [class.with-tooltip]="showTooltips">Update
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
+    <button class="button" (click)="onClear()" [class.with-tooltip]="showTooltips">Clear
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
+  </div>
 
   <div class="input-wrapper">
     <mat-form-field appearance="outline">

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { GlobalStateService } from '../../../shared/services/global-state-service';
 import { FlashCard } from '../../../core/services/models/flashcard';
 import {TooltipDirective} from '../../../shared/directives/tooltip.directive';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-add-remove-card-page',
@@ -24,11 +25,21 @@ export class AddRemoveCardPageComponent implements OnInit {
   tags: string = '';
   primaryInfo: string = '';
   secondaryInfo: string = '';
+  showTooltips: boolean = true;
+
+  private subscription: Subscription = new Subscription();
 
   constructor(private globalStateService: GlobalStateService) {}
 
   ngOnInit(): void {
     this.resetCardNumber();
+
+    // Subscribe to the global state to update showTooltips
+    this.subscription.add(
+      this.globalStateService.state$.subscribe(state => {
+        this.showTooltips = state.appSettings['showTooltips'] === 'true';
+      })
+    );
   }
 
   resetCardNumber(): void {
