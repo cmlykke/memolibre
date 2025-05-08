@@ -1,20 +1,49 @@
+.create-deck-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px 0 20px; /* Matches shared.css to push content below fixed buttons */
+}
 
-
-.create-deck-container,
 .input-container,
 .text-field-container {
   margin-bottom: 20px;
-  text-align: center;
+}
+
+/* Updated styling to match circulation page */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.textarea-wrapper {
+  position: relative;
+  margin-bottom: 15px;
 }
 
 .create-deck-input {
-  width: 60vw;
-  height: 150px;
-  resize: both;
+  width: 100%;
+  min-height: 100px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  resize: both; /* Allows resize both horizontally and vertically */
+  overflow: auto; /* Adds scrollbars when content overflows */
 }
 
 @media (max-width: 768px) {
+  input,
   .create-deck-input {
-    width: 60vw;
+    width: 90%;
   }
 }
