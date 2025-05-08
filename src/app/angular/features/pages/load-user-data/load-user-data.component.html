@@ -21,7 +21,7 @@
   </div>
 
   <div class="title-wrapper">
-    <span class="tooltip-icon" appTooltip [tooltipMessage]="'Load user data tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Load user data tooltips.'">?</span>
     <h2>Load user data</h2>
   </div>
 

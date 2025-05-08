@@ -2,7 +2,7 @@
 <div class="create-deck-container">
 
   <div class="title-wrapper">
-    <span class="tooltip-icon" appTooltip [tooltipMessage]="'Create Deck tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Create Deck tooltips.'">?</span>
     <h2>Create Deck</h2>
   </div>
 

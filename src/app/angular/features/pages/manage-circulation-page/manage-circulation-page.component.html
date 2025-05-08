@@ -5,7 +5,7 @@
   </div>
 
   <div class="title-wrapper">
-    <span class="tooltip-icon" appTooltip [tooltipMessage]="'This is a tooltip for managing circulation.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'This is a tooltip for managing circulation.'">?</span>
     <h2>Manage Circulation</h2>
   </div>
 

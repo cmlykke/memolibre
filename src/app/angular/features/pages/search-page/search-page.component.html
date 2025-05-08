@@ -1,11 +1,15 @@
 <div #searchContainer class="search-container">
   <div class="top-buttons-container">
-    <button class="button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
-    <button class="button" (click)="clearSearchAndScrollToTop()">Clear</button>
+    <button class="button" (click)="toggleTagLock()" [class.with-tooltip]="showTooltips">{{ tagLockButtonText }}
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
+    <button class="button" (click)="clearSearchAndScrollToTop()" [class.with-tooltip]="showTooltips">Clear
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
   </div>
 
   <div class="title-wrapper">
-    <span class="tooltip-icon" appTooltip [tooltipMessage]="'Search Cards tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Search Cards tooltips.'">?</span>
     <h2>Search Cards</h2>
   </div>
 

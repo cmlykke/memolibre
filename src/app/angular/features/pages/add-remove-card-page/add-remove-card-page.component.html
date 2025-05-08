@@ -18,7 +18,7 @@
   </div>
 
   <div class="title-wrapper">
-    <span class="tooltip-icon" appTooltip [tooltipMessage]="'Add New Card tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Add New Card tooltips.'">?</span>
     <h2>Add New Card</h2>
   </div>
 
