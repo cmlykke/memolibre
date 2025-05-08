@@ -10,6 +10,28 @@
   /* overflow-y: auto;  Enable vertical scrolling if content overflows */
 }
 
+/* Add to your practice-page.component.css */
+.number-field {
+  position: relative;
+  padding-left: 30px; /* Make space for the tooltip icon */
+  margin-left: 10px;
+  font-size: 14px;
+  color: #333;
+  display: inline-flex;
+  align-items: center;
+}
+
+.number-field.with-tooltip {
+  padding-left: 30px; /* Space for the tooltip icon */
+}
+
+.number-field .tooltip-icon {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 
 .practice-count {
   margin-left: 10px; /* Space between last button and counter */

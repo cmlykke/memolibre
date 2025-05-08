@@ -9,9 +9,16 @@
     <button class="button" (click)="redo()" [disabled]="!canRedo()" [class.with-tooltip]="showTooltips">Redo
       <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
     </button>
-    <span class="practice-count">{{ state.practiceCount }}</span>
-    <span class="positive-count">{{ state.positiveCount }}</span>
+    <span class="practice-count number-field" [class.with-tooltip]="showTooltips">
+    {{ state.practiceCount }}
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Number of practice rounds completed">?</span>
+  </span>
+    <span class="positive-count number-field" [class.with-tooltip]="showTooltips">
+    {{ state.positiveCount }}
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Number of positive responses">?</span>
+  </span>
   </div>
+
 
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
