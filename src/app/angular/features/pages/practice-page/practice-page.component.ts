@@ -4,17 +4,19 @@ import { CardComponent } from '../../reuseables/card/card.component';
 import { CommonModule } from '@angular/common';
 import { FlashCardDeckPracticeUpdate } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-practice-update';
 import { Subscription } from 'rxjs';
+import {TooltipDirective} from '../../../shared/directives/tooltip.directive';
 
 @Component({
   selector: 'app-practice-page',
   standalone: true,
-  imports: [CardComponent, CommonModule],
+  imports: [CardComponent, CommonModule, TooltipDirective],
   templateUrl: './practice-page.component.html',
   styleUrls: ['./practice-page.component.css'],
 })
 export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private isTagInteractionLocked: boolean = false;
+  showTooltips: boolean = true;
   tagLockButtonText: string = 'Lock Tags';
 
   @ViewChild('practiceContainer') practiceContainer!: ElementRef;

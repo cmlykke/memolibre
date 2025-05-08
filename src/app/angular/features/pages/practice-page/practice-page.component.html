@@ -1,11 +1,18 @@
 <div #practiceContainer class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
   <div class="top-buttons-container">
-    <button class="button" (click)="toggleTagLock()">{{ tagLockButtonText }}</button>
-    <button class="button" (click)="undo()" [disabled]="!canUndo()">Undo</button>
-    <button class="button" (click)="redo()" [disabled]="!canRedo()">Redo</button>
+    <button class="button" (click)="toggleTagLock()" [class.with-tooltip]="showTooltips">{{ tagLockButtonText }}
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
+    <button class="button" (click)="undo()" [disabled]="!canUndo()" [class.with-tooltip]="showTooltips">Undo
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
+    <button class="button" (click)="redo()" [disabled]="!canRedo()" [class.with-tooltip]="showTooltips">Redo
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    </button>
     <span class="practice-count">{{ state.practiceCount }}</span>
     <span class="positive-count">{{ state.positiveCount }}</span>
   </div>
+
   <div *ngIf="state.deck; else noDeck">
     <ng-container *ngIf="state.currentCard as card; else noCard">
       <!-- Add div with #currentCardContainer here -->
