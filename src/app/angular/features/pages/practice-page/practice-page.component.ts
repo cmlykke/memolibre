@@ -39,7 +39,15 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
       })
     );
+
+    // Subscribe to the global state to update showTooltips
+    this.subscription.add(
+      this.globalStateService.state$.subscribe(state => {
+        this.showTooltips = state.appSettings['showTooltips'] === 'true';
+      })
+    );
   }
+
 
   ngAfterViewInit(): void {
     this.addTouchListeners();

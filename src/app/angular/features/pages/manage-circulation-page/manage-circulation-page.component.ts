@@ -46,6 +46,13 @@ export class ManageCirculationPageComponent implements OnInit, OnDestroy {
         this.deck = practiceState.deck;
       })
     );
+
+    // Subscribe to the global state to update showTooltips
+    this.subscription.add(
+      this.globalStateService.state$.subscribe(state => {
+        this.showTooltips = state.appSettings['showTooltips'] === 'true';
+      })
+    );
   }
 
   private initForm(): void {
