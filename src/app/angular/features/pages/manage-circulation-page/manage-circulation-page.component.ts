@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
 
 
 @Component({
@@ -165,4 +166,6 @@ export class ManageCirculationPageComponent implements OnInit, OnDestroy {
     const textareaElement = event.target as HTMLTextAreaElement;
     this.cardInput = textareaElement.value;
   }
+
+  protected readonly TooltipKey = TooltipKey;
 }

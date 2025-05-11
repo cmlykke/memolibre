@@ -1,6 +1,7 @@
-import { Directive, ElementRef, HostListener, Input, Renderer2, OnInit, OnDestroy } from '@angular/core';
-import { GlobalStateService } from '../services/global-state-service';
+import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { GlobalStateService } from '../services/global-state-service';
+import { TooltipService } from '../services/tooltip.service';
 
 @Directive({
   selector: '[appTooltip]',
@@ -8,17 +9,20 @@ import { Subscription } from 'rxjs';
 })
 export class TooltipDirective implements OnInit, OnDestroy {
   @Input() tooltipMessage: string = '';
+  @Input() tooltipKey: string = '';
+
   private tooltipElement: HTMLElement | null = null;
   private isMobile: boolean = false;
   private timeoutId: any;
   private showTooltips: boolean = true;
   private stateSubscription!: Subscription;
-  private isMouseOverTooltip: boolean = false; // New flag to track if mouse is over tooltip
+  private isMouseOverTooltip: boolean = false;
 
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private globalStateService: GlobalStateService
+    private globalStateService: GlobalStateService,
+    private tooltipService: TooltipService
   ) {}
 
   ngOnInit() {
@@ -43,17 +47,22 @@ export class TooltipDirective implements OnInit, OnDestroy {
 
   @HostListener('mouseleave') onMouseLeave() {
     if (!this.isMobile) {
-      // Delay hiding to allow mouse to move to tooltip
       setTimeout(() => {
         if (!this.isMouseOverTooltip) {
           this.hideTooltip();
         }
-      }, 100); // 100ms delay
+      }, 100);
     }
   }
 
+
   private showTooltip() {
-    if (!this.tooltipMessage) return;
+    // Get the message from key if provided, otherwise use direct message
+    const message = this.tooltipKey
+      ? this.tooltipService.getTooltip(this.tooltipKey)
+      : this.tooltipMessage;
+    if (!message) return;
+
 
     this.tooltipElement = this.renderer.createElement('div');
     this.renderer.setStyle(this.tooltipElement, 'position', 'absolute');
@@ -64,8 +73,11 @@ export class TooltipDirective implements OnInit, OnDestroy {
     this.renderer.setStyle(this.tooltipElement, 'fontSize', '12px');
     this.renderer.setStyle(this.tooltipElement, 'zIndex', '1000');
 
-    const text = this.renderer.createText(this.tooltipMessage);
+    const text = this.renderer.createText(message);
     this.renderer.appendChild(this.tooltipElement, text);
+
+    //const text = this.renderer.createText(this.tooltipMessage);
+    //this.renderer.appendChild(this.tooltipElement, text);
 
     const hostPos = this.el.nativeElement.getBoundingClientRect();
     const wrapper = this.el.nativeElement.parentElement; // The wrapper (e.g., button or .input-wrapper)

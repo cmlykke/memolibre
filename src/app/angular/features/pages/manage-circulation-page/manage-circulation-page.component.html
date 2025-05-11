@@ -1,15 +1,19 @@
 <div class="circulation-container">
   <div class="top-buttons-container">
-    <button class="button" (click)="increase()" title="Increase the number of cards in circulation" [class.with-tooltip]="showTooltips">Increase
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    <button class="button" (click)="increase()" [class.with-tooltip]="showTooltips">Increase
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip
+            [tooltipKey]="TooltipKey.CIRCULATION_INCREASE">?</span>
     </button>
-    <button class="button" (click)="decrease()" title="Decrease the number of cards in circulation" [class.with-tooltip]="showTooltips">Decrease
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+    <button class="button" (click)="decrease()" [class.with-tooltip]="showTooltips">Decrease
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip
+            [tooltipKey]="TooltipKey.CIRCULATION_DECREASE"
+      >?</span>
     </button>
   </div>
 
   <div class="title-wrapper">
-    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'This is a tooltip for managing circulation.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.CIRCULATION_MANAGE"
+    >?</span>
     <h2>Manage Circulation</h2>
   </div>
 
@@ -24,7 +28,7 @@
         title="Enter a positive integer to specify how many cards to increase/decrease"
         [class.input-with-tooltip]="showTooltips"
       />
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'write a curculation number'">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.CIRCULATION_NUMBER">?</span>
     </div>
 
     <div class="textarea-wrapper">
@@ -34,7 +38,8 @@
         placeholder="Enter card range (e.g., 1289-1400) or list (e.g., 132,233,237,321)"
         [class.input-with-tooltip]="showTooltips"
       ></textarea>
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'write a curculation list'">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip
+            [tooltipKey]="TooltipKey.CIRCULATION_LIST">?</span>
 
     </div>
   </form>
