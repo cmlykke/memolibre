@@ -8,6 +8,8 @@ import { GlobalStateService } from '../../../shared/services/global-state-servic
 import { FlashCard } from '../../../core/services/models/flashcard';
 import {TooltipDirective} from '../../../shared/directives/tooltip.directive';
 import {Subscription} from 'rxjs';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
+
 
 @Component({
   selector: 'app-add-remove-card-page',
@@ -102,4 +104,7 @@ export class AddRemoveCardPageComponent implements OnInit {
     this.secondaryInfo = '';
     this.resetCardNumber();
   }
+
+  protected readonly TooltipKey = TooltipKey;
+
 }

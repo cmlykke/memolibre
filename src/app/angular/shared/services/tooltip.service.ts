@@ -7,7 +7,10 @@ export enum TooltipKey {
   CIRCULATION_DECREASE = 'circulation.decrease',
   CIRCULATION_MANAGE = 'circulation.manage',
   CIRCULATION_NUMBER = 'circulation.number',
-  CIRCULATION_LIST = 'circulation.list'
+  CIRCULATION_LIST = 'circulation.list',
+  ADDREMOVE_UPDATE = 'addremove.update',
+  ADDREMOVE_CLEAR = 'addremove.clear',
+  ADDREMOVE_TITLE = 'addremove.title',
 }
 
 
@@ -22,7 +25,10 @@ export class TooltipService {
     [TooltipKey.CIRCULATION_DECREASE]: 'Decrease the number of cards in circulation',
     [TooltipKey.CIRCULATION_MANAGE]: 'This is a tooltip for managing circulation.',
     [TooltipKey.CIRCULATION_NUMBER]: 'Write a circulation number',
-    [TooltipKey.CIRCULATION_LIST]: 'Write a circulation list'
+    [TooltipKey.CIRCULATION_LIST]: 'Write a circulation list',
+    [TooltipKey.ADDREMOVE_UPDATE]: 'ADDREMOVE_UPDATE  text',
+    [TooltipKey.ADDREMOVE_CLEAR]: 'ADDREMOVE_CLEAR text',
+    [TooltipKey.ADDREMOVE_TITLE]: 'Add New Card tooltips title.',
   };
 
   /**
