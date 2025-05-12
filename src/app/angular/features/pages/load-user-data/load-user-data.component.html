@@ -25,6 +25,9 @@
     <h2>Load user data</h2>
   </div>
 
+
+  <div class="file-select-container">version: 2025-04-21_10.49</div>
+
   <!-- Drag and drop zone -->
   <div class="drag-drop-zone" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)">
     <div class="drag-drop-wrapper">
@@ -34,7 +37,28 @@
     <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.LOADDATA_DRAGANDDROP">?</span>
   </div>
 
+  <div class="practice-button-container">
+    <div class="button-wrapper">
+      <button class="button" (click)="goToPractice()" [class.with-tooltip]="showTooltips">
+        Go to Practice
+        <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.LOADDATA_GOTOPRACTICE">?</span>
+      </button>
+    </div>
+  </div>
 
-  <div class="file-select-container">version: 2025-04-21_10.49</div>
+  <div class="info-paragraph-container">
+    <p class="info-text">
+      This feature allows you to load user data from a JSON
+      file and start practicing with your flashcards.
+      You can either select a JSON file using the button at the top,
+      drag and drop a file into the designated area,
+      or download your current deck as JSON. Once your file is loaded,
+      click the "Go to Practice" button above to begin your practice session.
+      Your progress and card statistics will be preserved in the JSON file,
+      allowing you to track your learning journey over time.
+      Make sure your JSON file follows the correct format to ensure proper functionality.
+    </p>
+  </div>
+
 
 </div>

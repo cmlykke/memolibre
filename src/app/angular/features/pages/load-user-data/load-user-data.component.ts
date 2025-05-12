@@ -4,6 +4,8 @@ import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
 import { GlobalStateService } from '../../../shared/services/global-state-service';
 import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
 import {TooltipKey} from '../../../shared/services/tooltip.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-load-user-data',
@@ -16,12 +18,21 @@ export class LoadUserDataComponent {
   fileName: string | null = null;
   showTooltips: boolean = true; // Initialize to true (default)
 
-  constructor(private globalStateService: GlobalStateService) {
+  constructor(
+    private globalStateService: GlobalStateService,
+    private router: Router
+  ) {
     this.globalStateService.state$.subscribe(state => {
       this.showTooltips = state.appSettings['showTooltips'] === 'true';
       this.fileName = state.practiceSession.deck ? `File Loaded: ${state.practiceSession.deck.deckName}` : null;
     });
   }
+
+
+  goToPractice(): void {
+    this.router.navigate(['/practice-page']);
+  }
+
 
   onFileDrop(event: DragEvent): void {
     event.preventDefault();

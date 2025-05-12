@@ -58,3 +58,25 @@
     padding-left: 40px; /* Matches global button adjustment */
   }
 }
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.info-paragraph-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.info-text {
+  font-size: 1em;
+  line-height: 1.5;
+  color: #666;
+  text-align: left;
+  margin: 0;
+}

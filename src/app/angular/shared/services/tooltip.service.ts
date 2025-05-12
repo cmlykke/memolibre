@@ -20,6 +20,7 @@ export enum TooltipKey {
   LOADDATA_SELECTBUTTON = 'loaddata.selectbutton',
   LOADDATA_DOWNLOADBUTTON = 'loaddata.downloadbutton',
   LOADDATA_DRAGANDDROP = 'loaddata.draganddrop',
+  LOADDATA_GOTOPRACTICE = 'loaddata.gotopractice',
   PRACTICE_UNLOCKTAGS = 'practice.unlocktags',
   PRACTICE_UNDO = 'practice.undo',
   PRACTICE_REDO = 'practice.redo',
