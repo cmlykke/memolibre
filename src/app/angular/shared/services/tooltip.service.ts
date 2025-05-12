@@ -19,7 +19,12 @@ export enum TooltipKey {
   ADDREMOVE_UPDATE = "Save changes made to this card",
   ADDREMOVE_CLEAR = "Clear all input fields and reset the form",
   ADDREMOVE_TITLE =
-    "In this page, you can add new flashcards or delete existing ones in your deck",
+    "In this page, you can add new flashcards or delete existing ones in your deck.\n\n" +
+    "Card Numbering:\n" +
+    "• The Card Number field defaults to the next available number.\n" +
+    "• You can insert cards at any position by entering a different number.\n" +
+    "• Cards are always renumbered sequentially after adding or deleting.\n" +
+    "• To modify an existing card, use its current number and update its content.",
   CREATEDECk_TITLE =
     "In this page, you can create new flashcard decks " +
     "to organize different subjects or topics",
