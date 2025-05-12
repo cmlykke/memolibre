@@ -1,4 +1,9 @@
-<p>Practice Settings</p>
+
+<div class="title-wrapper">
+  <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICESETTINGS_TITLE">?</span>
+  <h2>Practice Settings</h2>
+</div>
+
 <div *ngIf="resultMessage">{{ resultMessage }}</div>
 
 <h3>Practice Options</h3>

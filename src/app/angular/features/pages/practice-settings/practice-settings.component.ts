@@ -7,6 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Added for checkboxes
 import { MatSelectModule } from '@angular/material/select';     // Added for dropdowns
 import { GlobalStateService } from '../../../shared/services/global-state-service';
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-practice-settings',
@@ -18,18 +21,22 @@ import { GlobalStateService } from '../../../shared/services/global-state-servic
     MatButtonModule,
     MatFormFieldModule,
     MatCheckboxModule, // Added
-    MatSelectModule    // Added
+    MatSelectModule,
+    TooltipDirective,
+    // Added
   ],
   templateUrl: './practice-settings.component.html',
   styleUrls: ['./practice-settings.component.css'],
 })
 export class PracticeSettingsComponent implements OnInit {
+  private subscription: Subscription = new Subscription();
   settings: Record<string, string> = {};
   displaySettings: Record<string, number> = {};
   toggleSettings: Record<string, boolean> = {}; // For checkbox states
   fontFamilySettings: Record<string, string> = {}; // For font family selections
   resultMessage: string = '';
   minCardsBeforeRepeat: number = 0;
+  showTooltips: boolean = true;
 
   // Define font options for dropdowns
   fontOptions = [
@@ -52,6 +59,13 @@ export class PracticeSettingsComponent implements OnInit {
     this.initializeToggleSettings();
     this.initializeFontFamilySettings();
     this.minCardsBeforeRepeat = parseInt(this.settings['minCardsBeforeRepeat'] || '0', 10);
+
+    // Subscribe to the global state to update showTooltips
+    this.subscription.add(
+      this.globalStateService.state$.subscribe(state => {
+        this.showTooltips = state.appSettings['showTooltips'] === 'true';
+      })
+    );
   }
 
   private initializeDisplaySettings(): void {
@@ -102,4 +116,6 @@ export class PracticeSettingsComponent implements OnInit {
   updateFontSize(key: string, value: number): void {
     this.displaySettings[key] = value;
   }
+
+  protected readonly TooltipKey = TooltipKey;
 }

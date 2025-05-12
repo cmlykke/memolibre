@@ -34,9 +34,11 @@ export enum TooltipKey {
   SEARCH_TAGREGEXFIELD = 'search.tagregexfield',
   TAG_TITLE = 'tag.title',
   TAG_UNLOCKTAGS = 'tag.locktags',
-  TAG_SORT = 'tag.sort',
+  TAG_SORTBUTTON = 'tag.sort',
   TAG_ADDTAG = 'tag.addtag',
   TAG_SEARCHFIELD = 'tag.searchfield',
+  PRACTICESETTINGS_TITLE = 'practicesettings.title',
+  APPSETTINGS_TITLE = 'appsettings.title',
 
 }
 

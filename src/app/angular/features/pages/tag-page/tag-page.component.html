@@ -4,7 +4,7 @@
       <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_UNLOCKTAGS">?</span>
     </button>
     <button class="button" (click)="toggleSort()" [class.with-tooltip]="showTooltips">{{ sortButtonText }}
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_SORT">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_SORTBUTTON">?</span>
     </button>
     <button class="button" *ngIf="!isTagInteractionLocked" (click)="openAddTagModal()" [class.with-tooltip]="showTooltips">Add Tag
       <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_ADDTAG">?</span>

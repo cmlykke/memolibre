@@ -1,4 +1,9 @@
-<p>App Settings</p>
+
+<div class="title-wrapper">
+  <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.APPSETTINGS_TITLE">?</span>
+  <h2>App Settings</h2>
+</div>
+
 <div *ngIf="resultMessage">{{ resultMessage }}</div>
 
 <div>
