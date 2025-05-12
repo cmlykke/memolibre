@@ -1,3 +1,10 @@
+<div class="container">
+
+  <div class="top-buttons-container">
+    <button class="button" (click)="saveSettings()" [class.with-tooltip]="showTooltips">Save
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICESETTINGS_SAVE">?</span>
+    </button>
+  </div>
 
 <div class="title-wrapper">
   <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICESETTINGS_TITLE">?</span>
@@ -7,100 +14,208 @@
 <div *ngIf="resultMessage">{{ resultMessage }}</div>
 
 <h3>Practice Options</h3>
-<mat-form-field appearance="fill">
-  <mat-label>Minimum Cards Before Repeat</mat-label>
-  <input matInput type="number" [(ngModel)]="minCardsBeforeRepeat" step="1" min="0">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Minimum Cards Before Repeat</mat-label>
+    <input matInput type="number" [(ngModel)]="minCardsBeforeRepeat" step="1" min="0">
+    </mat-form-field>
+</div>
 
 <!-- Font Size Settings -->
 <h3>Font Sizes</h3>
-<mat-form-field appearance="fill">
-  <mat-label>Front Side Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['frontSideFontSize']" (ngModelChange)="updateFontSize('frontSideFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Front Side Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['frontSideFontSize']"
+           (ngModelChange)="updateFontSize('frontSideFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Back Side Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['backSideFontSize']" (ngModelChange)="updateFontSize('backSideFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Back Side Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['backSideFontSize']"
+           (ngModelChange)="updateFontSize('backSideFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Notable Cards Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['notableCardsFontSize']" (ngModelChange)="updateFontSize('notableCardsFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Notable Cards Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['notableCardsFontSize']"
+           (ngModelChange)="updateFontSize('notableCardsFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Tags Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['tagsFontSize']" (ngModelChange)="updateFontSize('tagsFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Tags Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['tagsFontSize']"
+           (ngModelChange)="updateFontSize('tagsFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Tag Value Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['tagValueFontSize']" (ngModelChange)="updateFontSize('tagValueFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Tag Value Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['tagValueFontSize']"
+           (ngModelChange)="updateFontSize('tagValueFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Primary Info Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['primaryInfoFontSize']" (ngModelChange)="updateFontSize('primaryInfoFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Primary Info Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['primaryInfoFontSize']"
+           (ngModelChange)="updateFontSize('primaryInfoFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Secondary Info Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['secondaryInfoFontSize']" (ngModelChange)="updateFontSize('secondaryInfoFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Secondary Info Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['secondaryInfoFontSize']"
+           (ngModelChange)="updateFontSize('secondaryInfoFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Card Number Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['cardNumberFontSize']" (ngModelChange)="updateFontSize('cardNumberFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Card Number Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['cardNumberFontSize']"
+           (ngModelChange)="updateFontSize('cardNumberFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Card Name Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['cardNameFontSize']" (ngModelChange)="updateFontSize('cardNameFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Card Name Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['cardNameFontSize']"
+           (ngModelChange)="updateFontSize('cardNameFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Date of Last Review Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['dateOfLastReviewFontSize']" (ngModelChange)="updateFontSize('dateOfLastReviewFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Date of Last Review Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['dateOfLastReviewFontSize']"
+           (ngModelChange)="updateFontSize('dateOfLastReviewFontSize', $event)" step="1" min="1" max="100"
+           >
+    </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Repetition Value Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['repetitionValueFontSize']" (ngModelChange)="updateFontSize('repetitionValueFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Repetition Value Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['repetitionValueFontSize']"
+           (ngModelChange)="updateFontSize('repetitionValueFontSize', $event)" step="1" min="1" max="100"
+           >
+     </mat-form-field>
+</div>
 
-<mat-form-field appearance="fill">
-  <mat-label>Repetition History Font Size</mat-label>
-  <input matInput type="number" [ngModel]="displaySettings['repetitionHistoryFontSize']" (ngModelChange)="updateFontSize('repetitionHistoryFontSize', $event)" step="1" min="1" max="100">
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Repetition History Font Size</mat-label>
+    <input matInput type="number" [ngModel]="displaySettings['repetitionHistoryFontSize']"
+           (ngModelChange)="updateFontSize('repetitionHistoryFontSize', $event)" step="1" min="1" max="100"
+          >
+    </mat-form-field>
+</div>
 
 <!-- Label Visibility Settings -->
 <h3>Label Visibility</h3>
-<mat-checkbox [(ngModel)]="toggleSettings['showFrontSideLabel']">Show Front Side Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showBackSideLabel']">Show Back Side Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showCardNumberLabel']">Show Card Number Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showCardNameLabel']">Show Card Name Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showNotableCardsLabel']">Show Notable Cards Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showTagsLabel']">Show Tags Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showDateOfLastReviewLabel']">Show Date of Last Review Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showRepetitionValueLabel']">Show Repetition Value Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showRepetitionHistoryLabel']">Show Repetition History Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showPrimaryInfoLabel']">Show Primary Info Label</mat-checkbox>
-<mat-checkbox [(ngModel)]="toggleSettings['showSecondaryInfoLabel']">Show Secondary Info Label</mat-checkbox>
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showFrontSideLabel']">
+    Show Front Side Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showBackSideLabel']">
+    Show Back Side Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showCardNumberLabel']">
+    Show Card Number Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showCardNameLabel']">
+    Show Card Name Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper">
+  <mat-checkbox [(ngModel)]="toggleSettings['showNotableCardsLabel']">
+    Show Notable Cards Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showTagsLabel']">
+    Show Tags Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showDateOfLastReviewLabel']">
+    Show Date of Last Review Label
+   </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showRepetitionValueLabel']">
+    Show Repetition Value Label
+     </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showRepetitionHistoryLabel']">
+    Show Repetition History Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showPrimaryInfoLabel']">
+    Show Primary Info Label
+    </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showSecondaryInfoLabel']">
+    Show Secondary Info Label
+    </mat-checkbox>
+</div>
 
 <!-- Font Family Settings -->
 <h3>Font Families</h3>
-<mat-form-field appearance="fill">
-  <mat-label>Front Side Font Family</mat-label>
-  <mat-select [(ngModel)]="fontFamilySettings['frontSideFontFamily']">
-    <mat-option *ngFor="let font of fontOptions" [value]="font.value">{{ font.label }}</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field appearance="fill">
-  <mat-label>Back Side Font Family</mat-label>
-  <mat-select [(ngModel)]="fontFamilySettings['backSideFontFamily']">
-    <mat-option *ngFor="let font of fontOptions" [value]="font.value">{{ font.label }}</mat-option>
-  </mat-select>
-</mat-form-field>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Front Side Font Family</mat-label>
+    <mat-select [(ngModel)]="fontFamilySettings['frontSideFontFamily']" >
+      <mat-option *ngFor="let font of fontOptions" [value]="font.value">{{ font.label }}</mat-option>
+    </mat-select>
+    </mat-form-field>
+</div>
 
-<button mat-raised-button color="primary" (click)="saveSettings()">Save Settings</button>
+<div class="input-wrapper">
+  <mat-form-field appearance="fill">
+    <mat-label>Back Side Font Family</mat-label>
+    <mat-select [(ngModel)]="fontFamilySettings['backSideFontFamily']" >
+      <mat-option *ngFor="let font of fontOptions" [value]="font.value">{{ font.label }}</mat-option>
+    </mat-select>
+    </mat-form-field>
+</div>
+</div>

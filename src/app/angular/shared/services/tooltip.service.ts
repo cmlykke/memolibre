@@ -38,7 +38,9 @@ export enum TooltipKey {
   TAG_ADDTAG = 'tag.addtag',
   TAG_SEARCHFIELD = 'tag.searchfield',
   PRACTICESETTINGS_TITLE = 'practicesettings.title',
+  PRACTICESETTINGS_SAVE = 'practicesettings.save',
   APPSETTINGS_TITLE = 'appsettings.title',
+  APPSETTINGS_SAVE = 'appsettings.save',
 
 }
 

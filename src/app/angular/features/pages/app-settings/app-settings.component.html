@@ -1,15 +1,23 @@
+<div class="container">
+
+  <div class="top-buttons-container">
+    <button class="button" (click)="saveSettings()" [class.with-tooltip]="showTooltips">Save
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.APPSETTINGS_SAVE">?</span>
+    </button>
+  </div>
 
 <div class="title-wrapper">
   <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.APPSETTINGS_TITLE">?</span>
   <h2>App Settings</h2>
 </div>
 
-<div *ngIf="resultMessage">{{ resultMessage }}</div>
 
-<div>
-  <label>Show Tooltips:
+<div *ngIf="resultMessage" class="message">{{ resultMessage }}</div>
+
+<div class="input-wrapper">
+  <label>
+    Show Tooltips:
     <input type="checkbox" [checked]="settings['showTooltips'] === 'true'" (change)="updateTooltipSetting($event)">
   </label>
 </div>
-
-<button (click)="saveSettings()">Save Settings</button>
+</div>
