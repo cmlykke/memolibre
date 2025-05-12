@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { GlobalStateService, PracticeSessionState } from '../../../shared/services/global-state-service';
 import { CommonModule } from '@angular/common';
 import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
 
 @Component({
   selector: 'app-create-deck-component',
@@ -56,4 +57,6 @@ export class CreateDeckComponent {
     const result = this.globalStateService.createNewDeckState(this.newDeckContent.trim());
     this.resultMessage = result.ok ? result.value : result.error;
   }
+
+  protected readonly TooltipKey = TooltipKey;
 }

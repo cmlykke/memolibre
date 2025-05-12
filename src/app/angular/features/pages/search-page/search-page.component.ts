@@ -7,6 +7,8 @@ import { CardComponent } from '../../reuseables/card/card.component';
 import { debounceTime } from 'rxjs/operators';
 import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
 import { Subscription } from 'rxjs';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
+
 
 @Component({
   selector: 'app-search-page',
@@ -132,4 +134,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public getDeck() {
     return this.globalStateService.getState().practiceSession.deck;
   }
+
+  protected readonly TooltipKey = TooltipKey;
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
 import { GlobalStateService } from '../../../shared/services/global-state-service';
 import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
 
 @Component({
   selector: 'app-load-user-data',
@@ -103,5 +104,5 @@ export class LoadUserDataComponent {
     this.fileName = `Download successful: ${datePrefix}_${flashCardDeck.deckName || 'FlashCardDeck'}.json`;
   }
 
-
+  protected readonly TooltipKey = TooltipKey;
 }

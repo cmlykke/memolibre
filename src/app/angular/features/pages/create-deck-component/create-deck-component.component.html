@@ -2,7 +2,7 @@
 <div class="create-deck-container">
 
   <div class="title-wrapper">
-    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Create Deck tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.CREATEDECk_TITLE">?</span>
     <h2>Create Deck</h2>
   </div>
 
@@ -10,7 +10,7 @@
     <div class="button-wrapper">
       <button class="button" (click)="updateDeckName()" [class.with-tooltip]="showTooltips">
         Update Deck Name
-        <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Update the deck name">?</span>
+        <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.CREATEDECk_NEWNAMEBUTTON">?</span>
       </button>
     </div>
   </div>
@@ -18,7 +18,7 @@
   <div class="input-container">
     <div class="input-wrapper">
       <input [(ngModel)]="newDeckName" placeholder="Enter new deck name" [class.input-with-tooltip]="showTooltips" />
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Enter a name for your deck">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.CREATEDECK_NEWNAMEFIELD">?</span>
     </div>
   </div>
 
@@ -27,7 +27,7 @@
     <div class="button-wrapper">
       <button class="button" (click)="createDeck()" [class.with-tooltip]="showTooltips">
         Create Deck
-        <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to create a new deck with the entered name and content">?</span>
+        <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.CREATEDECK_CREATEDECKBUTTON">?</span>
       </button>
     </div>
   </div>
@@ -43,7 +43,7 @@
         rows="4"
         [class.textarea-with-tooltip]="showTooltips"
       ></textarea>
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Type your flashcard deck content here (e.g., questions and answers)">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.CREATEDECK_CREATEDECKFIELD" >?</span>
     </div>
   </div>
 </div>

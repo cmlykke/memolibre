@@ -1,21 +1,21 @@
 <div #practiceContainer class="practice-container" *ngIf="globalStateService.practiceState$ | async as state">
   <div class="top-buttons-container">
     <button class="button" (click)="toggleTagLock()" [class.with-tooltip]="showTooltips">{{ tagLockButtonText }}
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICE_UNLOCKTAGS">?</span>
     </button>
     <button class="button" (click)="undo()" [disabled]="!canUndo()" [class.with-tooltip]="showTooltips">Undo
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICE_UNDO">?</span>
     </button>
     <button class="button" (click)="redo()" [disabled]="!canRedo()" [class.with-tooltip]="showTooltips">Redo
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICE_REDO">?</span>
     </button>
     <span class="practice-count number-field" [class.with-tooltip]="showTooltips">
     {{ state.practiceCount }}
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Number of practice rounds completed">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICE_COUNTERALL">?</span>
   </span>
     <span class="positive-count number-field" [class.with-tooltip]="showTooltips">
     {{ state.positiveCount }}
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Number of positive responses">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.PRACTICE_COUNTERPOSITIVE">?</span>
   </span>
   </div>
 

@@ -4,11 +4,11 @@
   <div class="top-buttons-container">
     <button class="button" (click)="fileInput.click()" [class.with-tooltip]="showTooltips">
       Select JSON
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.LOADDATA_SELECTBUTTON">?</span>
     </button>
     <button class="button" (click)="downloadFlashCardDeck()" [class.with-tooltip]="showTooltips">
       Download JSON
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to download the current FlashCardDeck as a JSON file.">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.LOADDATA_DOWNLOADBUTTON">?</span>
     </button>
     <input
       #fileInput
@@ -21,7 +21,7 @@
   </div>
 
   <div class="title-wrapper">
-    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Load user data tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.LOADDATA_TITLE">?</span>
     <h2>Load user data</h2>
   </div>
 
@@ -31,7 +31,7 @@
       <p *ngIf="!fileName">Drag and drop a JSON file here</p>
       <p *ngIf="fileName">Dropped file: {{ fileName }}</p>
     </div>
-    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Drag a JSON file here to load it into the app. It must be formattet correctly">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.LOADDATA_DRAGANDDROP">?</span>
   </div>
 
 

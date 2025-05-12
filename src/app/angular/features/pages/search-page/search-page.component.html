@@ -1,34 +1,34 @@
 <div #searchContainer class="search-container">
   <div class="top-buttons-container">
     <button class="button" (click)="toggleTagLock()" [class.with-tooltip]="showTooltips">{{ tagLockButtonText }}
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_UNLOCKTAGS">?</span>
     </button>
     <button class="button" (click)="clearSearchAndScrollToTop()" [class.with-tooltip]="showTooltips">Clear
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_CLEAR">?</span>
     </button>
   </div>
 
   <div class="title-wrapper">
-    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Search Cards tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_TITLE">?</span>
     <h2>Search Cards</h2>
   </div>
 
   <form [formGroup]="searchForm">
     <div class="input-wrapper">
       <input formControlName="cardNumberSearch" placeholder="Card Number or Range (e.g., 1-5)" [class.input-with-tooltip]="showTooltips" />
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Enter a single card number or a range like 1-5'">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_CARDNUMBERFIELD">?</span>
     </div>
     <div class="input-wrapper">
       <input formControlName="frontSideRegex" placeholder="Front Side Regex" [class.input-with-tooltip]="showTooltips" />
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Regular expression to match front side'">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_FRONTSIDEREGEXFIELD">?</span>
     </div>
     <div class="input-wrapper">
       <input formControlName="backSideRegex" placeholder="Back Side Regex" [class.input-with-tooltip]="showTooltips" />
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Regular expression to match back side'">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_BACKSIDEREGEXFIELD">?</span>
     </div>
     <div class="input-wrapper">
       <input formControlName="tagsRegex" placeholder="Tags Regex" [class.input-with-tooltip]="showTooltips" />
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Regular expression to match tags'">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_TAGREGEXFIELD">?</span>
     </div>
   </form>
   <div *ngIf="getDeck(); else noDeck">

@@ -5,8 +5,9 @@ import { FlashCardDeckTagSettings } from '../../../core/services/flash-card-deck
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
 import { TagModalComponent } from '../../modals/tag-modal/tag-modal.component';
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
 
 @Component({
   selector: 'app-tag-page',
@@ -186,4 +187,6 @@ export class TagPageComponent implements OnInit, OnDestroy {
       isTagInteractionLocked: !currentState.practiceSession.isTagInteractionLocked,
     });
   }
+
+  protected readonly TooltipKey = TooltipKey;
 }

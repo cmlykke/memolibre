@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FlashCardDeckPracticeUpdate } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-practice-update';
 import { Subscription } from 'rxjs';
 import {TooltipDirective} from '../../../shared/directives/tooltip.directive';
+import {TooltipKey} from '../../../shared/services/tooltip.service';
+
 
 @Component({
   selector: 'app-practice-page',
@@ -267,4 +269,6 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
+
+  protected readonly TooltipKey = TooltipKey;
 }

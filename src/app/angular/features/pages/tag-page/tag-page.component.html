@@ -1,18 +1,18 @@
 <div class="tag-container">
   <div class="top-buttons-container">
     <button class="button" (click)="toggleTagLock()" [class.with-tooltip]="showTooltips">{{ tagLockButtonText }}
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_UNLOCKTAGS">?</span>
     </button>
     <button class="button" (click)="toggleSort()" [class.with-tooltip]="showTooltips">{{ sortButtonText }}
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_SORT">?</span>
     </button>
     <button class="button" *ngIf="!isTagInteractionLocked" (click)="openAddTagModal()" [class.with-tooltip]="showTooltips">Add Tag
-      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip tooltipMessage="Click to choose a JSON file from your device">?</span>
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_ADDTAG">?</span>
     </button>
   </div>
 
   <div class="title-wrapper">
-    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipMessage]="'Manage Tags tooltips.'">?</span>
+    <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.TAG_TITLE">?</span>
     <h2>Manage Tags</h2>
   </div>
 
@@ -26,8 +26,7 @@
       <span
         *ngIf="showTooltips"
         class="tooltip-icon"
-        appTooltip
-        [tooltipMessage]="'Regular expression to match tag keys'"
+        appTooltip [tooltipKey]="TooltipKey.TAG_SEARCHFIELD"
       >?</span>
     </div>
   </form>
