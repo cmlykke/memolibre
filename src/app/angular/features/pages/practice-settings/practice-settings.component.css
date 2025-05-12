@@ -1,11 +1,4 @@
-/* settings-page.css - Include this in both practice-settings and app-settings components */
 
-.settings-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  margin-top: 50px; /* Space for the top buttons */
-}
 
 .settings-section {
   background-color: #f8f8f8;

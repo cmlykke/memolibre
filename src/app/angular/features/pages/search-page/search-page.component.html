@@ -1,4 +1,4 @@
-<div #searchContainer class="search-container">
+<div #searchContainer class="container">
   <div class="top-buttons-container">
     <button class="button" (click)="toggleTagLock()" [class.with-tooltip]="showTooltips">{{ tagLockButtonText }}
       <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_UNLOCKTAGS">?</span>

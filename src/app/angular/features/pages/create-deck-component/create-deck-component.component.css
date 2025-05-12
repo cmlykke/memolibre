@@ -1,8 +1,4 @@
-.create-deck-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 50px 0 20px; /* Matches shared.css to push content below fixed buttons */
-}
+
 
 .input-container,
 .text-field-container {
