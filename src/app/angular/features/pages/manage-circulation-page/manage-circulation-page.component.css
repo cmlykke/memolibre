@@ -45,10 +45,3 @@
   border-radius: 4px;
   border: 1px solid #eee;
 }
-
-/* Ensure your component inherits these styles from styles.css:
- * - .top-buttons-container
- * - .button
- * - .title-wrapper
- * - .tooltip-icon
- */
