@@ -19,7 +19,7 @@ export enum TooltipKey {
   ADDREMOVE_UPDATE = "Save changes made to this card",
   ADDREMOVE_CLEAR = "Clear all input fields and reset the form",
   ADDREMOVE_TITLE =
-    "In this page, you can add new flashcards or modify existing ones in your deck",
+    "In this page, you can add new flashcards or delete existing ones in your deck",
   CREATEDECk_TITLE =
     "In this page, you can create new flashcard decks " +
     "to organize different subjects or topics",
