@@ -72,6 +72,7 @@ export class TooltipDirective implements OnInit, OnDestroy {
     this.renderer.setStyle(this.tooltipElement, 'borderRadius', '4px');
     this.renderer.setStyle(this.tooltipElement, 'fontSize', '12px');
     this.renderer.setStyle(this.tooltipElement, 'zIndex', '1000');
+    this.renderer.setStyle(this.tooltipElement, 'whiteSpace', 'pre-wrap');
 
     const text = this.renderer.createText(message);
     this.renderer.appendChild(this.tooltipElement, text);
