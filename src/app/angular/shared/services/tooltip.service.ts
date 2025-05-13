@@ -110,8 +110,21 @@ export enum TooltipKey {
 export class TooltipService {
 
   getTooltip(key: TooltipKey | string): string {
-    return key;
+    // If the key is from the TooltipKey enum, return its value
+    if (Object.values(TooltipKey).includes(key as TooltipKey)) {
+      return key as string;
+    }
+
+    // If the key is a string that matches a key in the TooltipKey enum
+    const tooltipKey = key as keyof typeof TooltipKey;
+    if (TooltipKey[tooltipKey] !== undefined) {
+      return TooltipKey[tooltipKey];
+    }
+
+    // Fallback for unknown keys
+    return `No tooltip found for key: ${key}`;
   }
+
 
 }
 
