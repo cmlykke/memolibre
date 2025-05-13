@@ -24,7 +24,8 @@ export enum TooltipKey {
     "• The Card Number field defaults to the next available number.\n" +
     "• You can insert cards at any position by entering a different number.\n" +
     "• Cards are always renumbered sequentially after adding or deleting.\n" +
-    "• To modify an existing card, use its current number and update its content.",
+    "• It is not possible to edit an existing card from this page.\n" +
+    "Instead, find the card in the search page and edit it there.",
   CREATEDECk_TITLE =
     "In this page, you can create new flashcard decks " +
     "to organize different subjects or topics",
