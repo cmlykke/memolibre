@@ -22,24 +22,6 @@
   background-color: #e0e0e0; /* Subtle darker gray for hover */
 }
 
-.input-wrapper {
-  position: relative;
-  margin-bottom: 15px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-p {
-  font-size: 1.2em;
-  color: #666;
-  text-align: center;
-  margin: 10px 0;
-}
 
 h2 {
   text-align: center;

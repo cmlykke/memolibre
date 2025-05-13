@@ -3,6 +3,53 @@ html, body {
   overscroll-behavior-y: contain;
 }
 
+@media (max-width: 768px) {
+  .top-buttons-container,
+  [class*="top-buttons"],
+  .tag-lock-container,
+  .undo-redo-container {
+    padding-right: 55px !important; /* More space on smaller screens */
+  }
+}
+
+
+/* Create a reserved space for the menu button */
+.top-buttons-container,
+[class*="top-buttons"],
+.tag-lock-container,
+.undo-redo-container {
+  /* Ensure there's enough space on the right side for the menu button */
+  padding-right: 45px !important; /* Reserved space for the menu (30px width + 15px spacing) */
+  box-sizing: border-box;
+}
+
+/* For buttons or elements that might be positioned absolutely/fixed near the top-right */
+.button,
+button,
+.tag-lock-button,
+.number-field {
+  /* Prevent these elements from being positioned too close to the top-right corner */
+  max-width: calc(100% - 50px); /* Keep elements at least 50px away from the right edge */
+}
+
+/* Improve z-index hierarchy to ensure menu is always clickable */
+.burger-menu {
+  /* Make sure the menu button has higher z-index than any other buttons */
+  z-index: 1100 !important; /* Higher than the default 1000 used elsewhere */
+}
+
+.menu.open {
+  /* When menu is open, ensure it's above all other elements */
+  z-index: 1100 !important;
+}
+
+/* For any fixed elements at the top of the page */
+[class*="container"] {
+  /* Add right margin to all containers to avoid content creeping to the corner */
+  margin-right: 10px;
+}
+
+
 /* Base input styles (no tooltip) */
 input {
   padding: 8px;
@@ -35,6 +82,46 @@ input {
   z-index: 10;
 }
 
+
+
+button:not(.with-tooltip) {
+  padding-left: 10px; /* Standard padding when no tooltip */
+  text-align: center; /* Center text when no tooltip */
+}
+
+/* Number field styling based on tooltip visibility */
+.number-field.with-tooltip {
+  padding-left: 30px; /* Space for the tooltip icon */
+}
+
+.number-field:not(.with-tooltip) {
+  padding-left: 10px; /* Standard padding when no tooltip */
+}
+
+
+/* Input wrapper positioning for tooltips */
+.input-wrapper input.input-with-tooltip {
+  padding-left: 30px !important; /* Space for tooltip */
+}
+
+.input-wrapper input:not(.input-with-tooltip) {
+  padding-left: 8px; /* Default padding */
+}
+
+/* Textarea adjustments */
+.textarea-wrapper textarea.input-with-tooltip {
+  padding-left: 30px !important;
+}
+
+.textarea-wrapper textarea:not(.input-with-tooltip) {
+  padding-left: 8px;
+}
+
+.title-wrapper.has-tooltip {
+  justify-content: center; /* Keep title centered with icon */
+}
+
+
 .title-wrapper {
   display: flex;
   align-items: center;
@@ -63,13 +150,6 @@ button .tooltip-icon {
   left: 1px; /* Move tooltip icon further to the left in buttons */
 }
 
-
-
-/* Make input wrappers positioned relative for tooltip placement */
-.input-wrapper {
-  position: relative; /* Required for tooltip absolute positioning */
-  margin-bottom: 15px; /* Space between input fields */
-}
 
 .top-buttons-container {
   position: fixed;

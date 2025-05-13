@@ -13,17 +13,21 @@
 /* Add to your practice-page.component.css */
 .number-field {
   position: relative;
-  padding-left: 30px; /* Make space for the tooltip icon */
-  margin-left: 10px;
   font-size: 14px;
   color: #333;
   display: inline-flex;
   align-items: center;
+  margin-left: 10px;
 }
 
 .number-field.with-tooltip {
   padding-left: 30px; /* Space for the tooltip icon */
 }
+
+.number-field:not(.with-tooltip) {
+  padding-left: 10px; /* Reduced padding when no tooltip is shown */
+}
+
 
 .number-field .tooltip-icon {
   position: absolute;
