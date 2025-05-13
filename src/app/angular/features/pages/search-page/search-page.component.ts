@@ -47,7 +47,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         this.showTooltips = state.appSettings['showTooltips'] === 'true';
         // Optionally sync with practice state if shared
         // this.isTagInteractionLocked = state.practiceSession.isTagInteractionLocked;
-        this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
+        this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock' : 'Lock';
       })
     );
 
@@ -65,7 +65,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   toggleTagLock(): void {
     this.isTagInteractionLocked = !this.isTagInteractionLocked;
-    this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
+    this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock' : 'Lock';
   }
 
   performSearch(): void {

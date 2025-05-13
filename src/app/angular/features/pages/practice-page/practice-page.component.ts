@@ -19,7 +19,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private isTagInteractionLocked: boolean = false;
   showTooltips: boolean = true;
-  tagLockButtonText: string = 'Lock Tags';
+  tagLockButtonText: string = 'Lock';
 
   @ViewChild('practiceContainer') practiceContainer!: ElementRef;
   @ViewChild('currentCardContainer') currentCardContainer!: ElementRef;
@@ -38,7 +38,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription.add(
       this.globalStateService.practiceState$.subscribe(state => {
         this.isTagInteractionLocked = state.isTagInteractionLocked;
-        this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock Tags' : 'Lock Tags';
+        this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock' : 'Lock';
       })
     );
 
