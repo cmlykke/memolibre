@@ -10,7 +10,7 @@
       <span *ngIf="showTooltips" class="tooltip-icon" appTooltip
             [tooltipKey]="TooltipKey.PRACTICE_UNDO">?</span>
     </button>
-    <button class="button" (click)="redo()" [disabled]="!canRedo()"
+    <button *ngIf="canRedo()" class="button" (click)="redo()"
             [class.with-tooltip]="showTooltips">Redo
       <span *ngIf="showTooltips" class="tooltip-icon" appTooltip
             [tooltipKey]="TooltipKey.PRACTICE_REDO">?</span>
