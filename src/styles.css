@@ -8,7 +8,7 @@ html, body {
   [class*="top-buttons"],
   .tag-lock-container,
   .undo-redo-container {
-    padding-right: 55px !important; /* More space on smaller screens */
+    padding-right: 65px !important; /* Increase space for the menu button */
   }
 }
 
@@ -35,12 +35,12 @@ button,
 /* Improve z-index hierarchy to ensure menu is always clickable */
 .burger-menu {
   /* Make sure the menu button has higher z-index than any other buttons */
-  z-index: 1100 !important; /* Higher than the default 1000 used elsewhere */
+  z-index: 1500 !important; /* Higher than the default 1000 used elsewhere */
 }
 
 .menu.open {
   /* When menu is open, ensure it's above all other elements */
-  z-index: 1100 !important;
+  z-index: 1450 !important;
 }
 
 /* For any fixed elements at the top of the page */
