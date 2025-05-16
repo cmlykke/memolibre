@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 
 export enum TooltipKey {
   CIRCULATION_INCREASE =
-    "Increase the repetition value for this card, " +
+    "Increase the repetition value for this card (or all cards if none are chosen), " +
     "making it show up less frequently in future practice sessions",
   CIRCULATION_DECREASE =
-    "Decrease the repetition value for this card, " +
+    "Decrease the repetition value for this card (or all cards if none are chosen), " +
     "making it show up more frequently in future practice sessions",
   CIRCULATION_TITLE =
     "In this page, you can adjust how often a card appears in " +
@@ -40,21 +40,21 @@ export enum TooltipKey {
     "\n" +
     "Card 1 back side" +
     "\n" +
-    "(Optional) Card 1 comment" +
+    "(Optional, can be multiple lines) Card 1 comment" +
     "\n" +
     "\n" +
     "Card 2 front side" +
     "\n" +
     "Card 2 back side" +
     "\n" +
-    "(Optional) Card 2 comment" +
+    "(Optional, can be multiple lines) Card 2 comment" +
     "\n" +
     "\n" +
     "Card 3 front side" +
     "\n" +
     "Card 3 back side" +
     "\n" +
-    "(Optional) Card 3 comment" +
+    "(Optional, can be multiple lines) Card 3 comment" +
     "\n" +
     "\n" +
     "" +
