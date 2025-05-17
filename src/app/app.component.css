@@ -63,3 +63,45 @@ nav {
 .content {
   margin-top: 50px; /* Matches nav height to prevent overlap */
 }
+
+/* Add to your global styles.css */
+.restore-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.restore-notification p {
+  margin: 0;
+  text-align: center;
+}
+
+.restore-notification button {
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.restore-notification .restore-btn {
+  background: #4CAF50;
+  color: white;
+}
+
+.restore-notification .dismiss-btn {
+  background: #f5f5f5;
+  color: #333;
+}

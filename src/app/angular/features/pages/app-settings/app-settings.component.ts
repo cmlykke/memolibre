@@ -45,8 +45,12 @@ export class AppSettingsComponent implements OnInit {
   updateAutoSaveSetting(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.settings['autoSave'] = input.checked ? 'true' : 'false';
-  }
 
+    // Optionally provide feedback to the user
+    if (input.checked) {
+      console.log('Auto-save enabled. Your deck will be automatically saved when closing or refreshing the page.');
+    }
+  }
 
   protected readonly TooltipKey = TooltipKey;
 }

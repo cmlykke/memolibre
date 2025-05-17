@@ -105,9 +105,12 @@ export enum TooltipKey {
     "Enable this to display helpful tooltips throughout the application. " +
     "Tooltips provide guidance and explanations for each feature.",
   APPSETTINGS_AUTOSAVE =
-    "When enabled, changes to your flashcard deck will be automatically saved " +
-    "when you quit or refresh the page or the phone sleeps," +
-    "without requiring manual saving.",
+    "When enabled, this feature automatically saves your flashcard deck in several situations: " +
+    "1) When you close or refresh the browser, " +
+    "2) When your mobile device goes to sleep or you switch to another app, " +
+    "3) Periodically every 30 seconds after changes are made. " +
+    "If your session ends unexpectedly, you'll be prompted to restore your saved deck when you return. " +
+    "This helps prevent data loss without requiring manual saving.",
 
 }
 
