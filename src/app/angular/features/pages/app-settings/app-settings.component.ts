@@ -42,5 +42,11 @@ export class AppSettingsComponent implements OnInit {
     this.settings['showTooltips'] = input.checked ? 'true' : 'false';
   }
 
+  updateAutoSaveSetting(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.settings['autoSave'] = input.checked ? 'true' : 'false';
+  }
+
+
   protected readonly TooltipKey = TooltipKey;
 }

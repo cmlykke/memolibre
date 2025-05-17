@@ -14,10 +14,21 @@
 
 <div *ngIf="resultMessage" class="message">{{ resultMessage }}</div>
 
-<div class="input-wrapper">
-  <label>
-    Show Tooltips:
-    <input type="checkbox" [checked]="settings['showTooltips'] === 'true'" (change)="updateTooltipSetting($event)">
-  </label>
-</div>
+  <div class="input-wrapper">
+    <div class="checkbox-wrapper">
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.APPSETTINGS_SHOWTOOLTIPS">?</span>
+      <label>
+        Show Tooltips:
+        <input type="checkbox" [checked]="settings['showTooltips'] === 'true'" (change)="updateTooltipSetting($event)">
+      </label>
+    </div>
+
+    <div class="checkbox-wrapper">
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.APPSETTINGS_AUTOSAVE">?</span>
+      <label>
+        Auto Save:
+        <input type="checkbox" [checked]="settings['autoSave'] === 'true'" (change)="updateAutoSaveSetting($event)">
+      </label>
+    </div>
+  </div>
 </div>

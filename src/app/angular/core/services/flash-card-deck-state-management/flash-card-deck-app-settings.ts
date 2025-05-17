@@ -2,6 +2,7 @@ import { FlashCardDeck } from '../../../core/services/models/flashcarddeck';
 
 export interface AppSettings {
   showTooltips: string; // "true" or "false"
+  autoSave: string; // "true" or "false"
 }
 
 export class FlashCardDeckAppSettings {
@@ -11,6 +12,7 @@ export class FlashCardDeckAppSettings {
   public static defaultSettings(): Record<string, string> {
     return {
       showTooltips: "true",
+      autoSave: "false",
     };
   }
 

@@ -100,6 +100,14 @@ export enum TooltipKey {
   APPSETTINGS_TITLE =
     "In this page, you can configure general application settings and preferences",
   APPSETTINGS_SAVE = "Save all application setting changes",
+  // Add to tooltip.service.ts in the TooltipKey enum
+  APPSETTINGS_SHOWTOOLTIPS =
+    "Enable this to display helpful tooltips throughout the application. " +
+    "Tooltips provide guidance and explanations for each feature.",
+  APPSETTINGS_AUTOSAVE =
+    "When enabled, changes to your flashcard deck will be automatically saved " +
+    "when you quit or refresh the page or the phone sleeps," +
+    "without requiring manual saving.",
 
 }
 
