@@ -6,7 +6,6 @@ div {
 }
 
 .card-front {
-  min-height: 60vh; /* Ensures the front side takes up at least 60% of the viewport height */
   display: flex;
   justify-content: center;
   align-items: center;

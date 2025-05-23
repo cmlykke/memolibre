@@ -31,6 +31,7 @@ import {Subscription} from 'rxjs';
 export class PracticeSettingsComponent implements OnInit {
   private subscription: Subscription = new Subscription();
   settings: Record<string, string> = {};
+  divSettings: Record<string, number> = {};
   displaySettings: Record<string, number> = {};
   toggleSettings: Record<string, boolean> = {}; // For checkbox states
   fontFamilySettings: Record<string, string> = {}; // For font family selections
@@ -55,6 +56,7 @@ export class PracticeSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.settings = { ...this.globalStateService.getState().practiceSettings };
+    this.initializeDivSettings();
     this.initializeDisplaySettings();
     this.initializeToggleSettings();
     this.initializeFontFamilySettings();
@@ -74,6 +76,17 @@ export class PracticeSettingsComponent implements OnInit {
       if (key.endsWith('FontSize')) {
         this.displaySettings[key] = parseInt(value, 10) || defaultFontSize;
       }
+
+    });
+  }
+
+  private initializeDivSettings(): void {
+    const defaultDivSize = 1;
+    Object.entries(this.settings).forEach(([key, value]) => {
+      if (key.endsWith('DivSize')) {
+        this.divSettings[key] = parseInt(value, 10) || defaultDivSize;
+      }
+
     });
   }
 
@@ -96,6 +109,9 @@ export class PracticeSettingsComponent implements OnInit {
 
   saveSettings(): void {
     const updatedSettings: Record<string, string> = {};
+    Object.entries(this.divSettings).forEach(([key, value]) => {
+      updatedSettings[key] = `${value}vh`;
+    });
     Object.entries(this.displaySettings).forEach(([key, value]) => {
       updatedSettings[key] = `${value}px`;
     });
@@ -115,6 +131,10 @@ export class PracticeSettingsComponent implements OnInit {
 
   updateFontSize(key: string, value: number): void {
     this.displaySettings[key] = value;
+  }
+
+  updateDivSize(key: string, value: number): void {
+    this.divSettings[key] = value;
   }
 
   protected readonly TooltipKey = TooltipKey;

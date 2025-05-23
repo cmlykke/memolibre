@@ -1,5 +1,5 @@
 <div *ngIf="card">
-  <div *ngIf="!showBackSide" class="card-front">
+  <div *ngIf="!showBackSide" class="card-front" [style.minHeight]="settings['frontCardDivSize']">
     <p [style.fontSize]="settings['frontSideFontSize']" [style.fontFamily]="settings['frontSideFontFamily']">
       {{ card.frontSide }}
     </p>

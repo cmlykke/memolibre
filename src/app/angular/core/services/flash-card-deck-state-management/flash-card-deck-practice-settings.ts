@@ -6,6 +6,9 @@ export interface ModalData {
 }
 
 export interface PracticeSettings {
+  // DivSize
+  frontCardDivSize: string;
+  // fontSize
   frontSideFontSize: string;      // e.g., "16px"
   backSideFontSize: string;       // e.g., "16px"
   notableCardsFontSize: string;   // e.g., "14px"
@@ -40,6 +43,7 @@ export interface PracticeSettings {
 export class FlashCardDeckPracticeSettings {
   public static defaultSettings(): Record<string, string> {
     return {
+      frontCardDivSize: "60vh",
       frontSideFontSize: "16px",
       backSideFontSize: "16px",
       notableCardsFontSize: "14px",
@@ -78,12 +82,15 @@ export class FlashCardDeckPracticeSettings {
     const normalized: Record<string, string> = { ...defaults };
 
     const pixelRegex = /^\d+px$/;
+    const divSizeRegex = /^\d+vh$/;
     const booleanRegex = /^(true|false)$/;
 
     for (const [key, value] of Object.entries(settings)) {
       if (key in defaults) {
         if (key.endsWith('FontSize')) {
           normalized[key] = pixelRegex.test(value) ? value : defaults[key];
+        } else if (key.endsWith('DivSize')) {
+          normalized[key] = divSizeRegex.test(value) ? value : defaults[key];
         } else if (key.startsWith('show') && key.endsWith('Label')) {
           normalized[key] = booleanRegex.test(value) ? value : defaults[key];
         } else if (key.endsWith('FontFamily')) {
