@@ -86,13 +86,13 @@ export class PracticeSettingsComponent implements OnInit {
       if (key.endsWith('DivSize')) {
         this.divSettings[key] = parseInt(value, 10) || defaultDivSize;
       }
-
     });
   }
 
   private initializeToggleSettings(): void {
     const toggleKeys = [
-      'showFrontSideLabel', 'showBackSideLabel', 'showCardNumberLabel',
+      'showTextInputAtTopLabel','showBackSideNameAtTopLabel','showFrontSideLabel',
+      'showBackSideLabel', 'showCardNumberLabel',
       'showCardNameLabel', 'showNotableCardsLabel', 'showTagsLabel',
       'showDateOfLastReviewLabel', 'showRepetitionValueLabel',
       'showRepetitionHistoryLabel', 'showPrimaryInfoLabel', 'showSecondaryInfoLabel'

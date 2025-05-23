@@ -143,6 +143,19 @@
 
 <!-- Label Visibility Settings -->
 <h3>Label Visibility</h3>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showTextInputAtTopLabel']">
+    Show Text input at the top
+  </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showBackSideNameAtTopLabel']">
+    Show Back Side Name at the top
+  </mat-checkbox>
+</div>
+
 <div class="checkbox-wrapper" >
   <mat-checkbox [(ngModel)]="toggleSettings['showFrontSideLabel']">
     Show Front Side Label

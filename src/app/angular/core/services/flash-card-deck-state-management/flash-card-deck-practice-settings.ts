@@ -22,6 +22,8 @@ export interface PracticeSettings {
   repetitionHistoryFontSize: string; // e.g., "12px"
   tagValueFontSize: string;       // e.g., "16px" <- New setting
   // New toggle settings for label visibility
+  showTextInputAtTopLabel: string;
+  showBackSideNameAtTopLabel: string,
   showFrontSideLabel: string;     // "true" or "false"
   showBackSideLabel: string;      // "true" or "false"
   showCardNumberLabel: string;    // "true" or "false"
@@ -56,6 +58,8 @@ export class FlashCardDeckPracticeSettings {
       repetitionValueFontSize: "12px",
       repetitionHistoryFontSize: "12px",
       tagValueFontSize: "16px",     // New default value
+      showTextInputAtTopLabel: "false",
+      showBackSideNameAtTopLabel: "false",
       showFrontSideLabel: "true",
       showBackSideLabel: "true",
       showCardNumberLabel: "true",
