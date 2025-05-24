@@ -18,6 +18,7 @@ import {TooltipKey} from '../../../shared/services/tooltip.service';
 export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private isTagInteractionLocked: boolean = false;
+  private showBackSideNameAtTopLabel: boolean = false;
   showTooltips: boolean = true;
   tagLockButtonText: string = 'Lock';
 
@@ -39,6 +40,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.globalStateService.practiceState$.subscribe(state => {
         this.isTagInteractionLocked = state.isTagInteractionLocked;
         this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock' : 'Lock';
+        this.showBackSideNameAtTopLabel = state.showBackSideNameAtTopLabel;
       })
     );
 
@@ -74,6 +76,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.globalStateService.updatePracticeState({
         currentCard: nextCard,
         showBackSide: false,
+        showBackSideNameAtTopLabel: currentState.showBackSideNameAtTopLabel
       });
     }
   }

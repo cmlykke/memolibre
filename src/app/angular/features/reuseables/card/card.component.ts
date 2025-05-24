@@ -38,7 +38,8 @@ import { FlashCardDeckTagSettings } from '../../../core/services/flash-card-deck
 export class CardComponent implements OnInit, OnDestroy {
   @Input() card: FlashCard | null = null;
   @Input() showBackSide: boolean = false;
-  @Input() isTagInteractionLocked!: boolean;
+  @Input() showBackSideNameAtTopLabel: boolean = false;//showBackName
+  @Input() isTagInteractionLocked: boolean = true;
   settings: Record<string, string> = {};
   isEditingTags: boolean = false;
   isEditingNotableCards: boolean = false;

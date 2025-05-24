@@ -1,10 +1,18 @@
 <div *ngIf="card">
-  <div *ngIf="!showBackSide" class="card-front" [style.minHeight]="settings['frontCardDivSize']">
+  <div *ngIf="!showBackSide && !showBackSideNameAtTopLabel" class="card-front" [style.minHeight]="settings['frontCardDivSize']">
     <p [style.fontSize]="settings['frontSideFontSize']" [style.fontFamily]="settings['frontSideFontFamily']">
       {{ card.frontSide }}
     </p>
   </div>
-  <div *ngIf="showBackSide" class="card-back">
+  <div *ngIf="showBackSideNameAtTopLabel" class="card-back">
+    <p>
+      <span *ngIf="settings['showBackSideLabel'] === 'true'">Back Side: </span>
+      <span [style.fontSize]="settings['backSideFontSize']" [style.fontFamily]="settings['backSideFontFamily']">
+        {{ card.backSide }}
+      </span>
+    </p>
+  </div>
+  <div *ngIf="showBackSide && !showBackSideNameAtTopLabel" class="card-back">
     <!-- Existing fields remain unchanged -->
     <p>
       <span *ngIf="settings['showFrontSideLabel'] === 'true'">Front Side: </span>

@@ -36,6 +36,15 @@
       <div #currentCardContainer class="current-card">
         <app-card [card]="card" [showBackSide]="state.showBackSide" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>
       </div>
+
+      <div *ngIf="state.previousCard; let prevCard">
+        <div *ngIf="state.showBackSideNameAtTopLabel">
+          <app-card [card]="prevCard"
+                    [showBackSideNameAtTopLabel]="state.showBackSideNameAtTopLabel"
+                    [showBackSide]="false" [isTagInteractionLocked]="true"></app-card>
+        </div>
+      </div>
+
       <div *ngIf="state.previousCard as prevCard">
         <h3>Previous Card</h3>
         <app-card [card]="prevCard" [showBackSide]="true" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>

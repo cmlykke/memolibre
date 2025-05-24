@@ -28,6 +28,7 @@ export interface PracticeSessionState {
   currentCard: FlashCard | null;
   previousCard: FlashCard | null;
   showBackSide: boolean;
+  showBackSideNameAtTopLabel: boolean
   isTagInteractionLocked: boolean;
   practicedCardHistory: number[];
   practiceCount: number;
@@ -44,6 +45,7 @@ export class GlobalStateService {
       currentCard: null,
       previousCard: null,
       showBackSide: false,
+      showBackSideNameAtTopLabel: false,
       isTagInteractionLocked: true,
       practicedCardHistory: [],
       practiceCount: 0,
@@ -84,11 +86,15 @@ export class GlobalStateService {
       tags: Array.isArray(card.tags) ? card.tags : [],
     }));
 
+    const practiceSettings = FlashCardDeckPracticeSettings.normalizeSettings(normalizedDeck.settings["practice-settings"]);
+    const showBackSideNameAtTopLabel = practiceSettings['showBackSideNameAtTopLabel'] === 'true';
+
     const newState: AppState = {
       ...currentState,
       practiceSession: {
         ...currentState.practiceSession,
         deck: normalizedDeck,
+        showBackSideNameAtTopLabel: showBackSideNameAtTopLabel,
         ...(resetPractice ? {
           currentCard: null,
           previousCard: null,
@@ -126,6 +132,7 @@ export class GlobalStateService {
         currentCard: null,
         previousCard: null,
         showBackSide: false,
+        showBackSideNameAtTopLabel: false,
         isTagInteractionLocked: false,
         practicedCardHistory: [],
         practiceCount: 0, // Reset counter
@@ -176,7 +183,9 @@ export class GlobalStateService {
       const updatedDeck = FlashCardDeckPracticeSettings.updatePracticeSettings(deck, newSettings);
       const normalizedSettings = FlashCardDeckPracticeSettings.normalizeSettings(newSettings);
       this.updateState({
-        practiceSession: { ...currentState.practiceSession, deck: updatedDeck },
+        practiceSession: { ...currentState.practiceSession,
+          deck: updatedDeck,
+          showBackSideNameAtTopLabel: normalizedSettings['showBackSideNameAtTopLabel'] === 'true', },
         practiceSettings: normalizedSettings,
       });
       return { ok: true, value: 'Practice settings updated successfully' };
