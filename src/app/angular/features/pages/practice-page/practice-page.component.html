@@ -45,6 +45,10 @@
         </div>
       </div>
 
+      <div *ngIf="!state.showBackSide && state.showBackSideNameAtTopLabel">
+        <input #answerInput type="text" placeholder="Type the back side" (keyup.enter)="checkAnswer()" />
+      </div>
+
       <div *ngIf="state.previousCard as prevCard">
         <h3>Previous Card</h3>
         <app-card [card]="prevCard" [showBackSide]="true" [isTagInteractionLocked]="state.isTagInteractionLocked"></app-card>

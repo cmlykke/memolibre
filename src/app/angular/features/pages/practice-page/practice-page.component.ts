@@ -4,9 +4,8 @@ import { CardComponent } from '../../reuseables/card/card.component';
 import { CommonModule } from '@angular/common';
 import { FlashCardDeckPracticeUpdate } from '../../../core/services/flash-card-deck-state-management/flash-card-deck-practice-update';
 import { Subscription } from 'rxjs';
-import {TooltipDirective} from '../../../shared/directives/tooltip.directive';
-import {TooltipKey} from '../../../shared/services/tooltip.service';
-
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
+import { TooltipKey } from '../../../shared/services/tooltip.service';
 
 @Component({
   selector: 'app-practice-page',
@@ -24,6 +23,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('practiceContainer') practiceContainer!: ElementRef;
   @ViewChild('currentCardContainer') currentCardContainer!: ElementRef;
+  @ViewChild('answerInput') answerInput!: ElementRef<HTMLInputElement>;
 
   // Properties for touch handling
   private touchStartX: number = 0;
@@ -197,6 +197,29 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   canRedo(): boolean {
     const deck = this.globalStateService.getState().practiceSession.deck;
     return !!deck && !!deck.settings["practiceHistory"]?.["redoStack"];
+  }
+
+  /** New method to check user's answer */
+  checkAnswer(): void {
+    const state = this.globalStateService.getState().practiceSession;
+    if (!state.currentCard) return;
+
+    const inputValue = this.answerInput.nativeElement.value.trim().toLowerCase();
+    const backSide = state.currentCard.backSide.trim().toLowerCase();
+
+    if (inputValue === backSide) {
+      this.markAsKnown();
+    } else {
+      this.markAsForgotten();
+    }
+
+    // Clear the input and focus the new input after view update
+    this.answerInput.nativeElement.value = '';
+    setTimeout(() => {
+      if (this.answerInput && this.answerInput.nativeElement) {
+        this.answerInput.nativeElement.focus();
+      }
+    }, 0);
   }
 
   @HostListener('window:keydown', ['$event'])
