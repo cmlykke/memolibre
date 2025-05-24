@@ -91,7 +91,7 @@ export class PracticeSettingsComponent implements OnInit {
 
   private initializeToggleSettings(): void {
     const toggleKeys = [
-      'showTextInputAtTopLabel','showBackSideNameAtTopLabel','showFrontSideLabel',
+      'skipBackSide','showBackSideNameAtTopLabel','showFrontSideLabel',
       'showBackSideLabel', 'showCardNumberLabel',
       'showCardNameLabel', 'showNotableCardsLabel', 'showTagsLabel',
       'showDateOfLastReviewLabel', 'showRepetitionValueLabel',

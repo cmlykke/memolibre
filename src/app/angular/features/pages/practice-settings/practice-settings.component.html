@@ -21,6 +21,18 @@
     </mat-form-field>
 </div>
 
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['skipBackSide']">
+    Skip Back Side
+  </mat-checkbox>
+</div>
+
+<div class="checkbox-wrapper" >
+  <mat-checkbox [(ngModel)]="toggleSettings['showBackSideNameAtTopLabel']">
+    Practice by text input
+  </mat-checkbox>
+</div>
+
 <h3>Div Sizes</h3>
 <div class="input-wrapper">
   <mat-form-field appearance="fill">
@@ -141,20 +153,10 @@
     </mat-form-field>
 </div>
 
+
+
 <!-- Label Visibility Settings -->
 <h3>Label Visibility</h3>
-
-<div class="checkbox-wrapper" >
-  <mat-checkbox [(ngModel)]="toggleSettings['showTextInputAtTopLabel']">
-    Show Text input at the top
-  </mat-checkbox>
-</div>
-
-<div class="checkbox-wrapper" >
-  <mat-checkbox [(ngModel)]="toggleSettings['showBackSideNameAtTopLabel']">
-    Show Back Side Name at the top
-  </mat-checkbox>
-</div>
 
 <div class="checkbox-wrapper" >
   <mat-checkbox [(ngModel)]="toggleSettings['showFrontSideLabel']">

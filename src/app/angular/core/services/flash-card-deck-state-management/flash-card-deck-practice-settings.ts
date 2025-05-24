@@ -22,8 +22,8 @@ export interface PracticeSettings {
   repetitionHistoryFontSize: string; // e.g., "12px"
   tagValueFontSize: string;       // e.g., "16px" <- New setting
   // New toggle settings for label visibility
-  showTextInputAtTopLabel: string;
-  showBackSideNameAtTopLabel: string,
+  skipBackSide: string;
+  showBackSideNameAtTopLabel: string;
   showFrontSideLabel: string;     // "true" or "false"
   showBackSideLabel: string;      // "true" or "false"
   showCardNumberLabel: string;    // "true" or "false"
@@ -58,7 +58,7 @@ export class FlashCardDeckPracticeSettings {
       repetitionValueFontSize: "12px",
       repetitionHistoryFontSize: "12px",
       tagValueFontSize: "16px",     // New default value
-      showTextInputAtTopLabel: "false",
+      skipBackSide: "false",
       showBackSideNameAtTopLabel: "false",
       showFrontSideLabel: "true",
       showBackSideLabel: "true",
@@ -95,7 +95,7 @@ export class FlashCardDeckPracticeSettings {
           normalized[key] = pixelRegex.test(value) ? value : defaults[key];
         } else if (key.endsWith('DivSize')) {
           normalized[key] = divSizeRegex.test(value) ? value : defaults[key];
-        } else if (key.startsWith('show') && key.endsWith('Label')) {
+        } else if ((key.startsWith('show') && key.endsWith('Label')) || key === 'skipBackSide') {
           normalized[key] = booleanRegex.test(value) ? value : defaults[key];
         } else if (key.endsWith('FontFamily')) {
           normalized[key] = value && typeof value === 'string' ? value : defaults[key];

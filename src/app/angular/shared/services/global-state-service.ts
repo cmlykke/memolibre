@@ -29,6 +29,7 @@ export interface PracticeSessionState {
   previousCard: FlashCard | null;
   showBackSide: boolean;
   showBackSideNameAtTopLabel: boolean
+  skipBackSide: boolean;
   isTagInteractionLocked: boolean;
   practicedCardHistory: number[];
   practiceCount: number;
@@ -46,6 +47,7 @@ export class GlobalStateService {
       previousCard: null,
       showBackSide: false,
       showBackSideNameAtTopLabel: false,
+      skipBackSide: false,
       isTagInteractionLocked: true,
       practicedCardHistory: [],
       practiceCount: 0,
@@ -88,6 +90,7 @@ export class GlobalStateService {
 
     const practiceSettings = FlashCardDeckPracticeSettings.normalizeSettings(normalizedDeck.settings["practice-settings"]);
     const showBackSideNameAtTopLabel = practiceSettings['showBackSideNameAtTopLabel'] === 'true';
+    const skipBackSide = practiceSettings['skipBackSide'] === 'true';
 
     const newState: AppState = {
       ...currentState,
@@ -95,6 +98,7 @@ export class GlobalStateService {
         ...currentState.practiceSession,
         deck: normalizedDeck,
         showBackSideNameAtTopLabel: showBackSideNameAtTopLabel,
+        skipBackSide: skipBackSide,
         ...(resetPractice ? {
           currentCard: null,
           previousCard: null,
@@ -133,6 +137,7 @@ export class GlobalStateService {
         previousCard: null,
         showBackSide: false,
         showBackSideNameAtTopLabel: false,
+        skipBackSide: false,
         isTagInteractionLocked: false,
         practicedCardHistory: [],
         practiceCount: 0, // Reset counter
@@ -185,7 +190,8 @@ export class GlobalStateService {
       this.updateState({
         practiceSession: { ...currentState.practiceSession,
           deck: updatedDeck,
-          showBackSideNameAtTopLabel: normalizedSettings['showBackSideNameAtTopLabel'] === 'true', },
+          showBackSideNameAtTopLabel: normalizedSettings['showBackSideNameAtTopLabel'] === 'true',
+          skipBackSide: normalizedSettings['skipBackSide'] === 'true',},
         practiceSettings: normalizedSettings,
       });
       return { ok: true, value: 'Practice settings updated successfully' };

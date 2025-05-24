@@ -18,6 +18,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private isTagInteractionLocked: boolean = false;
   private showBackSideNameAtTopLabel: boolean = false;
+  private skipBackSide: boolean = false;
   showTooltips: boolean = true;
   tagLockButtonText: string = 'Lock';
 
@@ -41,6 +42,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isTagInteractionLocked = state.isTagInteractionLocked;
         this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock' : 'Lock';
         this.showBackSideNameAtTopLabel = state.showBackSideNameAtTopLabel;
+        this.skipBackSide = state.skipBackSide;
       })
     );
 
@@ -76,7 +78,8 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.globalStateService.updatePracticeState({
         currentCard: nextCard,
         showBackSide: false,
-        showBackSideNameAtTopLabel: currentState.showBackSideNameAtTopLabel
+        showBackSideNameAtTopLabel: currentState.showBackSideNameAtTopLabel,
+        skipBackSide: currentState.skipBackSide
       });
     }
   }
@@ -222,20 +225,32 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 0);
   }
 
+
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     const currentState = this.globalStateService.getState().practiceSession;
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
-    if (!showBackSide && [' ', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-      if (event.key === ' ') event.preventDefault();
-      this.globalStateService.updatePracticeState({ showBackSide: true });
-    } else if (showBackSide) {
-      if (event.key === ' ' || event.key === 'ArrowRight') {
+    if (this.skipBackSide) {
+      if (!showBackSide && [' ', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+        if (event.key === ' ' || event.key === 'ArrowRight') {
+          if (event.key === ' ') event.preventDefault();
+          this.markAsKnown();
+        } else if (event.key === 'ArrowLeft') {
+          this.markAsForgotten();
+        }
+      }
+    } else {
+      if (!showBackSide && [' ', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
         if (event.key === ' ') event.preventDefault();
-        this.markAsKnown();
-      } else if (event.key === 'ArrowLeft') {
-        this.markAsForgotten();
+        this.globalStateService.updatePracticeState({ showBackSide: true });
+      } else if (showBackSide) {
+        if (event.key === ' ' || event.key === 'ArrowRight') {
+          if (event.key === ' ') event.preventDefault();
+          this.markAsKnown();
+        } else if (event.key === 'ArrowLeft') {
+          this.markAsForgotten();
+        }
       }
     }
   }
