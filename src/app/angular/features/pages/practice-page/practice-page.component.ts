@@ -232,7 +232,8 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const { currentCard, showBackSide } = currentState;
     if (!currentCard) return;
     if (this.skipBackSide) {
-      if (!showBackSide && [' ', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+      if ([' ', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+        this.globalStateService.updatePracticeState({ showBackSide: false });
         if (event.key === ' ' || event.key === 'ArrowRight') {
           if (event.key === ' ') event.preventDefault();
           this.markAsKnown();
