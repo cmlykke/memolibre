@@ -77,6 +77,7 @@ export enum TooltipKey {
   SEARCH_TITLE =
     "In this page, you can search through your flashcards " +
     "using various criteria to find specific cards",
+  SEARCH_MAXRESULTSLIMIT = 'Enter a number to limit how many search results are displayed. Default is 100',
   SEARCH_UNLOCKTAGS =
     "Toggle the ability to modify tags while searching - " +
     "unlock to edit tags on found cards",

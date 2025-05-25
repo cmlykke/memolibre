@@ -24,6 +24,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   showTooltips: boolean = true;
   isTagInteractionLocked: boolean = true; // New property
   tagLockButtonText: string = 'Lock Tags'; // New property
+  displayedCards: FlashCard[] = []
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -35,6 +36,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       frontSideRegex: [''],
       backSideRegex: [''],
       tagsRegex: [''],
+      maxResultsLimit: [''],
     });
   }
 
@@ -48,6 +50,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         // Optionally sync with practice state if shared
         // this.isTagInteractionLocked = state.practiceSession.isTagInteractionLocked;
         this.tagLockButtonText = this.isTagInteractionLocked ? 'Unlock' : 'Lock';
+      })
+    );
+
+    this.subscription.add(
+      this.searchForm.valueChanges.pipe(debounceTime(300)).subscribe(() => {
+        this.performSearch();
       })
     );
 
@@ -78,6 +86,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const criteria = this.searchForm.value;
     this.matchingCards = this.filterCards(deck.cards, criteria);
     this.matchingCount = this.matchingCards.length;
+    const maxResults = parseInt(this.searchForm.get('maxResultsLimit')?.value) || 100;
+    this.displayedCards = this.matchingCards.slice(0, maxResults);
+    this.matchingCount = this.matchingCards.length;
+
   }
 
   filterCards(cards: FlashCard[], criteria: any): FlashCard[] {

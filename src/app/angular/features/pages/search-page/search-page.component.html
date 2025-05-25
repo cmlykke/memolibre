@@ -15,6 +15,10 @@
 
   <form [formGroup]="searchForm">
     <div class="input-wrapper">
+      <input formControlName="maxResultsLimit" placeholder="Maximum Results Limit (e.g., 10)" [class.input-with-tooltip]="showTooltips" />
+      <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_MAXRESULTSLIMIT">?</span>
+    </div>
+    <div class="input-wrapper">
       <input formControlName="cardNumberSearch" placeholder="Card Number or Range (e.g., 1-5)" [class.input-with-tooltip]="showTooltips" />
       <span *ngIf="showTooltips" class="tooltip-icon" appTooltip [tooltipKey]="TooltipKey.SEARCH_CARDNUMBERFIELD">?</span>
     </div>
@@ -32,10 +36,9 @@
     </div>
   </form>
   <div *ngIf="getDeck(); else noDeck">
-    <p>Matching cards: {{ matchingCount }}</p>
     <div *ngIf="matchingCards.length > 0">
-      <h3>First 5 Matching Cards:</h3>
-      <div *ngFor="let card of matchingCards | slice:0:5">
+      <h3>Matching Cards (showing {{ displayedCards.length }} of {{ matchingCount }}):</h3>
+      <div *ngFor="let card of displayedCards">
         <app-card [card]="card" [showBackSide]="true" [isTagInteractionLocked]="isTagInteractionLocked"></app-card>
       </div>
     </div>

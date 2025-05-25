@@ -5,7 +5,9 @@ export interface SearchSettings {
   frontSideRegex: string;
   backSideRegex: string;
   tagsRegex: string;
+  maxResultsLimit: string; // New field for limiting search results
 }
+
 
 export class FlashCardDeckSearchSettings {
   /**
@@ -17,6 +19,7 @@ export class FlashCardDeckSearchSettings {
       frontSideRegex: '',
       backSideRegex: '',
       tagsRegex: '',
+      maxResultsLimit: '100', // Default to showing 100 results
     };
   }
 
