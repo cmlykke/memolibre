@@ -297,7 +297,7 @@ export class PracticePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Check if swipe is primarily horizontal
     if (absDeltaX > minSwipeDistance && absDeltaX > absDeltaY) {
-      if (!showBackSide) {
+      if (!showBackSide && !this.skipBackSide) {
         // Show back side on any significant horizontal swipe
         this.globalStateService.updatePracticeState({ showBackSide: true });
       } else {
