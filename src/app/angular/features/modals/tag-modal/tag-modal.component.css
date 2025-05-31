@@ -1,3 +1,4 @@
+
 .confirmation-overlay {
   position: absolute;
   top: 0;
@@ -60,48 +61,56 @@
 
 /* Make the textarea expand to fill the textarea-group's available space */
 .textarea-group textarea {
-  flex-grow: 1;
   width: 100%;
-  box-sizing: border-box; /* Ensures padding/borders don't increase size */
-  resize: vertical; /* Allow vertical resizing */
-  font-family: inherit; /* Use the same font as the parent */
-  line-height: 1.4; /* Better readability */
-  padding: 10px; /* Add some padding for better touch interaction */
-  overflow-y: hidden; /* Hide scrollbar initially */
-  height: 100%; /* Minimum height for usability */
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: 1.4;
+  padding: 10px;
+  overflow-y: auto;
+  min-height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* IMPORTANT: Force resize to be enabled on all screen sizes */
+  resize: vertical !important;
+  /* Remove flex properties that might interfere with resize */
+  flex: none;
+  /* Set a specific height instead of using flex-grow */
+  height: 300px;
 }
 
-/* Desktop-specific auto-resize styles */
+/* Desktop-specific styles */
 @media (min-width: 769px) {
   .textarea-group textarea {
-    height: auto; /* Let it auto-resize */
-    /* The height will be controlled by JavaScript */
+    /* Ensure resize works on desktop */
+    resize: vertical !important;
+    height: 300px; /* Set a default height that can be resized */
   }
 }
 
 /* Mobile-specific styles */
 @media (max-width: 768px) {
   .textarea-group textarea {
-    min-height: 50vh; /* Minimum half screen height on mobile */
-    padding: 15px; /* More padding for better touch interaction */
-    font-size: 16px; /* Prevent zoom on iOS */
-    border: 2px solid #ccc; /* Thicker border for better visibility */
-    border-radius: 8px; /* Rounded corners */
-    overflow-y: auto; /* Allow scrolling on mobile */
+    min-height: 50vh;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    /* Allow resize on mobile too */
+    resize: vertical !important;
   }
 
   .textarea-group textarea:focus {
-    border-color: #007bff; /* Highlight border when focused */
+    border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus ring */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
   }
 }
 
 /* For very small screens */
 @media (max-width: 480px) {
   .textarea-group textarea {
-    min-height: 60vh; /* Even more space on small screens */
-    font-size: 16px; /* Maintain readable font size */
+    min-height: 60vh;
+    font-size: 16px;
   }
 }
 
@@ -115,6 +124,6 @@
     background-color: #f9f9f9;
     overflow-y: auto;
     word-wrap: break-word;
-    white-space: pre-wrap; /* Preserve line breaks */
+    white-space: pre-wrap;
   }
 }

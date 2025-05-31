@@ -1,9 +1,8 @@
-// C:\Users\CMLyk\WebstormProjects\memolibre\src\app\tag-modal\tag-modal.component.ts
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { GlobalStateService } from '../../../shared/services/global-state-service'; // Adjust path if needed
+import { GlobalStateService } from '../../../shared/services/global-state-service';
 
 @Component({
   selector: 'app-tag-modal',
@@ -12,7 +11,7 @@ import { GlobalStateService } from '../../../shared/services/global-state-servic
   templateUrl: './tag-modal.component.html',
   styleUrls: ['../styles/modal-shared.css', './tag-modal.component.css']
 })
-export class TagModalComponent implements OnInit {
+export class TagModalComponent implements OnInit, OnChanges {
   @Input() key: string = '';
   @Input() value: string = '';
   @Input() isEditable: boolean = false;
@@ -32,6 +31,23 @@ export class TagModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateFormValues();
+    this.tagValueFontSize = this.globalStateService.getState().practiceSettings['tagValueFontSize'] || '16px';
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Update form values when input properties change
+    if (changes['key'] || changes['value'] || changes['currentTags']) {
+      this.updateFormValues();
+
+      // Reset delete confirmation when switching tags
+      if (changes['key']) {
+        this.showDeleteConfirmation = false;
+      }
+    }
+  }
+
+  private updateFormValues(): void {
     if (this.isEditable) {
       this.tagForm.setValue({ key: this.key, value: this.value });
       this.tagForm.get('key')?.setValidators([
@@ -41,7 +57,6 @@ export class TagModalComponent implements OnInit {
       ]);
       this.tagForm.get('key')?.updateValueAndValidity();
     }
-    this.tagValueFontSize = this.globalStateService.getState().practiceSettings['tagValueFontSize'] || '16px';
   }
 
   onKeyDown(event: KeyboardEvent): void {
