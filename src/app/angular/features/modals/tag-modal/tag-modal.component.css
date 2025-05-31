@@ -43,7 +43,6 @@
   background-color: #e0e0e0;
 }
 
-
 /* Ensure the form takes the full height of modal-body and uses Flexbox */
 .modal-form {
   display: flex;
@@ -53,6 +52,7 @@
 
 /* Allow the textarea-group to grow, stacking its label and textarea vertically */
 .form-group.textarea-group {
+  height: 50vh;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -63,4 +63,58 @@
   flex-grow: 1;
   width: 100%;
   box-sizing: border-box; /* Ensures padding/borders don't increase size */
+  resize: vertical; /* Allow vertical resizing */
+  font-family: inherit; /* Use the same font as the parent */
+  line-height: 1.4; /* Better readability */
+  padding: 10px; /* Add some padding for better touch interaction */
+  overflow-y: hidden; /* Hide scrollbar initially */
+  height: 100%; /* Minimum height for usability */
+}
+
+/* Desktop-specific auto-resize styles */
+@media (min-width: 769px) {
+  .textarea-group textarea {
+    height: auto; /* Let it auto-resize */
+    /* The height will be controlled by JavaScript */
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .textarea-group textarea {
+    min-height: 50vh; /* Minimum half screen height on mobile */
+    padding: 15px; /* More padding for better touch interaction */
+    font-size: 16px; /* Prevent zoom on iOS */
+    border: 2px solid #ccc; /* Thicker border for better visibility */
+    border-radius: 8px; /* Rounded corners */
+    overflow-y: auto; /* Allow scrolling on mobile */
+  }
+
+  .textarea-group textarea:focus {
+    border-color: #007bff; /* Highlight border when focused */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus ring */
+  }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+  .textarea-group textarea {
+    min-height: 60vh; /* Even more space on small screens */
+    font-size: 16px; /* Maintain readable font size */
+  }
+}
+
+/* View mode styles for mobile */
+@media (max-width: 768px) {
+  .modal-view .tag-value {
+    min-height: 50vh;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    word-wrap: break-word;
+    white-space: pre-wrap; /* Preserve line breaks */
+  }
 }
